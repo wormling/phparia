@@ -1478,7 +1478,7 @@ class Node
                 $this->log("Got cancel digit: $digit");
                 if ($this->cancelWithInputRetriesInput && $this->hasInput()) {
                     $this->log("Cancelled input, retrying");
-                    $this->resetInput();
+                    $this->input = self::DTMF_NONE;
 
                     return false;
                 } else {
@@ -1511,7 +1511,7 @@ class Node
                         // @todo Play the onMaxValidInputAttempts message
                         $this->onMaxValidInputAttempts;
                     }
-                    $this->resetInput();
+                    $this->input = self::DTMF_NONE;
 
                     return false;
                 }
@@ -1547,7 +1547,7 @@ class Node
                             // @todo Play the onMaxValidInputAttempts message
                             $this->onMaxValidInputAttempts;
                         }
-                        $this->resetInput();
+                        $this->input = self::DTMF_NONE;
 
                         return false;
                     }
