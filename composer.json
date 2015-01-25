@@ -28,5 +28,8 @@
     "php": ">=5.3.3",
     "educoder/pest": "1.0.0",
     "devristo/phpws": "dev-master"
+  },
+  "require-dev": {
+      "symfony/yaml": "dev-master"
   }
 }

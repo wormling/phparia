@@ -4,3 +4,4 @@
 /composer.lock
 /composer.phar
 /nbproject
+/src/wormling/phparia/Examples/config.yml
