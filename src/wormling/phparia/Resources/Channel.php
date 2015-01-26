@@ -674,14 +674,4 @@ class Channel extends Resource
         $this->state = $this->response->state;
     }
 
-    /**
-     * @todo Do we always want to delete the channel on the asterisk side when the object goes out of scope?
-     */
-//    public function __destruct()
-//    {
-//        parent::__destruct();
-//
-//        $this->deleteChannel();
-//    }
-
 }

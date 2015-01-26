@@ -310,14 +310,4 @@ class Bridge extends Resource
         $this->technology = $this->response->technology;
     }
 
-    /**
-     * @todo Do we always want to delete the bridge on the asterisk side when the object goes out of scope?
-     */
-//    public function __destruct()
-//    {
-//        parent::__destruct();
-//
-//        $this->deleteBridge();
-//    }
-
 }
