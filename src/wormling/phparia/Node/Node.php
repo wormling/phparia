@@ -910,6 +910,16 @@ class Node
     {
         return $this->dialedChannel;
     }
+    
+    /**
+     * Returns the phparia bridge in use
+     * 
+     * @return \phparia\Resources\Bridge
+     */
+    public function getBridge()
+    {
+        return $this->bridge;
+    }
 
     /**
      * Gives a name for this node.
