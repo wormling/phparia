@@ -69,7 +69,7 @@ class NodeController
      * @var \phparia\Resources\Channel
      */
     private $channel = null;
-    
+
     /**
      * Holds the phparia bridge
      * @var \phparia\Resources\Bridge 
@@ -143,6 +143,13 @@ class NodeController
                 if ($resultInfo->appliesTo($node)) {
                     if ($resultInfo->isActionHangup()) {
                         $this->log("Hanging up after $name");
+                        $data = $resultInfo->getActionData();
+                        $all = $data['all'];
+                        if ($all) {
+                            if ($node->getDialedChannel() instanceof \phparia\Entity\Channel) {
+                                $this->client->channels()->deleteChannel($node->getDialedChannel()->getId());
+                            }
+                        }
                         $this->client->channels()->deleteChannel($node->getChannel()->getId());
                     } else if ($resultInfo->isActionJumpTo()) {
                         $data = $resultInfo->getActionData();

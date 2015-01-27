@@ -238,6 +238,12 @@ class Node
     private $channel = null;
 
     /**
+     * Holds the phparia dialed Fgetchannel
+     * @var \phparia\Resources\Channel
+     */
+    private $dialedChannel = null;
+
+    /**
      * Holds the phparia bridge
      * @var \phparia\Resources\Bridge
      */
@@ -896,6 +902,16 @@ class Node
     }
 
     /**
+     * Returns the phparia dialed channel in use.
+     * 
+     * @return \phparia\Resources\Channel
+     */
+    public function getDialedChannel()
+    {
+        return $this->dialedChannel;
+    }
+
+    /**
      * Gives a name for this node.
      *
      * @param string $name
@@ -1259,7 +1275,7 @@ class Node
                 }
             });
 
-            $channel = $this->client->channels()->createChannel($endpoint, null, null, null, $app, 'dialed', $callerId, $timeout, $id);
+            $this->dialedChannel = $this->client->channels()->createChannel($endpoint, null, null, null, $app, 'dialed', $callerId, $timeout, $id);
         } else {
             $deferred->resolve();
         }

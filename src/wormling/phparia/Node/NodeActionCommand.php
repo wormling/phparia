@@ -154,16 +154,16 @@ class NodeActionCommand
     }
 
     /**
-     * As an action, hangup the call with the given cause.
+     * As an action, hangup the call.
      *
-     * @param integer $cause
+     * @param boolean $all Hangup all channels (and destroy bridge)
      *
      * @return \phparia\Node\NodeActionCommand
      */
-    public function hangup($cause)
+    public function hangup($all = false)
     {
         $this->action = self::NODE_ACTION_HANGUP;
-        $this->data['hangupCause'] = $cause;
+        $this->data['all'] = $all;
 
         return $this;
     }
