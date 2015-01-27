@@ -146,11 +146,15 @@ class NodeController
                         $data = $resultInfo->getActionData();
                         $all = $data['all'];
                         if ($all) {
-                            if ($node->getDialedChannel() instanceof \phparia\Entity\Channel) {
-                                $this->client->channels()->deleteChannel($node->getDialedChannel()->getId());
+                            foreach ($node->getBridge()->getChannels() as $channel) {
+                                try {
+                                    $channel->deleteChannel();
+                                } catch (Exception $ex) {
+                                    $this->log("Channel {$channel->getId()} does not exist and could not be removed");
+                                }
                             }
+                            $this->client->channels()->deleteChannel($node->getChannel()->getId());
                         }
-                        $this->client->channels()->deleteChannel($node->getChannel()->getId());
                     } else if ($resultInfo->isActionJumpTo()) {
                         $data = $resultInfo->getActionData();
                         if (isset($data['nodeEval'])) {
