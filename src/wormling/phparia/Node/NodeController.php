@@ -150,10 +150,14 @@ class NodeController
                                 try {
                                     $channel->deleteChannel();
                                 } catch (Exception $ex) {
-                                    $this->log("Channel {$channel->getId()} does not exist and could not be removed");
+                                    $this->log("Channel does not exist and could not be removed");
                                 }
                             }
-                            $this->client->channels()->deleteChannel($node->getChannel()->getId());
+                            try {
+                                $this->client->channels()->deleteChannel($node->getChannel()->getId());
+                            } catch (Exception $ex) {
+                                $this->log("Primary channel does not exist and could not be removed");
+                            }
                         }
                     } else if ($resultInfo->isActionJumpTo()) {
                         $data = $resultInfo->getActionData();
