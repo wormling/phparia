@@ -35,7 +35,7 @@ class ChannelHangupRequest extends Event implements IdentifiableEventInterface
     private $cause;
 
     /**
-     * @var \phparia\Entity\Channel The channel on which the hangup was requested. 
+     * @var \phparia\Resources\Channel The channel on which the hangup was requested. 
      */
     private $channel;
 
