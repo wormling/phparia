@@ -1,6 +1,0 @@
-client:
-    userName: username
-    password: password
-    applicationName: stasisapplication
-    host: 127.0.0.1
-    port: 8088
