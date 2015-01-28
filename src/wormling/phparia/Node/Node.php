@@ -1256,7 +1256,11 @@ class Node
                 if (!empty($recordingFilename)) {
                     $parts = pathinfo($recordingFilename);
                     $name = $parts['filename'];
+                    try {
                     $this->client->recordings()->stopLiveRecording($name);
+                    } catch(\Exception $ignore) {
+                        
+                    }
                 }
                 $deferred->resolve();
             });
@@ -1266,7 +1270,11 @@ class Node
                 if (!empty($recordingFilename)) {
                     $parts = pathinfo($recordingFilename);
                     $name = $parts['filename'];
+                    try {
                     $this->client->recordings()->stopLiveRecording($name);
+                    } catch(\Exception $ignore) {
+                        
+                    }
                 }
                 try {
                     $this->client->channels()->deleteChannel($id);
