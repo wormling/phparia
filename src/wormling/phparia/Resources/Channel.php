@@ -215,6 +215,15 @@ class Channel extends Resource
     {
         $this->once(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
     }
+    
+    /**
+     * @param string $event
+     * @param \phparia\Resources\callable $callback
+     */
+    public function removeChannelDestroyedListener(callable $callback)
+    {
+        $this->removeListener(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
+    }
 
     /**
      * @param callable $callback
