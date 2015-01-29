@@ -910,7 +910,7 @@ class Node
     {
         return $this->dialedChannel;
     }
-    
+
     /**
      * Returns the phparia bridge in use
      * 
@@ -1257,8 +1257,8 @@ class Node
                     $parts = pathinfo($recordingFilename);
                     $name = $parts['filename'];
                     try {
-                    $this->client->recordings()->stopLiveRecording($name);
-                    } catch(\Exception $ignore) {
+                        $this->client->recordings()->stopLiveRecording($name);
+                    } catch (\Exception $ignore) {
                         
                     }
                 }
@@ -1271,8 +1271,8 @@ class Node
                     $parts = pathinfo($recordingFilename);
                     $name = $parts['filename'];
                     try {
-                    $this->client->recordings()->stopLiveRecording($name);
-                    } catch(\Exception $ignore) {
+                        $this->client->recordings()->stopLiveRecording($name);
+                    } catch (\Exception $ignore) {
                         
                     }
                 }
@@ -1456,7 +1456,7 @@ class Node
 
             if ($this->processDigit($event->getDigit()) === true) { // Done
                 if ($this->dtmfCallback !== null) {
-                    $this->client->getStasisClient()->removeListener(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), $this->dtmfCallback);
+                    $this->channel->removeListener(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), $this->dtmfCallback);
                     $this->log("Stopped listening for input");
                 }
 
@@ -1594,10 +1594,14 @@ class Node
     }
 
     /**
-     * Call when node is finished to let the node controller to process and continue
+     * Call when node is finished to let the node controller know to process and continue
      */
     public function finished()
     {
+        // Make SURE the DTMF listener is removed        if ($this->dtmfCallback !== null) {
+        $this->channel->removeListener(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), $this->dtmfCallback);
+        $this->log("Stopped listening for input for sure since node is finished");
+
         if ($this->executeAfterRun !== null) {
             $this->log('Executing after run');
             $callback = $this->executeAfterRun;
