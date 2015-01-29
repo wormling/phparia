@@ -24,7 +24,7 @@ use phparia\Client\Client;
  * Base type ARI resources
  * 
  * The event code is a wrapper to isolate the listeners for the particular resource 
-*
+ *
  * @author Brian Smith <wormling@gmail.com>
  */
 class Resource
@@ -32,7 +32,7 @@ class Resource
     /**
      * @var array
      */
-    protected $listeners = array();
+    protected $listeners = [];
 
     /**
      * @var Client 
@@ -50,9 +50,9 @@ class Resource
      * @param string $event
      * @param callable $listener
      */
-    protected function on($event, callable $listener)
+    public function on($event, callable $listener)
     {
-        $this->callbacks[$event][] = $listener;
+        $this->listeners[$event][] = $listener;
         $this->client->getStasisClient()->on($event, $listener);
     }
 
@@ -60,7 +60,7 @@ class Resource
      * @param string $event
      * @param callable $listener
      */
-    protected function once($event, callable $listener)
+    public function once($event, callable $listener)
     {
         $onceListener = function () use (&$onceListener, $event, $listener) {
             $this->removeListener($event, $onceListener);
@@ -75,7 +75,7 @@ class Resource
      * @param string $event
      * @param callable $listener
      */
-    protected function removeListener($event, callable $listener)
+    public function removeListener($event, callable $listener)
     {
         if (isset($this->listeners[$event])) {
             if (false !== $index = array_search($listener, $this->listeners[$event], true)) {
@@ -91,11 +91,15 @@ class Resource
     public function removeAllListeners($event = null)
     {
         if ($event !== null) {
-            unset($this->listeners[$event]);
-            $this->client->getStasisClient()->removeAllListeners($event);
+            if (isset($this->listeners[$event])) {
+                unset($this->listeners[$event]);
+                $this->client->getStasisClient()->removeAllListeners($event);
+            }
         } else {
+            foreach ($this->listeners as $event => $listener) {
+                $this->client->getStasisClient()->removeListener($event, $listener);
+            }
             $this->listeners = [];
-            $this->client->getStasisClient()->removeAllListeners();
         }
     }
 
