@@ -21,18 +21,18 @@ namespace phparia\Resources;
 use phparia\Client\Client;
 
 /**
- * Base type for API call responses
- *
+ * Base type ARI resources
+ * 
+ * The event code is a wrapper to isolate the listeners for the particular resource 
+*
  * @author Brian Smith <wormling@gmail.com>
  */
 class Resource
 {
     /**
-     * Spot to store event callbacks so we can unregister them from the destructor
-     * 
      * @var array
      */
-    protected $callbacks = array();
+    protected $listeners = array();
 
     /**
      * @var Client 
@@ -47,27 +47,65 @@ class Resource
     protected $response;
 
     /**
-     * Replaces any duplicate once event handler
-     * 
      * @param string $event
-     * @param \phparia\Resources\callable $callback
+     * @param callable $listener
      */
-    protected function on($event, callable $callback)
+    protected function on($event, callable $listener)
     {
-        $this->callbacks[$event] = $callback;
-        $this->client->getStasisClient()->on($event, $callback);
+        $this->callbacks[$event][] = $listener;
+        $this->client->getStasisClient()->on($event, $listener);
     }
 
     /**
-     * Replaces any duplicate on event handler
-     * 
      * @param string $event
-     * @param \phparia\Resources\callable $callback
+     * @param callable $listener
      */
-    protected function once($event, callable $callback)
+    protected function once($event, callable $listener)
     {
-        $this->callbacks[$event] = $callback;
-        $this->client->getStasisClient()->once($event, $callback);
+        $onceListener = function () use (&$onceListener, $event, $listener) {
+            $this->removeListener($event, $onceListener);
+
+            call_user_func_array($listener, func_get_args());
+        };
+
+        $this->on($event, $onceListener);
+    }
+
+    /**
+     * @param string $event
+     * @param callable $listener
+     */
+    protected function removeListener($event, callable $listener)
+    {
+        if (isset($this->listeners[$event])) {
+            if (false !== $index = array_search($listener, $this->listeners[$event], true)) {
+                unset($this->listeners[$event][$index]);
+                $this->client->getStasisClient()->removeListener($event, $listener);
+            }
+        }
+    }
+
+    /**
+     * @param string $event
+     */
+    public function removeAllListeners($event = null)
+    {
+        if ($event !== null) {
+            unset($this->listeners[$event]);
+            $this->client->getStasisClient()->removeAllListeners($event);
+        } else {
+            $this->listeners = [];
+            $this->client->getStasisClient()->removeAllListeners();
+        }
+    }
+
+    /**
+     * @param string $event
+     * @return array
+     */
+    public function listeners($event)
+    {
+        return isset($this->listeners[$event]) ? $this->listeners[$event] : [];
     }
 
     /**
@@ -88,15 +126,7 @@ class Resource
 
     public function __destruct()
     {
-        foreach ($this->callbacks as $event => $callback) {
-            try {
-                if ($this->client->getStasisClient()->listeners($event)) {
-                    $this->client->getStasisClient()->removeAllListeners($event);
-                }
-            } catch (\Exception $ignore) {
-                
-            }
-        }
+        $this->removeAllListeners();
     }
 
 }
