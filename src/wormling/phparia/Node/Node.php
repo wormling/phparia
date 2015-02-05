@@ -1520,7 +1520,6 @@ class Node
                     return true;
                 }
             case $this->endOfInputDigit;
-                $this->state = self::STATE_COMPLETE;
                 $this->log("Got end of input digit: $digit, input: {$this->input}");
 
                 if ($this->validate()) {
@@ -1528,6 +1527,7 @@ class Node
                         $callback = $this->executeOnValidInput;
                         $callback($this);
                     }
+                    $this->state = self::STATE_COMPLETE;
                 } else {
                     if ($this->executeOnInputFailed !== null) {
                         $callback = $this->executeOnInputFailed;
@@ -1555,7 +1555,6 @@ class Node
                 $this->log("Got digit: $digit");
                 $this->input .= $digit;
                 if (strlen($this->input) >= $this->maxInput) {
-                    $this->state = self::STATE_COMPLETE;
                     $this->log("Got the maximum input: {$this->input}");
 
                     // @todo Refactor the validation code as it duplicates above
@@ -1564,6 +1563,7 @@ class Node
                             $callback = $this->executeOnValidInput;
                             $callback($this);
                         }
+                        $this->state = self::STATE_COMPLETE;
                     } else {
                         if ($this->executeOnInputFailed !== null) {
                             $callback = $this->executeOnInputFailed;
@@ -1598,7 +1598,7 @@ class Node
      */
     public function finished()
     {
-        // Make SURE the DTMF listener is removed        if ($this->dtmfCallback !== null) {
+        // Make SURE the DTMF listener is removed
         $this->channel->removeListener(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), $this->dtmfCallback);
         $this->log("Stopped listening for input for sure since node is finished");
 
