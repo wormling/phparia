@@ -96,8 +96,10 @@ class Resource
                 $this->client->getStasisClient()->removeAllListeners($event);
             }
         } else {
-            foreach ($this->listeners as $event => $listener) {
-                $this->client->getStasisClient()->removeListener($event, $listener);
+            foreach ($this->listeners as $event => $listeners) {
+                foreach ($listeners as $listener) {
+                    $this->client->getStasisClient()->removeListener($event, $listener);
+                }
             }
             $this->listeners = [];
         }
