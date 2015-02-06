@@ -1297,6 +1297,7 @@ class Node
                 }
             });
 
+            $this->log("Dialing '$endpoint' for app '$app' with callerid '$callerId' and timeout of '$timeout', ID: $id");
             $this->dialedChannel = $this->client->channels()->createChannel($endpoint, null, null, null, $app, 'dialed', $callerId, $timeout, $id);
         } else {
             $deferred->resolve();
