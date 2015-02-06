@@ -743,7 +743,11 @@ class Node
      */
     public function saySound($soundName)
     {
-        $this->prompts->add("sound:$soundName");
+        if (count(preg_split('/:/', $soundName)) > 1) {
+            $this->prompts->add("$soundName");
+        } else {
+            $this->prompts->add("sound:$soundName");
+        }
 
         return $this;
     }
