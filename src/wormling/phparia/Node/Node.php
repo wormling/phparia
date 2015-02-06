@@ -1387,33 +1387,49 @@ class Node
             $this->log("Finished preprompts with input: $input and appending to: {$this->input}");
             $this->prePrompts = new SoundChain($this->client, $this->channel, $this->bridge);
             if (substr($input, -1)) {
+                $this->log("Processing preprompt digit: $input");
                 if ($this->processDigit(substr($input, -1)) === true) { // Done
+                    $this->log("Doing preprompt dial");
                     $this->doDial()->then(function() {
+                        $this->log("Doing preprompt record");
                         $this->doRecord()->then(function() {
+                            $this->log("Doing preprompt finished");
                             $this->finished();
                         });
                     });
                 }
             }
-            $this->playPrompts()->then(function($input) {
-                $this->log("Finished prompts with input: $input and appending to: {$this->input}");
-                if (substr($input, -1)) {
-                    if ($this->processDigit(substr($input, -1)) === true) { // Done
-                        $this->doDial()->then(function() {
-                            $this->doRecord()->then(function() {
-                                $this->finished();
+            if ($this->state !== self::STATE_COMPLETE) {
+                $this->playPrompts()->then(function($input) {
+                    $this->log("Finished prompts with input: $input and appending to: {$this->input}");
+                    if (substr($input, -1)) {
+                        $this->log("Processing prompt digit: $input");
+                        if ($this->processDigit(substr($input, -1)) === true) { // Done
+                            $this->log("Doing prompt dial");
+                            $this->doDial()->then(function() {
+                                $this->log("Doing prompt record");
+                                $this->doRecord()->then(function() {
+                                    $this->log("Doing prompt finished");
+                                    $this->finished();
+                                });
+                            });
+                        }
+                    }
+                    if ($this->state !== self::STATE_COMPLETE) {
+                        $this->log("Doing input");
+                        $this->doInput()->then(function() {
+                            $this->log("Doing dial");
+                            $this->doDial()->then(function() {
+                                $this->log("Doing record");
+                                $this->doRecord()->then(function() {
+                                    $this->log("Doing finished");
+                                    $this->finished();
+                                });
                             });
                         });
                     }
-                }
-                $this->doInput()->then(function() {
-                    $this->doDial()->then(function() {
-                        $this->doRecord()->then(function() {
-                            $this->finished();
-                        });
-                    });
                 });
-            });
+            }
         });
 
         return $this;
@@ -1432,6 +1448,12 @@ class Node
 
         // Not expecting input
         if (($this->minInput < 1) && ($this->maxInput < 1)) {
+            $deferred->resolve();
+
+            return $deferred->promise();
+        }
+
+        if ($this->input >= $this->maxInput) {
             $deferred->resolve();
 
             return $deferred->promise();
@@ -1599,8 +1621,10 @@ class Node
     public function finished()
     {
         // Make SURE the DTMF listener is removed
-        $this->channel->removeListener(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), $this->dtmfCallback);
-        $this->log("Stopped listening for input for sure since node is finished");
+        if (is_callable($this->dtmfCallback)) {
+            $this->channel->removeListener(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), $this->dtmfCallback);
+            $this->log("Stopped listening for input for sure since node is finished");
+        }
 
         if ($this->executeAfterRun !== null) {
             $this->log('Executing after run');
