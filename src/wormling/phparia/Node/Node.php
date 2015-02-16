@@ -1244,6 +1244,8 @@ class Node
                 $this->client->channels()->answer($event->getChannel()->getId());
                 $this->client->bridges()->addChannel($this->bridge->getId(), $event->getChannel()->getId(), null);
 
+                $this->channel->stopRinging();
+                
                 if (!empty($recordingFilename)) {
                     $parts = pathinfo($recordingFilename);
                     $name = $parts['filename'];
@@ -1298,6 +1300,7 @@ class Node
             });
 
             $this->log("Dialing '$endpoint' for app '$app' with callerid '$callerId' and timeout of '$timeout', ID: $id");
+            $this->channel->startRinging();
             $this->dialedChannel = $this->client->channels()->createChannel($endpoint, null, null, null, $app, 'dialed', $callerId, $timeout, $id);
         } else {
             $deferred->resolve();
