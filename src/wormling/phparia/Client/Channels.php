@@ -233,7 +233,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/ring";
         try {
-            $this->client->getAriEndpoint()->post($uri);
+            $this->client->getAriEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -348,7 +348,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/hold";
         try {
-            $this->client->getAriEndpoint()->post($uri);
+            $this->client->getAriEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -429,7 +429,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/silence";
         try {
-            $this->client->getAriEndpoint()->post($uri);
+            $this->client->getAriEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
