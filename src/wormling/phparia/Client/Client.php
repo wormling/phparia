@@ -147,16 +147,17 @@ class Client
 
             $eventType = '\\phparia\\Events\\' . $message->getType();
             $event = new $eventType($this, $rawMessage->getData());
-  
+
             // Emit the specific event (just to get it back to where is came from)
             if ($event instanceof \phparia\Events\IdentifiableEventInterface) {
-                $this->logger->notice("Emitting: {$event->getEventId()}");
+                $this->logger->notice("Emitting ID event: {$event->getEventId()}");
                 $this->stasisClient->emit($event->getEventId(), array(
                     'event' => $event
                 ));
             }
 
             // Emit the general event
+            $this->logger->notice("Emitting    event: {$event->getType()}");
             $this->stasisClient->emit($message->getType(), array(
                 'event' => $event
             ));
