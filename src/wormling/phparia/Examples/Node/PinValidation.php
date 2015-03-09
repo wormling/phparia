@@ -4,7 +4,15 @@
 require __DIR__ . '/../../../../../vendor/autoload.php';
 error_reporting(E_ALL);
 ini_set('xdebug.var_display_max_depth', 4);
-require __DIR__ . '/../config.php';
+$configFile =  __DIR__ . '/../config.yml';
+$yaml = new Symfony\Component\Yaml\Parser();
+$value = $yaml->parse(file_get_contents($configFile));
+
+$userName = $value['client']['userName'];
+$password = $value['client']['password'];
+$applicationName = $value['client']['applicationName'];
+$host = $value['client']['host'];
+$port = $value['client']['port'];
 
 $channel = null;
 $client = new \phparia\Client\Client($userName, $password, $applicationName, $host, $port);
