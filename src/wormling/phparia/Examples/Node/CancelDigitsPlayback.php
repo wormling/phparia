@@ -1,59 +1,83 @@
 <?php
 
-// Make sure composer dependencies have been installed
-require __DIR__ . '/../../../../../vendor/autoload.php';
-error_reporting(E_ALL);
-ini_set('xdebug.var_display_max_depth', 4);
-require __DIR__ . '/../config.php';
+/*
+ * Copyright 2014 Brian Smith <wormling@gmail.com>.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-$channel = null;
-$client = new \phparia\Client\Client($userName, $password, $applicationName, $host, $port);
-$client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) use ($client, &$channel) {
-    if (count($event->getArgs()) > 0 && $event->getArgs()[0] === 'dialed') {
-        return; // Not an incoming call
+namespace phparia\Examples\Node;
+
+class CancelDigitsPlayback extends \phparia\Examples\Example
+{
+
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->run();
     }
 
-    $logger = $client->getLogger();
+    public function run()
+    {
+        $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) use ($client, &$channel) {
+            if (count($event->getArgs()) > 0 && $event->getArgs()[0] === 'dialed') {
+                return; // Not an incoming call
+            }
 
-    // Toss the call in a bridge
-    $bridge = $client->bridges()->createBridge('occ_bridge_' . uniqid(), 'mixing, dtmf_events, proxy_media', 'bridgy');
-    $client->bridges()->addChannel($bridge->getId(), $event->getChannel()->getId(), null);
+            $logger = $client->getLogger();
 
-    $nodeController = new \phparia\Node\NodeController($client, $event->getChannel(), $bridge);
+            // Toss the call in a bridge
+            $bridge = $client->bridges()->createBridge('occ_bridge_' . uniqid(), 'mixing, dtmf_events, proxy_media', 'bridgy');
+            $client->bridges()->addChannel($bridge->getId(), $event->getChannel()->getId(), null);
 
-    $nodeController->register('mainMenu', $event->getChannel())
-            ->sayNumber(10)
-            ->sayDigits('1234567890')
-            ->maxAttemptsForInput(1)
-            ->expectExactly(1)
-    ;
+            $nodeController = new \phparia\Node\NodeController($client, $event->getChannel(), $bridge);
 
-    $nodeController->registerResult('mainMenu')
-            ->onMaxAttemptsReached()
-            ->execute(function (\phparia\Node\Node $node) use ($logger) {
-                $logger->err("Max attempts reached");
-            })
-            ->hangup(0)
-    ;
+            $nodeController->register('mainMenu', $event->getChannel())
+                    ->sayNumber(10)
+                    ->sayDigits('1234567890')
+                    ->maxAttemptsForInput(1)
+                    ->expectExactly(1)
+            ;
 
-    $nodeController->registerResult('mainMenu')
-            ->onComplete()
-            ->execute(function (\phparia\Node\Node $node) use ($logger) {
-                $logger->err("Complete");
-            })
-            ->hangup(0)
-    ;
+            $nodeController->registerResult('mainMenu')
+                    ->onMaxAttemptsReached()
+                    ->execute(function (\phparia\Node\Node $node) use ($logger) {
+                        $logger->err("Max attempts reached");
+                    })
+                    ->hangup(0)
+            ;
 
-    $nodeController->registerResult('mainMenu')
-            ->onCancel()
-            ->execute(function (\phparia\Node\Node $node) use ($logger) {
-                $logger->err("Cancel");
-            })
-            ->hangup(0)
-    ;
+            $nodeController->registerResult('mainMenu')
+                    ->onComplete()
+                    ->execute(function (\phparia\Node\Node $node) use ($logger) {
+                        $logger->err("Complete");
+                    })
+                    ->hangup(0)
+            ;
 
-    $nodeController->jumpTo('mainMenu');
-});
+            $nodeController->registerResult('mainMenu')
+                    ->onCancel()
+                    ->execute(function (\phparia\Node\Node $node) use ($logger) {
+                        $logger->err("Cancel");
+                    })
+                    ->hangup(0)
+            ;
 
-$client->run();
+            $nodeController->jumpTo('mainMenu');
+        });
 
+        $client->run();
+    }
+
+}
