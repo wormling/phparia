@@ -1,35 +1,36 @@
 {
-  "name": "wormling/phparia",
-  "type": "library",
-  "description": "Asterisk REST Interface (ARI) client for PHP, suitable to make telephony applications using call flow nodes",
-  "keywords": ["asterisk","ari","client","call","flow","node","ivr","telephony","voip"],
-  "homepage": "http://wormling.github.com/phparia",
-  "license": "Apache-2.0",
-  "authors": [
-    {
-      "name": "Brian Smith",
-      "email": "wormling@gmail.com",
-      "homepage": "http://wormling.github.com/",
-      "role": "Developer"
+    "name": "wormling/phparia",
+    "type": "library",
+    "description": "Asterisk REST Interface (ARI) client for PHP, suitable to make telephony applications using call flow nodes",
+    "keywords": ["asterisk", "ari", "client", "call", "flow", "node", "ivr", "telephony", "voip"],
+    "homepage": "http://wormling.github.com/phparia",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "Brian Smith",
+            "email": "wormling@gmail.com",
+            "homepage": "http://wormling.github.com/",
+            "role": "Developer"
+        }
+    ],
+    "autoload": {
+        "psr-0": {
+            "phparia": "src/wormling"
+        }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Devristo/phpws"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.3",
+        "educoder/pest": "1.0.0",
+        "devristo/phpws": "dev-master",
+        "clue/ami-react": "dev-master"
+    },
+    "require-dev": {
+        "symfony/yaml": "dev-master"
     }
-  ],
-  "autoload": {
-    "psr-0": {
-      "phparia": "src/wormling"
-    }
-  },
-  "repositories": [
-      {
-          "type": "vcs",
-          "url": "https://github.com/Devristo/phpws"
-      }
-  ],
-  "require": {
-    "php": ">=5.3.3",
-    "educoder/pest": "1.0.0",
-    "devristo/phpws": "dev-master"
-  },
-  "require-dev": {
-      "symfony/yaml": "dev-master"
-  }
 }
