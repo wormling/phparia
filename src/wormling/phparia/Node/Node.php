@@ -1245,7 +1245,7 @@ class Node
                 $this->client->bridges()->addChannel($this->bridge->getId(), $event->getChannel()->getId(), null);
 
                 $this->channel->stopRinging();
-                
+
                 if (!empty($recordingFilename)) {
                     $parts = pathinfo($recordingFilename);
                     $name = $parts['filename'];
@@ -1289,13 +1289,24 @@ class Node
                 }
             });
 
-            $this->client->getStasisClient()->once(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), function($event) use ($id, $hangupDigit) {
+            $this->client->getStasisClient()->once(\phparia\Events\Event::CHANNEL_DTMF_RECEIVED . '_' . $this->channel->getId(), function($event) use ($id, $hangupDigit, $recordingFilename, $deferred) {
                 if ($event->getDigit() === $hangupDigit) {
+                    if (!empty($recordingFilename)) {
+                        $parts = pathinfo($recordingFilename);
+                        $name = $parts['filename'];
+                        try {
+                            $this->client->recordings()->stopLiveRecording($name);
+                        } catch (\Exception $ignore) {
+                            
+                        }
+                    }
                     try {
                         $this->client->channels()->deleteChannel($id);
                     } catch (\Exception $ignore) {
                         
                     }
+                    $this->channel->stopRinging();
+                    $deferred->resolve();
                 }
             });
 
