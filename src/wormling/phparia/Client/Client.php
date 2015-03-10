@@ -181,7 +181,7 @@ class Client
                         $this->logger->debug('AMI connection closed');
                     });
                     $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
-                        $this->stasisClient->emit($event->getName(), $event->getFields());
+                        $this->stasisClient->emit($event->getName(), (array) $event);
                     });
                 }, function (\Exception $e) {
                     $this->logger->err('Connection eror: ' . $e->getMessage());
