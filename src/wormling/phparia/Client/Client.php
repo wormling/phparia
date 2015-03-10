@@ -29,6 +29,11 @@ class Client
      * @var \Devristo\Phpws\Client\WebSocket 
      */
     protected $stasisClient;
+    
+    /**
+     * @var \Clue\React\Ami\Client
+     */
+    protected $amiClient;
 
     /**
      * @var \PestJSON 
@@ -121,7 +126,7 @@ class Client
      * @param string $ariPort
      * @param string $ariEndpoint
      */
-    private function connect($ariUsername, $ariPassword, $stasisApplication, $ariServer = '127.0.0.1', $ariPort = '8088', $ariEndpoint = '')
+    private function connect($ariUsername, $ariPassword, $stasisApplication, $ariServer = '127.0.0.1', $ariPort = '8088', $ariEndpoint = '', $amiUsername = 'admin', $amiPassword = 'admin', $amiServer = '127.0.0.1')
     {
         $this->ariEndpoint = new \PestJSON('http://' . $ariServer . ':' . $ariPort . $ariEndpoint);
         $this->ariEndpoint->setupAuth($ariUsername, $ariPassword, 'basic');
@@ -162,8 +167,28 @@ class Client
                 'event' => $event
             ));
 
-            $this->logger->debug("Got message: " . $rawMessage->getData());
+            $this->logger->debug('Got message: ' . $rawMessage->getData());
         });
+
+        // AMI event support
+        $factory = new \Clue\React\Ami\Factory($this->stasisLoop);
+
+        $this->amiClient = $factory->createClient("$amiUsername:$amiPassword@$amiServer")
+                ->then(function (\Clue\React\Ami\Client $client) {
+                    $api = new \Clue\React\Ami\Api($client);
+                    $api->events(true);
+                    $client->on('close', function() {
+                        $this->logger->debug('AMI connection closed');
+                    });
+                    $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
+                        $this->stasisClient->emit($event->getName(), $event->getFields());
+                    });
+                }, function (\Exception $e) {
+                    $this->logger->err('Connection eror: ' . $e->getMessage());
+                    
+                    exit;
+                }
+        );
     }
 
     /**
@@ -186,6 +211,14 @@ class Client
     public function getStasisClient()
     {
         return $this->stasisClient;
+    }
+    
+    /**
+     * @return \Clue\React\Ami\Client
+     */
+    public function getAmiClient()
+    {
+        return $this->amiClient;
     }
 
     /**
