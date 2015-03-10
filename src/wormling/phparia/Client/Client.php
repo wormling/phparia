@@ -132,28 +132,6 @@ class Client
         $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
         $this->logWriter->addFilter($filter);
 
-        $factory = new \Clue\React\Ami\Factory($this->stasisLoop);
-
-        $factory->createClient('admin:admin@localhost')
-                ->then(function (\Clue\React\Ami\Client $client) {
-                    // client connected and authenticated
-                    $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
-                        // process an incoming AMI event
-                        if ($event->getFieldValue('Event') === 'CPD-Result') {
-                            var_dump($event);
-                            die;
-                        }
-                    });
-                }, function (\Exception $e) {
-                    // an error occured while trying to connect or authorize client
-                    $this->logger->debug($e->getMessage());
-
-                    exit;
-                }
-        );
-
-        $this->stasisLoop->run();
-
         $this->stasisClient = new \Devristo\Phpws\Client\WebSocket('ws://' . $ariServer . ':' . $ariPort . '/ari/events?api_key=' . $ariUsername . ':' . $ariPassword . '&app=' . $stasisApplication, $this->stasisLoop, $this->logger);
 
         $this->stasisClient->on("request", function($headers) {
