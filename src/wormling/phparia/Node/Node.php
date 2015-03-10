@@ -238,10 +238,16 @@ class Node
     private $channel = null;
 
     /**
-     * Holds the phparia dialed Fgetchannel
+     * Holds the phparia dialed channel
      * @var \phparia\Resources\Channel
      */
     private $dialedChannel = null;
+    
+    /**
+     * The id to use for dialing channels
+     * @var integer 
+     */
+    private $dialedChannelId = null;
 
     /**
      * Holds the phparia bridge
@@ -464,6 +470,7 @@ class Node
         $this->bridge = $bridge;
         $this->prePrompts = new SoundChain($client, $channel, $bridge);
         $this->prompts = new SoundChain($client, $channel, $bridge);
+        $this->dialedChannelId = uniqid();
     }
 
     /**
@@ -914,6 +921,16 @@ class Node
     {
         return $this->dialedChannel;
     }
+    
+    /**
+     * Channel id to use for dialing
+     * 
+     * @return integer
+     */
+    public function getDialedChannelId()
+    {
+        return $this->dialedChannelId;
+    }
 
     /**
      * Returns the phparia bridge in use
@@ -1238,7 +1255,7 @@ class Node
             $recordingFilename = $this->dial['recordingFilename'];
             $timeout = $this->dial['timeout'];
             $hangupDigit = $this->dial['hangupDigit'];
-            $id = uniqid();
+            $id = $this->getDialedChannelId();
 
             $this->client->getStasisClient()->once(\phparia\Events\Event::STASIS_START . '_' . $id, function($event) use ($recordingFilename) {
                 $this->client->channels()->answer($event->getChannel()->getId());
