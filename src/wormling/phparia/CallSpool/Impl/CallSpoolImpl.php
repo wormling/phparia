@@ -31,9 +31,9 @@
 
 namespace phparia\CallSpool\Impl;
 
-use PAGI\CallSpool\ICallSpool;
-use PAGI\CallSpool\CallFile;
-use PAGI\CallSpool\Exception\CallSpoolException;
+use phparia\CallSpool\ICallSpool;
+use phparia\CallSpool\CallFile;
+use phparia\CallSpool\Exception\CallSpoolException;
 
 /**
  * An implementation for asterisk call spool.
