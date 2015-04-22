@@ -580,12 +580,13 @@ class Channels extends Base
      * 
      * @param string $channelId
      * @param string $variable
+     * @param false|string $default The value to return if the variable does not exist
      * @return Variable
      * @throws InvalidParameterException
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function getVariable($channelId, $variable)
+    public function getVariable($channelId, $variable, $default = false)
     {
         $uri = "/channels/$channelId/variable";
         try {
@@ -594,7 +595,10 @@ class Channels extends Base
             ));
         } catch (Pest_BadRequest $e) { // Missing variable parameter.
             throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
+        } catch (Pest_NotFound $e) { // Variable not found
+            if ($default !== false) {
+                return $default;
+            }
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) { // Channel not in a Stasis application
             throw new ConflictException($e);
