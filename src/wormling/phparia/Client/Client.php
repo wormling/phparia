@@ -39,6 +39,11 @@ class Client
      * @var \PestJSON 
      */
     protected $ariEndpoint;
+    
+    /**
+     * @var string
+     */
+    protected $stasisApplication;
 
     /**
      * @var \React\EventLoop 
@@ -128,6 +133,7 @@ class Client
      */
     private function connect($ariUsername, $ariPassword, $stasisApplication, $ariServer = '127.0.0.1', $ariPort = '8088', $ariEndpoint = '', $amiUsername = 'admin', $amiPassword = 'admin', $amiServer = '127.0.0.1')
     {
+        $this->stasisApplication = $stasisApplication;
         $this->ariEndpoint = new \PestJSON('http://' . $ariServer . ':' . $ariPort . $ariEndpoint);
         $this->ariEndpoint->setupAuth($ariUsername, $ariPassword, 'basic');
         $this->stasisLoop = \React\EventLoop\Factory::create();
@@ -158,7 +164,7 @@ class Client
                 $this->logger->notice("Emitting ID event: {$event->getEventId()}");
                 $this->stasisClient->emit($event->getEventId(), array(
                     'event' => $event
-                ));
+                ));                
             }
 
             // Emit the general event
@@ -184,7 +190,7 @@ class Client
                         $this->stasisClient->emit($event->getName(), (array) $event);
                     });
                 }, function (\Exception $e) {
-                    $this->logger->err('Connection eror: ' . $e->getMessage());
+                    $this->logger->err('Connection eror: ' . $e->getTraceAsString());
                     
                     exit;
                 }
@@ -235,6 +241,14 @@ class Client
     public function getAriEndpoint()
     {
         return $this->ariEndpoint;
+    }
+    
+    /**
+     * @return string The name of the stasis application
+     */
+    public function getStasisApplication()
+    {
+        return $this->stasisApplication;
     }
 
     /**
