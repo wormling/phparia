@@ -177,24 +177,24 @@ class Client
         });
 
         // AMI event support
-        $factory = new \Clue\React\Ami\Factory($this->stasisLoop);
-
-        $this->amiClient = $factory->createClient("$amiUsername:$amiPassword@$amiServer")
-                ->then(function (\Clue\React\Ami\Client $client) {
-                    $api = new \Clue\React\Ami\Api($client);
-                    $api->events(true);
-                    $client->on('close', function() {
-                        $this->logger->debug('AMI connection closed');
-                    });
-                    $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
-                        $this->stasisClient->emit($event->getName(), (array) $event);
-                    });
-                }, function (\Exception $e) {
-                    $this->logger->err('Connection eror: ' . $e->getTraceAsString());
-                    
-                    exit;
-                }
-        );
+//        $factory = new \Clue\React\Ami\Factory($this->stasisLoop);
+//
+//        $this->amiClient = $factory->createClient("$amiUsername:$amiPassword@$amiServer")
+//                ->then(function (\Clue\React\Ami\Client $client) {
+//                    $api = new \Clue\React\Ami\Api($client);
+//                    $api->events(true);
+//                    $client->on('close', function() {
+//                        $this->logger->debug('AMI connection closed');
+//                    });
+//                    $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
+//                        $this->stasisClient->emit($event->getName(), (array) $event);
+//                    });
+//                }, function (\Exception $e) {
+//                    $this->logger->err('Connection eror: ' . $e->getTraceAsString());
+//                    
+//                    exit;
+//                }
+//        );
     }
 
     /**
