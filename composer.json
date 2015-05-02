@@ -28,7 +28,7 @@
         "php": ">=5.3.3",
         "educoder/pest": "1.0.0",
         "devristo/phpws": "dev-master",
-        "clue/ami-react": "dev-master"
+        "clue/ami-react": "~0.2.0"
     },
     "require-dev": {
         "symfony/yaml": "dev-master"
