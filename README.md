@@ -27,4 +27,7 @@ Creating a stasis application
         $this->client->run();
 
 You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI) in the Client folder.
+
 You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models) in the Resources and Events folders.
+
+You will find examples in the Examples folder.
