@@ -21,8 +21,6 @@ namespace phparia\Examples;
 use Symfony\Component\Yaml\Parser;
 
 /**
- * Base class for examples
- *
  * @author Brian Smith <wormling@gmail.com>
  */
 class InputExample
