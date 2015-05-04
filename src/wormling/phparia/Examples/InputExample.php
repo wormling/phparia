@@ -26,6 +26,8 @@ use Symfony\Component\Yaml\Parser;
 class InputExample
 {
     /**
+     * Example of listening for DTMF input from a caller.
+     * 
      * @var \phparia\Client\Client 
      */
     public $client;
