@@ -1,6 +1,7 @@
 {
     "name": "wormling/phparia",
     "type": "library",
+    "minimum-stability": "dev",
     "description": "Asterisk REST Interface (ARI) client for PHP, suitable to make telephony applications using call flow nodes",
     "keywords": ["asterisk", "ari", "client", "call", "flow", "node", "ivr", "telephony", "voip"],
     "homepage": "http://wormling.github.com/phparia",
