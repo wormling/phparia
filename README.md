@@ -15,19 +15,21 @@ Just add the package "wormling/phparia":
 
 Creating a stasis application
 =============================
-        $this->client = new \phparia\Client\Client('username', 'password', 'stasis_app_name', '127.0.0.1', '8088');
-        $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) {
-            $channel = $event->getChannel();
-            $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
-            $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
-            
-            ...
-        });
+    $this->client = new \phparia\Client\Client('username', 'password', 'stasis_app_name', '127.0.0.1', '8088');
+    $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) {
+        $channel = $event->getChannel();
+        $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
+        $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
 
-        $this->client->run();
+        ...
+    });
+
+    $this->client->run();
 
 You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI) in the Client folder.
 
 You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models) in the Resources and Events folders.
 
 You will find examples in the Examples folder.
+
+See phparia-ivr for easy voice menu creation (https://github.com/wormling/phparia-ivr).
