@@ -118,9 +118,9 @@ class Client
      * @param int $ariPort
      * @param string $ariEndpoint
      */
-    public function __construct($ariUsername = null, $ariPassword = null, $stasisApplication = null, $ariServer = '127.0.0.1', $ariPort = 8080, $ariEndpoint = '/ari')
+    public function __construct($ariUsername = null, $ariPassword = null, $stasisApplication = null, $ariServer = '127.0.0.1', $ariPort = 8088, $ariEndpoint = '/ari', $amiUsername = null, $amiPassword = null, $amiServer = '127.0.0.1')
     {
-        $this->connect($ariUsername, $ariPassword, $stasisApplication, $ariServer, $ariPort, $ariEndpoint);
+        $this->connect($ariUsername, $ariPassword, $stasisApplication, $ariServer, $ariPort, $ariEndpoint, $amiUsername, $amiPassword, $amiServer);
     }
 
     /**
@@ -131,7 +131,7 @@ class Client
      * @param string $ariPort
      * @param string $ariEndpoint
      */
-    private function connect($ariUsername, $ariPassword, $stasisApplication, $ariServer = '127.0.0.1', $ariPort = '8088', $ariEndpoint = '', $amiUsername = 'admin', $amiPassword = 'admin', $amiServer = '127.0.0.1')
+    private function connect($ariUsername, $ariPassword, $stasisApplication, $ariServer, $ariPort, $ariEndpoint, $amiUsername = null, $amiPassword = null, $amiServer = null)
     {
         $this->stasisApplication = $stasisApplication;
         $this->ariEndpoint = new \PestJSON('http://' . $ariServer . ':' . $ariPort . $ariEndpoint);
@@ -177,24 +177,28 @@ class Client
         });
 
         // AMI event support
-//        $factory = new \Clue\React\Ami\Factory($this->stasisLoop);
-//
-//        $this->amiClient = $factory->createClient("$amiUsername:$amiPassword@$amiServer")
-//                ->then(function (\Clue\React\Ami\Client $client) {
-//                    $api = new \Clue\React\Ami\Api($client);
-//                    $api->events(true);
-//                    $client->on('close', function() {
-//                        $this->logger->debug('AMI connection closed');
-//                    });
-//                    $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
-//                        $this->stasisClient->emit($event->getName(), (array) $event);
-//                    });
-//                }, function (\Exception $e) {
-//                    $this->logger->err('Connection eror: ' . $e->getTraceAsString());
-//                    
-//                    exit;
-//                }
-//        );
+        $factory = new \Clue\React\Ami\Factory($this->stasisLoop);
+
+        // @todo Refacter this out of here
+        // Connect to AMI if provided
+        if ($amiUsername && $amiPassword && $amiServer) {
+            $this->amiClient = $factory->createClient("$amiUsername:$amiPassword@$amiServer")
+                    ->then(function (\Clue\React\Ami\Client $client) {
+                        $api = new \Clue\React\Ami\ActionSender($client);
+                        $api->events(true);
+                        $client->on('close', function() {
+                            $this->logger->debug('AMI connection closed');
+                        });
+                        $client->on('event', function (\Clue\React\Ami\Protocol\Event $event) {
+                            $this->stasisClient->emit($event->getName(), (array) $event);
+                        });
+                    }, function (\Exception $e) {
+                        $this->logger->err('Connection eror: ' . $e->getTraceAsString());
+
+                        exit;
+                    }
+            );
+        }
     }
 
     /**

@@ -18,7 +18,13 @@
 
 namespace phparia\Examples;
 
-use Symfony\Component\Yaml\Parser;
+use Symfony\Component\Yaml\Yaml;
+
+// Make sure composer dependencies have been installed
+require __DIR__ . '/../../../../vendor/autoload.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('xdebug.var_display_max_depth', 4);
 
 /**
  * @author Brian Smith <wormling@gmail.com>
@@ -35,8 +41,7 @@ class InputExample
     public function __construct()
     {
         $configFile = __DIR__ . '/config.yml';
-        $yaml = new Parser();
-        $value = $yaml->parse(file_get_contents($configFile));
+        $value = Yaml::parse(file_get_contents($configFile));
 
         $userName = $value['client']['userName'];
         $password = $value['client']['password'];
@@ -74,3 +79,5 @@ class InputExample
     }
 
 }
+
+$inputExample = new InputExample();
