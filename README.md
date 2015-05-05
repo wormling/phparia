@@ -32,4 +32,4 @@ You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+
 
 You will find examples in the Examples folder.
 
-See phparia-ivr for easy voice menu creation (https://github.com/wormling/phparia-ivr).
+See phparia IVR for easy voice menu creation (https://github.com/wormling/phpariaIvr).
