@@ -142,7 +142,7 @@ class Bridges extends Base
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
-    public function addChannel($bridgeId, $channel, $role)
+    public function addChannel($bridgeId, $channel, $role = null)
     {
         $uri = "/bridges/$bridgeId/addChannel";
         try {
