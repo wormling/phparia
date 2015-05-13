@@ -381,15 +381,11 @@ class Channel extends Resource
     }
     
     /**
-     * Hangs up the channel if it still exists.
+     * Hangup the channel if it still exists.
      */
     public function hangup()
     {
-        try {
-            $this->deleteChannel();
-        } catch (Exception $ignore) {
-
-        }
+        $this->client->channels()->hangup($this->id);
     }
 
     /**

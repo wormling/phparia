@@ -176,6 +176,20 @@ class Channels extends Base
             throw new NotFoundException($e);
         }
     }
+    
+    /**
+     * Hangup a channel if it still exists.
+     * 
+     * @param string $channelId
+     */
+    public function hangup($channelId)
+    {
+        try {
+            $this->deleteChannel($channelId);
+        } catch (Exception $ignore) {
+
+        }
+    }
 
     /**
      * Exit application; continue execution in the dialplan.
