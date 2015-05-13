@@ -379,6 +379,18 @@ class Channel extends Resource
     {
         $this->client->channels()->deleteChannel($this->id);
     }
+    
+    /**
+     * Hangs up the channel if it still exists.
+     */
+    public function hangup()
+    {
+        try {
+            $this->deleteChannel();
+        } catch (Exception $ignore) {
+
+        }
+    }
 
     /**
      * Exit application; continue execution in the dialplan.
