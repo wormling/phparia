@@ -21,6 +21,7 @@ namespace phparia\Client;
 use Pest_BadRequest;
 use Pest_Conflict;
 use Pest_NotFound;
+use Pest_ServerError;
 use phparia\Resources\Channel;
 use phparia\Resources\LiveRecording;
 use phparia\Resources\Playback;
@@ -28,6 +29,7 @@ use phparia\Resources\Variable;
 use phparia\Exception\ConflictException;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
+use phparia\Exception\ServerException;
 
 /**
  * Channels API
@@ -75,6 +77,7 @@ class Channels extends Base
      * @param array $variables The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }
      * @return Channel
      * @throws InvalidParameterException
+     * @throws ServerException
      */
     public function createChannel($endpoint, $extension = null, $context = null, $priority = null, $app = null, $appArgs = null, $callerId = null, $timeout = null, $channelId = null, $otherChannelId = null, $variables = array())
     {
@@ -95,6 +98,8 @@ class Channels extends Base
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
             throw new InvalidParameterException($e);
+        } catch (Pest_ServerError $e) {
+            throw new ServerException($e); // Couldn't the channel.
         }
 
         return new Channel($this->client, $response);
@@ -176,7 +181,7 @@ class Channels extends Base
             throw new NotFoundException($e);
         }
     }
-    
+
     /**
      * Hangup a channel if it still exists.
      * 
@@ -187,7 +192,7 @@ class Channels extends Base
         try {
             $this->deleteChannel($channelId);
         } catch (Exception $ignore) {
-
+            
         }
     }
 
