@@ -180,7 +180,7 @@ class Channels extends Base
     /**
      * Hangup a channel if it still exists.
      * 
-     * @param string $channelId
+     * @param string $channelId Channel's id
      */
     public function hangup($channelId)
     {
