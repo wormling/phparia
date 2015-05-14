@@ -187,7 +187,7 @@ class Bridge extends Resource
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
-    public function addChannel($channel, $role)
+    public function addChannel($channel, $role = null)
     {
         $this->client->bridges()->addChannel($this->id, $channel, $role);
     }
