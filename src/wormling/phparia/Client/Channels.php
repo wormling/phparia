@@ -191,7 +191,7 @@ class Channels extends Base
     {
         try {
             $this->deleteChannel($channelId);
-        } catch (Exception $ignore) {
+        } catch (\Exception $ignore) {
             
         }
     }
