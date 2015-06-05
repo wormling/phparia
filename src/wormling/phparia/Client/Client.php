@@ -26,6 +26,16 @@ namespace phparia\Client;
 class Client
 {
     /**
+     * @var callable
+     */
+    protected $onStasisStart = null;
+    
+    /**
+     * @var callable
+     */
+    protected $onStasisEnd = null;
+    
+    /**
      * @var \Devristo\Phpws\Client\WebSocket 
      */
     protected $stasisClient;
@@ -138,9 +148,12 @@ class Client
         $this->ariEndpoint->setupAuth($ariUsername, $ariPassword, 'basic');
         $this->stasisLoop = \React\EventLoop\Factory::create();
         $this->logger = new \Zend\Log\Logger();
+        
         $this->logWriter = new \Zend\Log\Writer\Stream("php://output");
         $this->logger->addWriter($this->logWriter);
-        $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+        $filter = new \Zend\Log\Filter\SuppressFilter(true);
+        // @todo Refactor logging
+        //$filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
         $this->logWriter->addFilter($filter);
 
         $this->stasisClient = new \Devristo\Phpws\Client\WebSocket('ws://' . $ariServer . ':' . $ariPort . '/ari/events?api_key=' . $ariUsername . ':' . $ariPassword . '&app=' . $stasisApplication, $this->stasisLoop, $this->logger);
@@ -155,7 +168,7 @@ class Client
 
         $this->stasisClient->on("message", function($rawMessage) {
             $message = new \phparia\Events\Message($rawMessage->getData());
-
+            
             $eventType = '\\phparia\\Events\\' . $message->getType();
             $event = new $eventType($this, $rawMessage->getData());
 
@@ -208,11 +221,23 @@ class Client
     {
         $this->stasisClient->open();
 
-//        try {
         $this->stasisLoop->run();
-//        } catch (\Exception $e) {
-//            $this->logger->err("{$e->getTraceAsString()}");
-//        }
+    }
+    
+    /**
+     * @param \phparia\Client\callable $callback
+     */
+    public function onStasisStart(callable $callback)
+    {
+        $this->onStasisStart = $callback;
+    }
+    
+    /**
+     * @param \phparia\Client\callable $callback
+     */
+    public function onStasisEnd(callable $callback)
+    {
+        $this->onStasisEnd = $callback;
     }
 
     /**
@@ -232,7 +257,7 @@ class Client
     }
 
     /**
-     * @return \React\EventLoop 
+     * @return \React\EventLoop\LoopInterface
      */
     public function getStasisLoop()
     {
