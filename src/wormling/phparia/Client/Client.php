@@ -25,15 +25,6 @@ namespace phparia\Client;
  */
 class Client
 {
-    /**
-     * @var callable
-     */
-    protected $onStasisStart = null;
-    
-    /**
-     * @var callable
-     */
-    protected $onStasisEnd = null;
     
     /**
      * @var \Devristo\Phpws\Client\WebSocket 
@@ -229,7 +220,7 @@ class Client
      */
     public function onStasisStart(callable $callback)
     {
-        $this->onStasisStart = $callback;
+        $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, $callback);
     }
     
     /**
@@ -237,7 +228,7 @@ class Client
      */
     public function onStasisEnd(callable $callback)
     {
-        $this->onStasisEnd = $callback;
+        $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_END, $callback);
     }
 
     /**
