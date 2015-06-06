@@ -16,7 +16,7 @@ Just add the package "wormling/phparia":
 Creating a stasis application
 ---
     $this->client = new \phparia\Client\Client('username', 'password', 'stasis_app_name', '127.0.0.1', '8088');
-    $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) {
+    $this->client->onStasisStart(function($event) {
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
         $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
