@@ -54,12 +54,12 @@ class InputExample
         $this->client = $client;
 
         // Listen for the stasis start
-        $client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) {
+        $client->onStasisStart(function($event) {
             // Put the new channel in a bridge
             $channel = $event->getChannel();
             $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
             $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
-            
+
             // Listen for DTMF
             $channel->onChannelDtmfReceived(function($event) {
                 $this->log("Got digit: {$event->getDigit()}");
