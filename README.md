@@ -34,10 +34,6 @@ You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+
 
 You will find examples in the Examples folder.
 
-Extras
----
-See phparia IVR for easy voice menu creation (https://github.com/wormling/phpariaIvr).
-
 License
 ---
 Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
