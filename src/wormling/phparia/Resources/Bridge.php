@@ -273,15 +273,16 @@ class Bridge extends Resource
     }
 
     /**
-     * Start a recording. This records the mixed audio from all channels participating in this bridge.
-     * 
-     * @param string $name
-     * @param string $format
-     * @param int $maxDurationSeconds
-     * @param int $maxSilenceSeconds
-     * @param string $ifExists
-     * @param boolean $beep
-     * @param string $terminateOn
+     * Start a recording. Record audio from a channel. Note that this will not capture audio sent to the
+     * channel. The bridge itself has a record feature if that's what you want.
+     *
+     * @param string $name (required) Recording's filename
+     * @param string $format (required) Format to encode audio in
+     * @param int $maxDurationSeconds Maximum duration of the recording, in seconds. 0 for no limit.  Allowed range: Min: 0; Max: None
+     * @param int $maxSilenceSeconds Maximum duration of silence, in seconds. 0 for no limit.  Allowed range: Min: 0; Max: None
+     * @param string $ifExists = Action to take if a recording with the same name already exists. default: fail, Allowed values: fail, overwrite, append
+     * @param boolean $beep Play beep when recording begins
+     * @param string $terminateOn DTMF input to terminate recording.  Default: none, Allowed values: none, any, *, #
      * @return LiveRecording
      * @throws InvalidParameterException
      * @throws NotFoundException
