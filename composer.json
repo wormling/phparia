@@ -2,8 +2,8 @@
     "name": "wormling/phparia",
     "type": "library",
     "minimum-stability": "dev",
-    "description": "Asterisk REST Interface (ARI) client for PHP, suitable to make telephony applications using call flow nodes",
-    "keywords": ["asterisk", "ari", "client", "call", "flow", "node", "ivr", "telephony", "voip"],
+    "description": "Asterisk REST Interface (ARI) client for PHP.",
+    "keywords": ["asterisk", "ari", "client", "call", "rest", "ivr", "telephony", "voip"],
     "homepage": "http://wormling.github.com/phparia",
     "license": "Apache-2.0",
     "authors": [
@@ -32,6 +32,7 @@
         "clue/ami-react": "~0.3.0"
     },
     "require-dev": {
-        "symfony/yaml": "dev-master"
+        "symfony/yaml": "dev-master",
+        "phpunit/phpunit": "4.6.*"
     }
 }
