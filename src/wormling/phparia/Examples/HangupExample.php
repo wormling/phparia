@@ -18,6 +18,8 @@
 
 namespace phparia\Examples;
 
+use phparia\Events\ChannelHangupRequest;
+use phparia\Events\StasisStart;
 use Symfony\Component\Yaml\Yaml;
 
 // Make sure composer dependencies have been installed
@@ -33,7 +35,8 @@ class HangupExample
 {
     /**
      * Example of listening for DTMF input from a caller and hanging up when '#' is pressed.
-     * 
+     *
+     * @todo Update to 2.X
      * @var \phparia\Client\Client 
      */
     public $client;
@@ -54,7 +57,7 @@ class HangupExample
         $this->client = $client;
 
         // Listen for the stasis start
-        $client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) {
+        $client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function(StasisStart $event) {
             // Put the new channel in a bridge
             $channel = $event->getChannel();
             $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
