@@ -24,6 +24,21 @@ Just add the package "wormling/phparia":
 Creating a stasis application
 ---
     $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
+
+    $this->client = new \phparia\Client\Phparia($ariAddress);
+    $this->client->onStasisStart(function($event) {
+        $channel = $event->getChannel();
+        $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
+        $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
+
+        ...
+    });
+
+    $this->client->run();
+
+Creating a stasis application and listening to AMI events
+---
+    $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
     $amiAddress = 'username:password@localhost:5038';
 
     $this->client = new \phparia\Client\Phparia($ariAddress, $amiAddress);
@@ -31,6 +46,10 @@ Creating a stasis application
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
         $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
+
+        $this->client->getWsClient()->on('SomeAMIEventName', function($event) {
+            ...
+        });
 
         ...
     });
