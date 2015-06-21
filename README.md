@@ -3,6 +3,14 @@ phparia
 
 Framework for creating Asterisk 12/13 ARI applications.  This is just a wrapper around Asterisk REST Interface.  (https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI)
 
+Breaking Change
+---
+
+1.X to 2.X
+
+Client class has been replaced with Phparia class with renamed methods
+
+
 Available via Composer
 ---
 Just add the package "wormling/phparia":
@@ -15,7 +23,10 @@ Just add the package "wormling/phparia":
 
 Creating a stasis application
 ---
-    $this->client = new \phparia\Client\Client('username', 'password', 'stasis_app_name', '127.0.0.1', '8088');
+    $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
+    $amiAddress = 'username:password@localhost:5038';
+
+    $this->client = new \phparia\Client\Phparia($ariAddress, $amiAddress);
     $this->client->onStasisStart(function($event) {
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
