@@ -18,6 +18,7 @@
 
 namespace phparia\Examples;
 
+use phparia\Events\StasisStart;
 use Symfony\Component\Yaml\Yaml;
 
 // Make sure composer dependencies have been installed
@@ -43,18 +44,22 @@ class InputExample
         $configFile = __DIR__ . '/config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $userName = $value['client']['userName'];
-        $password = $value['client']['password'];
-        $applicationName = $value['client']['applicationName'];
-        $host = $value['client']['host'];
-        $port = $value['client']['port'];
+        $ariAddress = $value['client']['ari_address'];
+
+        $logger = new \Zend\Log\Logger();
+        $logWriter = new \Zend\Log\Writer\Stream("php://output");
+        $logger->addWriter($logWriter);
+        //$filter = new \Zend\Log\Filter\SuppressFilter(true);
+        $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+        $logWriter->addFilter($filter);
 
         // Connect to the ARI server
-        $client = new \phparia\Client\Client($userName, $password, $applicationName, $host, $port);
+        $client = new \phparia\Client\Phparia($logger);
+        $client->connect($ariAddress);
         $this->client = $client;
 
         // Listen for the stasis start
-        $client->onStasisStart(function($event) {
+        $client->onStasisStart(function(StasisStart $event) {
             // Put the new channel in a bridge
             $channel = $event->getChannel();
             $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
