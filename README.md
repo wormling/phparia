@@ -62,7 +62,9 @@ You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+
 
 You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models) in the Resources and Events folders.
 
-You will find examples in the Examples folder.
+Examples
+---
+(https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Examples)
 
 License
 ---
