@@ -18,7 +18,11 @@
 
 namespace phparia\Client;
 
+use Pest_BadRequest;
+use Pest_Conflict;
 use Pest_NotFound;
+use phparia\Exception\ConflictException;
+use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
 use phparia\Resources\Playback;
 
@@ -37,9 +41,10 @@ class Playbacks extends Base
 
     /**
      * Get a playback's details.
-     * 
+     *
      * @param string $playbackId Playback's id
      * @return Playback
+     * @throws NotFoundException
      */
     public function getPlayback($playbackId)
     {
@@ -55,8 +60,9 @@ class Playbacks extends Base
 
     /**
      * Stop a playback.
-     * 
+     *
      * @param string $playbackId Playback's id
+     * @throws NotFoundException
      */
     public function stopPlayback($playbackId)
     {
@@ -70,9 +76,12 @@ class Playbacks extends Base
 
     /**
      * Control a playback.
-     * 
+     *
      * @param string $playbackId Playback's id
      * @param string $operation (required) Operation to perform on the playback.
+     * @throws ConflictException
+     * @throws InvalidParameterException
+     * @throws NotFoundException
      */
     public function controlPlayback($playbackId, $operation)
     {

@@ -18,6 +18,8 @@
 
 namespace phparia\Client;
 
+use Pest_NotFound;
+use phparia\Exception\NotFoundException;
 use phparia\Resources\Mailbox;
 
 /**
@@ -48,9 +50,10 @@ class Mailboxes extends Base
 
     /**
      * Retrieve the current state of a mailbox.
-     * 
+     *
      * @param string $mailboxName Name of the mailbox
      * @return Mailbox
+     * @throws NotFoundException
      */
     public function getMailbox($mailboxName)
     {
@@ -66,10 +69,11 @@ class Mailboxes extends Base
 
     /**
      * Change the state of a mailbox. (Note - implicitly creates the mailbox).
-     * 
+     *
      * @param string $mailboxName Name of the mailbox
      * @param int $oldMessages (required) Count of old messages in the mailbox
      * @param int $newMessages (required) Count of new messages in the mailbox
+     * @throws NotFoundException
      */
     public function updateMailbox($mailboxName, $oldMessages, $newMessages)
     {
@@ -86,8 +90,9 @@ class Mailboxes extends Base
 
     /**
      * Destroy a mailbox.
-     * 
+     *
      * @param string $mailboxName Name of the mailbox
+     * @throws NotFoundException
      */
     public function deleteMailbox($mailboxName)
     {

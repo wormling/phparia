@@ -45,14 +45,14 @@ class Bridges extends Base
      * 
      * @return Bridge[]
      */
-    public function bridges($only = null)
+    public function bridges()
     {
         $uri = '/bridges';
         $response = $this->client->getAriEndpoint()->get($uri);
 
         $bridges = [];
         foreach ($response as $bridge) {
-            $bridges[] = new Bridge($bridge);
+            $bridges[] = new Bridge($this->client, $bridge);
         }
 
         return $bridges;

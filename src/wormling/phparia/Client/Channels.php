@@ -20,8 +20,10 @@ namespace phparia\Client;
 
 use Pest_BadRequest;
 use Pest_Conflict;
+use Pest_InvalidRecord;
 use Pest_NotFound;
 use Pest_ServerError;
+use phparia\Exception\UnprocessableEntityException;
 use phparia\Resources\Channel;
 use phparia\Resources\LiveRecording;
 use phparia\Resources\Playback;
@@ -596,14 +598,14 @@ class Channels extends Base
 
     /**
      * Get the value of a channel variable or function.
-     * 
+     *
      * @param string $channelId
      * @param string $variable
-     * @param false|string $default The value to return if the variable does not exist
+     * @param bool|false|string $default The value to return if the variable does not exist
      * @return Variable
+     * @throws ConflictException
      * @throws InvalidParameterException
      * @throws NotFoundException
-     * @throws ConflictException
      */
     public function getVariable($channelId, $variable, $default = false)
     {

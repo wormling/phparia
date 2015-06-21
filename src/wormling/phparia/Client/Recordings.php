@@ -18,6 +18,10 @@
 
 namespace phparia\Client;
 
+use Pest_Conflict;
+use Pest_NotFound;
+use phparia\Exception\ConflictException;
+use phparia\Exception\NotFoundException;
 use phparia\Resources\LiveRecording;
 use phparia\Resources\StoredRecording;
 
@@ -49,9 +53,10 @@ class Recordings extends Base
 
     /**
      * Get a stored recording's details.
-     * 
+     *
      * @param string $recordingName The name of the recording
      * @return StoredRecording
+     * @throws NotFoundException
      */
     public function getRecording($recordingName)
     {
@@ -67,9 +72,10 @@ class Recordings extends Base
 
     /**
      * Delete a stored recording.
-     * 
+     *
      * @param string $recordingName The name of the recording
      * @return StoredRecording
+     * @throws NotFoundException
      */
     public function deleteRecording($recordingName)
     {
@@ -83,10 +89,12 @@ class Recordings extends Base
 
     /**
      * Copy a stored recording.
-     * 
+     *
      * @param string $recordingName The name of the recording to copy
      * @param string $destinationRecordingName (required) The destination name of the recording
      * @return StoredRecording
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function copyRecording($recordingName, $destinationRecordingName)
     {
@@ -106,9 +114,10 @@ class Recordings extends Base
 
     /**
      * Get live recording
-     * 
-     * @param $recordingName The name of the recording
+     *
+     * @param string $recordingName The name of the recording
      * @return LiveRecording
+     * @throws NotFoundException
      */
     public function getLiveRecording($recordingName)
     {
@@ -124,8 +133,9 @@ class Recordings extends Base
 
     /**
      * Stop a live recording and discard it.
-     * 
+     *
      * @param string $recordingName The name of the recording
+     * @throws NotFoundException
      */
     public function deleteLiveRecording($recordingName)
     {
@@ -139,8 +149,9 @@ class Recordings extends Base
 
     /**
      * Stop a live recording and store it.
-     * 
+     *
      * @param string $recordingName The name of the recording
+     * @throws NotFoundException
      */
     public function stopLiveRecording($recordingName)
     {
@@ -153,11 +164,13 @@ class Recordings extends Base
     }
 
     /**
-     * Pause a live recording. Pausing a recording suspends silence detection, which will be restarted 
-     * when the recording is unpaused. Paused time is not included in the accounting for 
+     * Pause a live recording. Pausing a recording suspends silence detection, which will be restarted
+     * when the recording is unpaused. Paused time is not included in the accounting for
      * maxDurationSeconds.
-     * 
+     *
      * @param string $recordingName The name of the recording
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function pauseLiveRecording($recordingName)
     {
@@ -173,8 +186,10 @@ class Recordings extends Base
 
     /**
      * Unause a live recording.
-     * 
+     *
      * @param string $recordingName The name of the recording
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function unpauseLiveRecording($recordingName)
     {
@@ -190,8 +205,10 @@ class Recordings extends Base
 
     /**
      * Mute a live recording. Muting a recording suspends silence detection, which will be restarted when the recording is unmuted.
-     * 
+     *
      * @param string $recordingName The name of the recording
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function muteLiveRecording($recordingName)
     {
@@ -207,8 +224,10 @@ class Recordings extends Base
 
     /**
      * Unmute a live recording.
-     * 
+     *
      * @param string $recordingName The name of the recording
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function unmuteLiveRecording($recordingName)
     {

@@ -48,9 +48,10 @@ class Applications extends Base
 
     /**
      * Get details of an application.
-     * 
-     * @param string $applicationName
+     *
+     * @param $applicationName
      * @return Application
+     * @throws NotFoundException
      */
     public function getApplication($applicationName)
     {
@@ -66,10 +67,13 @@ class Applications extends Base
 
     /**
      * Subscribe an application to a event source. Returns the state of the application after the subscriptions have changed
-     * 
-     * @param string $applicationName Application's name
-     * @param string $eventSource (required) URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}  Allows comma separated values.
+     *
+     * @param $applicationName
+     * @param $eventSource
      * @return Application
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @throws UnprocessableEntityException
      */
     public function subscribe($applicationName, $eventSource)
     {
@@ -91,10 +95,14 @@ class Applications extends Base
 
     /**
      * Unsubscribe an application from an event source. Returns the state of the application after the subscriptions have changed
-     * 
+     *
      * @param string $applicationName Application's name
      * @param string $eventSource (required) URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}  Allows comma separated values.
      * @return Application
+     * @throws ConflictException
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @throws UnprocessableEntityException
      */
     public function unsubscribe($applicationName, $eventSource)
     {

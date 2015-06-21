@@ -18,7 +18,13 @@
 
 namespace phparia\Client;
 
+use Pest_BadRequest;
+use Pest_InvalidRecord;
+use Pest_NotFound;
 use phparia\Events\Event;
+use phparia\Exception\InvalidParameterException;
+use phparia\Exception\NotFoundException;
+use phparia\Exception\UnprocessableEntityException;
 
 /**
  * Events API
@@ -43,18 +49,22 @@ class Events extends Base
 
         $events = [];
         foreach ($response as $event) {
-            $events[] = new Event($event);
+            $events[] = new Event($this->client, $event);
         }
 
         return $events;
     }
 
     /**
-     * 
+     *
      * @param string $eventName Event name
      * @param string $application (required) The name of the application that will receive this event
      * @param string $source URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}/{resource}, deviceState:{deviceName}  Allows comma separated values.
-     * @param aray $variables The "variables" key in the body object holds custom key/value pairs to add to the user event. Ex. { "variables": { "key": "value" } }
+     * @param array $variables The "variables" key in the body object holds custom key/value pairs to add to the user event. Ex. { "variables": { "key": "value" }
+     * }
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @throws UnprocessableEntityException
      */
     public function createUserEvent($eventName, $application, $source, $variables = array())
     {

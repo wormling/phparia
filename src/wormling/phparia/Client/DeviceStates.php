@@ -18,6 +18,10 @@
 
 namespace phparia\Client;
 
+use Pest_Conflict;
+use Pest_NotFound;
+use phparia\Exception\ConflictException;
+use phparia\Exception\NotFoundException;
 use phparia\Resources\DeviceState;
 
 /**
@@ -62,9 +66,11 @@ class DeviceStates extends Base
 
     /**
      * Change the state of a device controlled by ARI. (Note - implicitly creates the device state).
-     * 
+     *
      * @param string $deviceName Name of the device
      * @param string $deviceState (required) Device state value
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function updateDeviceState($deviceName, $deviceState)
     {
@@ -82,8 +88,10 @@ class DeviceStates extends Base
 
     /**
      * Destroy a device-state controlled by ARI.
-     * 
+     *
      * @param string $deviceName Name of the device
+     * @throws ConflictException
+     * @throws NotFoundException
      */
     public function deleteDeviceState($deviceName)
     {

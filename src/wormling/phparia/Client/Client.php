@@ -32,11 +32,6 @@ class Client
     protected $stasisClient;
     
     /**
-     * @var \Clue\React\Ami\Client
-     */
-    protected $amiClient;
-
-    /**
      * @var \PestJSON 
      */
     protected $ariEndpoint;
@@ -47,7 +42,7 @@ class Client
     protected $stasisApplication;
 
     /**
-     * @var \React\EventLoop 
+     * @var \React\EventLoop\LoopInterface
      */
     protected $stasisLoop;
 
@@ -214,17 +209,17 @@ class Client
 
         $this->stasisLoop->run();
     }
-    
+
     /**
-     * @param \phparia\Client\callable $callback
+     * @param callable|callable $callback
      */
     public function onStasisStart(callable $callback)
     {
         $this->client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, $callback);
     }
-    
+
     /**
-     * @param \phparia\Client\callable $callback
+     * @param callable|callable $callback
      */
     public function onStasisEnd(callable $callback)
     {

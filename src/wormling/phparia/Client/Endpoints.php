@@ -18,6 +18,10 @@
 
 namespace phparia\Client;
 
+use Pest_BadRequest;
+use Pest_NotFound;
+use phparia\Exception\InvalidParameterException;
+use phparia\Exception\NotFoundException;
 use phparia\Resources\Endpoint;
 
 /**
@@ -48,11 +52,12 @@ class Endpoints extends Base
 
     /**
      * Send a message to some technology URI or endpoint.
-     * 
+     *
      * @param string $to (required) The endpoint resource or technology specific URI to send the message to. Valid resources are sip, pjsip, and xmpp.
      * @param string $from (required) The endpoint resource or technology specific identity to send this message from. Valid resources are sip, pjsip, and xmpp.
      * @param string $body The body of the message
      * @param array $variables
+     * @throws NotFoundException
      */
     public function sendMessage($to, $from, $body, $variables = array())
     {
@@ -71,9 +76,10 @@ class Endpoints extends Base
 
     /**
      * List available endoints for a given endpoint technology.
-     * 
+     *
      * @param string $tech Technology of the endpoints (sip,iax2,...)
-     * @return Endpoint[]
+     * @return \phparia\Resources\Endpoint[]
+     * @throws NotFoundException
      */
     public function getEndpointsByTech($tech)
     {
@@ -94,10 +100,12 @@ class Endpoints extends Base
 
     /**
      * Details for an endpoint.
-     * 
+     *
      * @param string $tech Technology of the endpoint
      * @param string $resource ID of the endpoint
      * @return Endpoint
+     * @throws InvalidParameterException
+     * @throws NotFoundException
      */
     public function getEndpointByTechAndResource($tech, $resource)
     {
@@ -115,12 +123,15 @@ class Endpoints extends Base
 
     /**
      * Send a message to some endpoint in a technology.
-     * 
+     *
      * @param string $tech
-     * @param string @resource
+     * @param $resource
      * @param string $from (required) The endpoint resource or technology specific identity to send this message from. Valid resources are sip, pjsip, and xmpp.
      * @param string $body The body of the message
      * @param array $variables
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @internal param $string @resource
      */
     public function sendMessageToEndpointAndTechAndResource($tech, $resource, $from, $body, $variables = array())
     {
