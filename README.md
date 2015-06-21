@@ -25,7 +25,15 @@ Creating a stasis application
 ---
     $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
 
-    $this->client = new \phparia\Client\Phparia($ariAddress);
+    $logger = new \Zend\Log\Logger();
+    $logWriter = new \Zend\Log\Writer\Stream("php://output");
+    $logger->addWriter($logWriter);
+    //$filter = new \Zend\Log\Filter\SuppressFilter(true);
+    $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+    $logWriter->addFilter($filter);
+        
+    $this->client = new \phparia\Client\Phparia($logger);
+    $this->client->connect($ariAddress);
     $this->client->onStasisStart(function($event) {
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
@@ -41,7 +49,15 @@ Creating a stasis application and listening to AMI events
     $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
     $amiAddress = 'username:password@localhost:5038';
 
-    $this->client = new \phparia\Client\Phparia($ariAddress, $amiAddress);
+    $logger = new \Zend\Log\Logger();
+    $logWriter = new \Zend\Log\Writer\Stream("php://output");
+    $logger->addWriter($logWriter);
+    //$filter = new \Zend\Log\Filter\SuppressFilter(true);
+    $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+    $logWriter->addFilter($filter);
+        
+    $this->client = new \phparia\Client\Phparia($logger);
+    $this->client->connect($ariAddress, $amiAddress);
     $this->client->onStasisStart(function($event) {
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
