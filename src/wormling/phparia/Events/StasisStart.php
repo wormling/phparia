@@ -18,7 +18,7 @@
 
 namespace phparia\Events;
 
-use phparia\Client\Client;
+use phparia\Client\AriClient;
 use phparia\Resources\Channel;
 
 /**
@@ -73,10 +73,10 @@ class StasisStart extends Event implements IdentifiableEventInterface
     }
 
     /**
-     * @param Client $client
+     * @param AriClient $client
      * @param string $response
      */
-    public function __construct(Client $client, $response)
+    public function __construct(AriClient $client, $response)
     {
         parent::__construct($client, $response);
 

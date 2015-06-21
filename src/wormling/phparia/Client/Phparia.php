@@ -56,61 +56,6 @@ class Phparia
     protected $stasisApplicationName;
 
     /**
-     * @var Applications
-     */
-    protected $applications;
-
-    /**
-     * @var Asterisk
-     */
-    protected $asterisk;
-
-    /**
-     * @var Bridges
-     */
-    protected $bridges;
-
-    /**
-     * @var Channels
-     */
-    protected $channels;
-
-    /**
-     * @var DeviceStates
-     */
-    protected $deviceStates;
-
-    /**
-     * @var Endpoints
-     */
-    protected $endPoints;
-
-    /**
-     * @var Events
-     */
-    protected $events;
-
-    /**
-     * @var Mailboxes
-     */
-    protected $mailboxes;
-
-    /**
-     * @var Playbacks
-     */
-    protected $playbacks;
-
-    /**
-     * @var Recordings
-     */
-    protected $recordings;
-
-    /**
-     * @var Sounds
-     */
-    protected $sounds;
-
-    /**
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
@@ -160,7 +105,7 @@ class Phparia
      */
     public function onStasisEnd(callable $callback)
     {
-        $this->wsClient->getStasisClient()->on(Event::STASIS_END, $callback);
+        $this->wsClient->on(Event::STASIS_END, $callback);
     }
 
     /**
@@ -216,11 +161,7 @@ class Phparia
      */
     public function applications()
     {
-        if (!$this->applications instanceof Applications) {
-            $this->applications = new Applications($this);
-        }
-
-        return $this->applications;
+        return $this->ariClient->applications();
     }
 
     /**
@@ -228,11 +169,7 @@ class Phparia
      */
     public function asterisk()
     {
-        if (!$this->asterisk instanceof Asterisk) {
-            $this->asterisk = new Asterisk($this);
-        }
-
-        return $this->asterisk;
+        return $this->ariClient->applications();
     }
 
     /**
@@ -240,11 +177,7 @@ class Phparia
      */
     public function bridges()
     {
-        if (!$this->bridges instanceof Bridges) {
-            $this->bridges = new Bridges($this);
-        }
-
-        return $this->bridges;
+        return $this->ariClient->bridges();
     }
 
     /**
@@ -252,11 +185,7 @@ class Phparia
      */
     public function channels()
     {
-        if (!$this->channels instanceof Channels) {
-            $this->channels = new Channels($this);
-        }
-
-        return $this->channels;
+        return $this->ariClient->channels();
     }
 
     /**
@@ -264,11 +193,7 @@ class Phparia
      */
     public function deviceStates()
     {
-        if (!$this->deviceStates instanceof DeviceStates) {
-            $this->deviceStates = new DeviceStates($this);
-        }
-
-        return $this->deviceStates;
+        return $this->ariClient->deviceStates();
     }
 
     /**
@@ -276,11 +201,7 @@ class Phparia
      */
     public function endPoints()
     {
-        if (!$this->endPoints instanceof Endpoints) {
-            $this->endPoints = new Endpoints($this);
-        }
-
-        return $this->endPoints;
+        return $this->ariClient->endPoints();
     }
 
     /**
@@ -288,11 +209,7 @@ class Phparia
      */
     public function events()
     {
-        if (!$this->events instanceof Events) {
-            $this->events = new Events($this);
-        }
-
-        return $this->events;
+        return $this->ariClient->events();
     }
 
     /**
@@ -300,11 +217,7 @@ class Phparia
      */
     public function mailboxes()
     {
-        if (!$this->mailboxes instanceof Mailboxes) {
-            $this->mailboxes = new Mailboxes($this);
-        }
-
-        return $this->mailboxes;
+        return $this->ariClient->mailboxes();
     }
 
     /**
@@ -312,11 +225,7 @@ class Phparia
      */
     public function playbacks()
     {
-        if (!$this->playbacks instanceof Playbacks) {
-            $this->playbacks = new Playbacks($this);
-        }
-
-        return $this->playbacks;
+        return $this->ariClient->playbacks();
     }
 
     /**
@@ -324,11 +233,7 @@ class Phparia
      */
     public function recordings()
     {
-        if (!$this->recordings instanceof Recordings) {
-            $this->recordings = new Recordings($this);
-        }
-
-        return $this->recordings;
+        return $this->ariClient->recordings();
     }
 
     /**
@@ -336,11 +241,7 @@ class Phparia
      */
     public function sounds()
     {
-        if (!$this->sounds instanceof Sounds) {
-            $this->sounds = new Sounds($this);
-        }
-
-        return $this->sounds;
+        return $this->ariClient->sounds();
     }
 
 }

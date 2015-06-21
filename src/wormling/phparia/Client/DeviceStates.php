@@ -40,7 +40,7 @@ class DeviceStates extends Base
     public function deviceStates()
     {
         $uri = '/deviceStates';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $deviceStates = [];
         foreach ($response as $deviceState) {
@@ -59,7 +59,7 @@ class DeviceStates extends Base
     public function getDeviceState($deviceName)
     {
         $uri = "/deviceStates/$deviceName";
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         return new DeviceState($this->client, $response);
     }
@@ -76,7 +76,7 @@ class DeviceStates extends Base
     {
         $uri = "/deviceStates/$deviceName";
         try {
-            $this->client->getAriEndpoint()->put($uri, array(
+            $this->client->getEndpoint()->put($uri, array(
                 'deviceState' => $deviceState,
             ));
         } catch (Pest_NotFound $e) {
@@ -97,7 +97,7 @@ class DeviceStates extends Base
     {
         $uri = "/deviceStates/$deviceName";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {

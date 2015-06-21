@@ -40,7 +40,7 @@ class Endpoints extends Base
     public function getEndpoints()
     {
         $uri = '/endpoints';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $endpoints = [];
         foreach ($response as $endpoint) {
@@ -63,7 +63,7 @@ class Endpoints extends Base
     {
         $uri = '/endpoints/sendMessage';
         try {
-            $this->client->getAriEndpoint()->put($uri, array(
+            $this->client->getEndpoint()->put($uri, array(
                 'to' => $to,
                 'from' => $from,
                 'body' => $body,
@@ -85,7 +85,7 @@ class Endpoints extends Base
     {
         $uri = "/endpoints/$tech";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Channel not found
             throw new NotFoundException($e);
         }
@@ -111,7 +111,7 @@ class Endpoints extends Base
     {
         $uri = "/endpoints/$tech/$resource";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_BadRequest $e) { // Invalid parameters
             throw new InvalidParameterException($e);
         } catch (Pest_NotFound $e) { // Channel not found
@@ -137,7 +137,7 @@ class Endpoints extends Base
     {
         $uri = "/endpoints/$tech/$resource/sendMessage";
         try {
-            $this->client->getAriEndpoint()->put($uri, array(
+            $this->client->getEndpoint()->put($uri, array(
                 'from' => $from,
                 'body' => $body,
                 'variables' => $variables,

@@ -41,7 +41,7 @@ class Recordings extends Base
     public function recordings()
     {
         $uri = '/recordings/stored';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $recordings = [];
         foreach ($response as $recording) {
@@ -62,7 +62,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/stored/$recordingName";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -81,7 +81,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/stored/$recordingName";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -100,7 +100,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/stored/$recordingName/copy";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'destinationRecordingName' => $destinationRecordingName,
             ));
         } catch (Pest_NotFound $e) {
@@ -123,7 +123,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -141,7 +141,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -157,7 +157,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName/stop";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -176,7 +176,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName/pause";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -195,7 +195,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName/pause";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -214,7 +214,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName/mute";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -233,7 +233,7 @@ class Recordings extends Base
     {
         $uri = "/recordings/live/$recordingName/mute";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {

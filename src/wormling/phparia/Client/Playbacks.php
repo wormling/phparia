@@ -50,7 +50,7 @@ class Playbacks extends Base
     {
         $uri = "/playbacks/$playbackId";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -68,7 +68,7 @@ class Playbacks extends Base
     {
         $uri = "/playbacks/$playbackId";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -87,7 +87,7 @@ class Playbacks extends Base
     {
         $uri = "/playbacks/$playbackId/control";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'operation' => $operation,
             ));
         } catch (Pest_BadRequest $e) {

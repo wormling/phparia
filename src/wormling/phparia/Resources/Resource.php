@@ -18,7 +18,7 @@
 
 namespace phparia\Resources;
 
-use phparia\Client\Client;
+use phparia\Client\AriClient;
 
 /**
  * Base type ARI resources
@@ -35,7 +35,7 @@ class Resource
     protected $listeners = [];
 
     /**
-     * @var Client 
+     * @var AriClient
      */
     protected $client;
 
@@ -53,7 +53,7 @@ class Resource
     public function on($event, callable $listener)
     {
         $this->listeners[$event][] = $listener;
-        $this->client->getStasisClient()->on($event, $listener);
+        $this->client->getWsClient()->on($event, $listener);
     }
 
     /**
@@ -80,7 +80,7 @@ class Resource
         if (isset($this->listeners[$event])) {
             if (false !== $index = array_search($listener, $this->listeners[$event], true)) {
                 unset($this->listeners[$event][$index]);
-                $this->client->getStasisClient()->removeListener($event, $listener);
+                $this->client->getWsClient()->removeListener($event, $listener);
             }
         }
     }
@@ -93,12 +93,12 @@ class Resource
         if ($event !== null) {
             if (isset($this->listeners[$event])) {
                 unset($this->listeners[$event]);
-                $this->client->getStasisClient()->removeAllListeners($event);
+                $this->client->getWsClient()->removeAllListeners($event);
             }
         } else {
             foreach ($this->listeners as $event => $listeners) {
                 foreach ($listeners as $listener) {
-                    $this->client->getStasisClient()->removeListener($event, $listener);
+                    $this->client->getWsClient()->removeListener($event, $listener);
                 }
             }
             $this->listeners = [];
@@ -117,7 +117,7 @@ class Resource
     /**
      * @param string $response The raw json response response data from ARI
      */
-    public function __construct(Client $client, $response)
+    public function __construct(AriClient $client, $response)
     {
         $this->client = $client;
 

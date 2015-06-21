@@ -19,7 +19,7 @@
 namespace phparia\Events;
 
 use DateTime;
-use phparia\Client\Client;
+use phparia\Client\AriClient;
 
 /**
  * Base type for asynchronous events from Asterisk.
@@ -92,10 +92,10 @@ class Event extends Message
     }
 
     /**
-     * @param Client $client
+     * @param AriClient $client
      * @param string $response
      */
-    public function __construct(Client $client, $response)
+    public function __construct(AriClient $client, $response)
     {
         $this->client = $client;
         

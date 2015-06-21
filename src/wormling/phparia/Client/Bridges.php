@@ -48,7 +48,7 @@ class Bridges extends Base
     public function bridges()
     {
         $uri = '/bridges';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $bridges = [];
         foreach ($response as $bridge) {
@@ -69,9 +69,9 @@ class Bridges extends Base
     public function createBridge($bridgeId, $type, $name)
     {
         $uri = '/bridges';
-        $response = $this->client->getAriEndpoint()->post($uri, array(
-            'type' => $type,
+        $response = $this->client->getEndpoint()->post($uri, array(
             'bridgeId' => $bridgeId,
+            'type' => $type,
             'name' => $name,
         ));
 
@@ -89,7 +89,7 @@ class Bridges extends Base
     public function updateBridge($bridgeId, $type, $name)
     {
         $uri = "/bridges/$bridgeId";
-        $response = $this->client->getAriEndpoint()->post($uri, array(
+        $response = $this->client->getEndpoint()->post($uri, array(
             'type' => $type,
             'name' => $name,
         ));
@@ -108,7 +108,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         }
@@ -126,7 +126,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         }
@@ -146,7 +146,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/addChannel";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'channel' => $channel,
                 'role' => $role,
             ));
@@ -174,7 +174,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/removeChannel";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'channel' => $channel,
             ));
         } catch (Pest_BadRequest $e) { // Channel not found
@@ -200,7 +200,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/moh";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'mohClass' => $mohClass,
             ));
         } catch (Pest_NotFound $e) { // Bridge not found
@@ -221,7 +221,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/moh";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) { // Bridge not found
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) { // Bridge not in Stasis application
@@ -251,7 +251,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/play";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'media' => $media,
                 'lang' => $lang,
                 'offsetms' => $offsetms,
@@ -289,7 +289,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/play/$playbackId";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'media' => $media,
                 'lang' => $lang,
                 'offsetms' => $offsetms,
@@ -325,7 +325,7 @@ class Bridges extends Base
     {
         $uri = "/bridges/$bridgeId/record";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'name' => $name,
                 'format' => $format,
                 'maxDurationSeconds' => $maxDurationSeconds,

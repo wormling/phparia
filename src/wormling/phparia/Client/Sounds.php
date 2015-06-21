@@ -36,7 +36,7 @@ class Sounds extends Base
     public function sounds()
     {
         $uri = '/sounds';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $sounds = [];
         foreach ($response as $sound) {
@@ -55,7 +55,7 @@ class Sounds extends Base
     public function getSound($soundId)
     {
         $uri = "/sounds/$soundId";
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         return new Sound($response);
     }

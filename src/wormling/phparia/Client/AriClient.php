@@ -56,6 +56,61 @@ class AriClient
      */
     protected $endpoint;
 
+    /**
+     * @var Applications
+     */
+    protected $applications;
+
+    /**
+     * @var Asterisk
+     */
+    protected $asterisk;
+
+    /**
+     * @var Bridges
+     */
+    protected $bridges;
+
+    /**
+     * @var Channels
+     */
+    protected $channels;
+
+    /**
+     * @var DeviceStates
+     */
+    protected $deviceStates;
+
+    /**
+     * @var Endpoints
+     */
+    protected $endPoints;
+
+    /**
+     * @var Events
+     */
+    protected $events;
+
+    /**
+     * @var Mailboxes
+     */
+    protected $mailboxes;
+
+    /**
+     * @var Playbacks
+     */
+    protected $playbacks;
+
+    /**
+     * @var Recordings
+     */
+    protected $recordings;
+
+    /**
+     * @var Sounds
+     */
+    protected $sounds;
+
     public function __construct(LoopInterface $eventLoop, LoggerInterface $logger)
     {
         $this->eventLoop = $eventLoop;
@@ -63,31 +118,26 @@ class AriClient
     }
 
     /**
-     * Connect to AMI and start emitting events.
+     * Connect to ARI.
      *
      * @param string $address Example ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name
      */
     public function connect($address)
     {
         $components = parse_url($address);
-        $scheme = $components['scheme'];
         $host = $components['host'];
         $port = $components['port'];
-        $user = $components['user'];
-        $pass = $components['pass'];
         $path = $components['path'];
         $query = $components['query'];
         $queryParts = [];
         parse_str($query, $queryParts);
 
-        if (is_set($queryParts['app'])) {
-            $this->stasisApplicationName = $queryParts['app'];
-        } else {
-            // throw exception
-        }
+        $this->stasisApplicationName = $queryParts['app'];
+        $apiKey = $queryParts['api_key'];
+        list($username, $password) = explode(':', $apiKey);
 
-        $this->endpoint = new PestJSON('http://'.$host.':'.$port.$path);
-        $this->endpoint->setupAuth($user, $pass, 'basic');
+        $this->endpoint = new PestJSON('http://'.$host.':'.$port.dirname($path));
+        $this->endpoint->setupAuth($username, $password, 'basic');
 
         $this->wsClient = new WebSocket($address, $this->eventLoop, $this->logger);
 
@@ -161,6 +211,138 @@ class AriClient
     public function getEndpoint()
     {
         return $this->endpoint;
+    }
+
+    /**
+     * @return Applications
+     */
+    public function applications()
+    {
+        if (!$this->applications instanceof Applications) {
+            $this->applications = new Applications($this);
+        }
+
+        return $this->applications;
+    }
+
+    /**
+     * @return Asterisk
+     */
+    public function asterisk()
+    {
+        if (!$this->asterisk instanceof Asterisk) {
+            $this->asterisk = new Asterisk($this);
+        }
+
+        return $this->asterisk;
+    }
+
+    /**
+     * @return Bridges
+     */
+    public function bridges()
+    {
+        if (!$this->bridges instanceof Bridges) {
+            $this->bridges = new Bridges($this);
+        }
+
+        return $this->bridges;
+    }
+
+    /**
+     * @return Channels
+     */
+    public function channels()
+    {
+        if (!$this->channels instanceof Channels) {
+            $this->channels = new Channels($this);
+        }
+
+        return $this->channels;
+    }
+
+    /**
+     * @return DeviceStates
+     */
+    public function deviceStates()
+    {
+        if (!$this->deviceStates instanceof DeviceStates) {
+            $this->deviceStates = new DeviceStates($this);
+        }
+
+        return $this->deviceStates;
+    }
+
+    /**
+     * @return Endpoints
+     */
+    public function endPoints()
+    {
+        if (!$this->endPoints instanceof Endpoints) {
+            $this->endPoints = new Endpoints($this);
+        }
+
+        return $this->endPoints;
+    }
+
+    /**
+     * @return Events
+     */
+    public function events()
+    {
+        if (!$this->events instanceof Events) {
+            $this->events = new Events($this);
+        }
+
+        return $this->events;
+    }
+
+    /**
+     * @return Mailboxes
+     */
+    public function mailboxes()
+    {
+        if (!$this->mailboxes instanceof Mailboxes) {
+            $this->mailboxes = new Mailboxes($this);
+        }
+
+        return $this->mailboxes;
+    }
+
+    /**
+     * @return Playbacks
+     */
+    public function playbacks()
+    {
+        if (!$this->playbacks instanceof Playbacks) {
+            $this->playbacks = new Playbacks($this);
+        }
+
+        return $this->playbacks;
+    }
+
+    /**
+     * @return Recordings
+     */
+    public function recordings()
+    {
+        if (!$this->recordings instanceof Recordings) {
+            $this->recordings = new Recordings($this);
+        }
+
+        return $this->recordings;
+    }
+
+    /**
+     * @return Sounds
+     */
+    public function sounds()
+    {
+        if (!$this->sounds instanceof Sounds) {
+            $this->sounds = new Sounds($this);
+        }
+
+        return $this->sounds;
     }
 
 }

@@ -38,7 +38,7 @@ class Mailboxes extends Base
     public function mailboxes()
     {
         $uri = '/mailboxes';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $mailboxes = [];
         foreach ($response as $mailbox) {
@@ -59,7 +59,7 @@ class Mailboxes extends Base
     {
         $uri = "/mailboxes/$mailboxName";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }
@@ -79,7 +79,7 @@ class Mailboxes extends Base
     {
         $uri = "/mailboxes/$mailboxName";
         try {
-            $this->client->getAriEndpoint()->put($uri, array(
+            $this->client->getEndpoint()->put($uri, array(
                 'newMessages' => $newMessages,
                 'oldMessages' => $oldMessages,
             ));
@@ -98,7 +98,7 @@ class Mailboxes extends Base
     {
         $uri = "/mailboxes/$mailboxName";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) { // Playback not found
             throw new NotFoundException($e);
         }

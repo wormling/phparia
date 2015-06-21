@@ -18,11 +18,7 @@
 
 namespace phparia\Examples;
 
-use phparia\Events\ChannelDtmfReceived;
-use phparia\Events\ChannelHangupRequest;
-use phparia\Events\StasisStart;
 use Symfony\Component\Yaml\Yaml;
-use Zend\Log\Logger;
 
 // Make sure composer dependencies have been installed
 require __DIR__ . '/../../../../vendor/autoload.php';
@@ -33,11 +29,12 @@ ini_set('xdebug.var_display_max_depth', 4);
 /**
  * @author Brian Smith <wormling@gmail.com>
  */
-class HangupExample
+class DialExample
 {
     /**
-     * Example of listening for DTMF input from a caller and hanging up when '#' is pressed.
+     * Example of dialing.
      *
+     * @todo Update to 2.X
      * @var \phparia\Client\Client 
      */
     public $client;
@@ -47,34 +44,41 @@ class HangupExample
         $configFile = __DIR__ . '/config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $ariAddress = $value['client']['ari_address'];
-
-        $logger = new \Zend\Log\Logger();
-        $logWriter = new \Zend\Log\Writer\Stream("php://output");
-        $logger->addWriter($logWriter);
-        //$filter = new \Zend\Log\Filter\SuppressFilter(true);
-        $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
-        $logWriter->addFilter($filter);
+        $userName = $value['client']['userName'];
+        $password = $value['client']['password'];
+        $applicationName = $value['client']['applicationName'];
+        $host = $value['client']['host'];
+        $port = $value['client']['port'];
+        $id = uniqid();
+        $bridgeId = uniqid();
 
         // Connect to the ARI server
-        $client = new \phparia\Client\Phparia($logger);
-        $client->connect($ariAddress);
+        $client = new \phparia\Client\Client($userName, $password, $applicationName, $host, $port);
         $this->client = $client;
+        $this->client->channels()->hangup($id);
+        // Hangup this channel if the caller hangs up
+        $this->client->getStasisClient()->once(\phparia\Events\Event::STASIS_END, function($event) use ($id) {
+            $this->client->channels()->hangup($id);
+        });
 
         // Listen for the stasis start
-        $client->onStasisStart(function(StasisStart $event) {
+        $client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) use ($bridgeId, $id) {
+            if (count($event->getArgs()) > 0 && $event->getArgs()[0] === 'dialed') {
+                $this->log('Detected outgoing call');
+                $this->client->bridges()->addChannel($bridgeId, $id);
+
+                return; // Not an incoming call
+            }
+
             // Put the new channel in a bridge
             $channel = $event->getChannel();
-            $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
+            $bridge = $this->client->bridges()->createBridge($bridgeId, 'dtmf_events, mixing', 'bridgename');
             $this->client->bridges()->addChannel($bridge->getId(), $channel->getId());
-
-            // Listen for DTMF and hangup when '#' is pressed
-            $channel->onChannelDtmfReceived(function(ChannelDtmfReceived $event) use ($channel) {
-                $this->log("Got digit: {$event->getDigit()}");
-                if ($event->getDigit() === '#') {
-                    $channel->hangup();
-                }
-            });
+            try {
+                $dialedChannel = $this->client->channels()->createChannel('SIP/8184560270@vitelity-out', null, null, null, $this->client->getStasisApplication(), 'dialed', '8005551212', null, $id);
+            } catch (\phparia\Exception\ServerException $e) {
+                $this->log($e->getMessage());
+            }
         });
 
         $this->client->run();
@@ -91,4 +95,4 @@ class HangupExample
 
 }
 
-$hangupExample = new HangupExample();
+$inputExample = new DialExample();

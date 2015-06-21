@@ -18,7 +18,7 @@
 
 namespace phparia\Resources;
 
-use phparia\Client\Client;
+use phparia\Client\AriClient;
 use phparia\Events\Event;
 
 /**
@@ -295,10 +295,10 @@ class Bridge extends Resource
     }
 
     /**
-     * @param Client $client
+     * @param AriClient $client
      * @param string $response
      */
-    public function __construct(Client $client, $response)
+    public function __construct(AriClient $client, $response)
     {
         parent::__construct($client, $response);
 

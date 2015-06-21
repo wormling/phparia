@@ -44,7 +44,7 @@ class Asterisk extends Base
         } else {
             $uri = "/asterisk/info?only=$only";
         }
-        $result = $this->client->getAriEndpoint()->get($uri);
+        $result = $this->client->getEndpoint()->get($uri);
 
         return new AsteriskInfo($result);
     }
@@ -61,7 +61,7 @@ class Asterisk extends Base
         $uri = "/asterisk/variable?variable=$variable";
 
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_BadRequest $e) {
             throw new InvalidParameterException($e);
         }
@@ -81,7 +81,7 @@ class Asterisk extends Base
         $uri = '/asterisk/variable';
 
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'variable' => $variable,
                 'value' => $value
             ));

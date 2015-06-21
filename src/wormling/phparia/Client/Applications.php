@@ -36,7 +36,7 @@ class Applications extends Base
     public function applications()
     {
         $uri = '/applications';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $applications = [];
         foreach ($response as $application) {
@@ -57,7 +57,7 @@ class Applications extends Base
     {
         $uri = "/applications/$applicationName";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Channel not found
             throw new NotFoundException($e);
         }
@@ -79,7 +79,7 @@ class Applications extends Base
     {
         $uri = "/applications/$applicationName/subscription";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'eventSource' => $eventSource,
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters
@@ -108,7 +108,7 @@ class Applications extends Base
     {
         $uri = "/applications/$applicationName/subscription";
         try {
-            $response = $this->client->getAriEndpoint()->delete($uri, array(
+            $response = $this->client->getEndpoint()->delete($uri, array(
                 'eventSource' => $eventSource,
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters

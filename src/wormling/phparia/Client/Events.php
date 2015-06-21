@@ -43,7 +43,7 @@ class Events extends Base
     public function events($app)
     {
         $uri = '/events';
-        $response = $this->client->getAriEndpoint()->get($uri, array(
+        $response = $this->client->getEndpoint()->get($uri, array(
             'app' => $app,
         ));
 
@@ -70,7 +70,7 @@ class Events extends Base
     {
         $uri = "/events/user/$eventName";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'application' => $application,
                 'source' => $source,
                 'variables' => $variables,

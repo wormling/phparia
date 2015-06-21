@@ -26,11 +26,11 @@ namespace phparia\Client;
 class Base
 {
     /**
-     * @var Client
+     * @var AriClient
      */
     protected $client;
 
-    public function __construct($client)
+    public function __construct(AriClient $client)
     {
         $this->client = $client;
     }

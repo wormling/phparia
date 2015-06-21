@@ -51,7 +51,7 @@ class Channels extends Base
     public function channels()
     {
         $uri = '/channels';
-        $response = $this->client->getAriEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
         $channels = [];
         foreach ($response as $channel) {
@@ -85,7 +85,7 @@ class Channels extends Base
     {
         $uri = '/channels';
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'endpoint' => $endpoint,
                 'extension' => $extension,
                 'context' => $context,
@@ -118,7 +118,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri);
+            $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Channel not found
             throw new NotFoundException($e);
         }
@@ -149,7 +149,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'endpoint' => $endpoint,
                 'extension' => $extension,
                 'context' => $context,
@@ -178,7 +178,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         }
@@ -212,7 +212,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/continue";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'context' => $context,
                 'extension' => $extension,
                 'priority' => $priority,
@@ -235,7 +235,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/answer";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -254,7 +254,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/ring";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -273,7 +273,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/ring";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -298,7 +298,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/dtmf";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'dtmf' => $dtmf,
                 'before' => $before,
                 'between' => $between,
@@ -326,7 +326,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/mute";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'direction' => $direction,
             ));
         } catch (Pest_NotFound $e) {
@@ -348,7 +348,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/mute";
         try {
-            $this->client->getAriEndpoint()->delete($uri, array(
+            $this->client->getEndpoint()->delete($uri, array(
                 'direction' => $direction,
             ));
         } catch (Pest_NotFound $e) {
@@ -369,7 +369,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/hold";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -388,7 +388,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/hold";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -410,7 +410,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/moh";
         try {
-            $this->client->getAriEndpoint()->post($uri, array(
+            $this->client->getEndpoint()->post($uri, array(
                 'mohClass' => $mohClass,
             ));
         } catch (Pest_NotFound $e) {
@@ -431,7 +431,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/moh";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -450,7 +450,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/silence";
         try {
-            $this->client->getAriEndpoint()->post($uri, array());
+            $this->client->getEndpoint()->post($uri, array());
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -469,7 +469,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/silence";
         try {
-            $this->client->getAriEndpoint()->delete($uri);
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
@@ -500,7 +500,7 @@ class Channels extends Base
         $uri = "/channels/$channelId/play";
 
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'media' => $media,
                 'lang' => $lang,
                 'offsetms' => $offsetms,
@@ -537,7 +537,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/play/$playbackId";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'media' => $media,
                 'lang' => $lang,
                 'offsetms' => $offsetms,
@@ -574,7 +574,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/record";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'name' => $name,
                 'format' => $format,
                 'maxDurationSeconds' => $maxDurationSeconds,
@@ -611,7 +611,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/variable";
         try {
-            $response = $this->client->getAriEndpoint()->get($uri, array(
+            $response = $this->client->getEndpoint()->get($uri, array(
                 'variable' => $variable,
             ));
         } catch (Pest_BadRequest $e) { // Missing variable parameter.
@@ -643,7 +643,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/variable";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'variable' => $variable,
                 'value' => $value,
             ));
@@ -675,7 +675,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/snoop";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'spy' => $spy,
                 'whisper' => $whisper,
                 'app' => $app,
@@ -708,7 +708,7 @@ class Channels extends Base
     {
         $uri = "/channels/$channelId/snoop/$snoopId";
         try {
-            $response = $this->client->getAriEndpoint()->post($uri, array(
+            $response = $this->client->getEndpoint()->post($uri, array(
                 'spy' => $spy,
                 'whisper' => $whisper,
                 'app' => $app,

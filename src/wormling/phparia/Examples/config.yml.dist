@@ -1,6 +1,4 @@
 client:
-    userName: ari
-    password: ari
-    applicationName: stasisapp
-    host: 127.0.0.1
-    port: 8088
+    ari_address: 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name'
+    ami_address: 'username:password@localhost:5038'
+
