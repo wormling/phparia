@@ -53,6 +53,11 @@ class AmiClient
      */
     protected $logger;
 
+    /**
+     * @var ActionSender
+     */
+    protected $api;
+
     public function __construct(WebSocket $wsClient, LoopInterface $eventLoop, LoggerInterface $logger)
     {
         $this->wsClient = $wsClient;
@@ -85,11 +90,11 @@ class AmiClient
     }
 
     /**
-     * @return Client
+     * @return ActionSender
      */
-    public function getAmiClient()
+    public function getApi()
     {
-        return $this->amiClient;
+        return $this->api;
     }
 
 }
