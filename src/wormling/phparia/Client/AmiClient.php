@@ -76,8 +76,8 @@ class AmiClient
 
         $this->amiClient = $factory->createClient($address)
             ->done(function (Client $client) {
-                $api = new ActionSender($client);
-                $api->events(true);
+                $this->api = new ActionSender($client);
+                $this->api->events(true);
                 $client->on('close', function () {
                     $this->logger->debug('AMI connection closed');
                 });
