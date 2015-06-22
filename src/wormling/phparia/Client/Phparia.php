@@ -169,7 +169,7 @@ class Phparia
      */
     public function asterisk()
     {
-        return $this->ariClient->applications();
+        return $this->ariClient->asterisk();
     }
 
     /**
