@@ -56,7 +56,7 @@ class AmiClient
     /**
      * @var ActionSender
      */
-    protected $api;
+    protected $api = null;
 
     public function __construct(WebSocket $wsClient, LoopInterface $eventLoop, LoggerInterface $logger)
     {
