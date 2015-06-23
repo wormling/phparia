@@ -36,7 +36,7 @@ class AmiClient
     /**
      * @var Client
      */
-    protected $amiClient;
+    protected $amiClient = null;
 
     /**
      * @var WebSocket
@@ -56,7 +56,7 @@ class AmiClient
     /**
      * @var ActionSender
      */
-    protected $api = null;
+    protected $actionSender = null;
 
     public function __construct(WebSocket $wsClient, LoopInterface $eventLoop, LoggerInterface $logger)
     {
@@ -69,15 +69,17 @@ class AmiClient
      * Connect to AMI and start emitting events.
      *
      * @param string $address Example uaername:password@localhost:5038
+     * @return \React\Promise\Promise
      */
     public function connect($address)
     {
         $factory = new Factory($this->eventLoop);
 
-        $this->amiClient = $factory->createClient($address)
-            ->done(function (Client $client) {
-                $this->api = new ActionSender($client);
-                $this->api->events(true);
+        return $factory->createClient($address)
+            ->then(function (Client $client) {
+                $this->amiClient = $client;
+                $this->actionSender = new ActionSender($client);
+                $this->actionSender->events(true);
                 $client->on('close', function () {
                     $this->logger->debug('AMI connection closed');
                 });
@@ -90,11 +92,19 @@ class AmiClient
     }
 
     /**
+     * @return Client
+     */
+    public function getClient()
+    {
+        return $this->amiClient;
+    }
+
+    /**
      * @return ActionSender
      */
-    public function getApi()
+    public function getActionSender()
     {
-        return $this->api;
+        return $this->actionSender;
     }
 
 }

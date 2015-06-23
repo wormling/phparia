@@ -79,7 +79,9 @@ class Phparia
 
         if ($amiAddress !== null) {
             $this->amiClient = new AmiClient($this->ariClient->getWsClient(), $this->eventLoop, $this->logger);
-            $this->amiClient->connect($amiAddress);
+            $this->amiClient
+                ->connect($amiAddress)
+                ->done();
         }
     }
 
