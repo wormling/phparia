@@ -170,13 +170,21 @@ class AriClient
     }
 
     /**
-     * Called when the handshake is completed
+     * Handshake will be passed to the provide callback on handshake
      *
+     * @param callable $callback
+     */
+    public function onHandshake(callable $callback)
+    {
+        $this->wsClient->on("handshake", $callback);
+    }
+
+    /**
      * @param callable|callable $callback
      */
     public function onConnect(callable $callback)
     {
-        $this->wsClient->on("handshake", $callback);
+        $this->wsClient->on("connect", $callback);
     }
 
     /**
