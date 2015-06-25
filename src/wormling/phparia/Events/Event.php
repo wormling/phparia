@@ -61,7 +61,7 @@ class Event extends Message
     const TEXT_MESSAGE_RECEIVED = 'TextMessageReceived';
 
     /**
-     * @var Client
+     * @var AriClient
      */
     protected $client;
     
