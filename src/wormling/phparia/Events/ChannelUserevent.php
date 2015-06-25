@@ -88,7 +88,7 @@ class ChannelUserevent extends Event
     }
 
     /**
-     * @return onject Custom Userevent data
+     * @return mixed Custom Userevent data
      */
     public function getUserevent()
     {
