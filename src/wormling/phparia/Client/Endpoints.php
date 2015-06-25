@@ -43,7 +43,7 @@ class Endpoints extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $endpoints = [];
-        foreach ($response as $endpoint) {
+        foreach ((array)$response as $endpoint) {
             $endpoints[] = new Endpoint($this->client, $endpoint);
         }
 
@@ -91,7 +91,7 @@ class Endpoints extends Base
         }
 
         $endpoints = [];
-        foreach ($response as $endpoint) {
+        foreach ((array)$response as $endpoint) {
             $endpoints[] = new Endpoint($this->client, $endpoint);
         }
 

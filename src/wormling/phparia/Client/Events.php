@@ -48,7 +48,7 @@ class Events extends Base
         ));
 
         $events = [];
-        foreach ($response as $event) {
+        foreach ((array)$response as $event) {
             $events[] = new Event($this->client, $event);
         }
 

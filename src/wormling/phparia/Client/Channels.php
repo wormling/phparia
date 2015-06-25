@@ -54,7 +54,7 @@ class Channels extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $channels = [];
-        foreach ($response as $channel) {
+        foreach ((array)$response as $channel) {
             $channels[] = new Channel($this->client, $channel);
         }
 

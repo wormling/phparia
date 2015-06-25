@@ -41,7 +41,7 @@ class Mailboxes extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $mailboxes = [];
-        foreach ($response as $mailbox) {
+        foreach ((array)$response as $mailbox) {
             $mailboxes[] = new Mailbox($mailbox);
         }
 

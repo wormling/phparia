@@ -18,6 +18,14 @@
 
 namespace phparia\Client;
 
+use Pest_BadRequest;
+use Pest_Conflict;
+use Pest_InvalidRecord;
+use Pest_NotFound;
+use phparia\Exception\ConflictException;
+use phparia\Exception\InvalidParameterException;
+use phparia\Exception\NotFoundException;
+use phparia\Exception\UnprocessableEntityException;
 use phparia\Resources\Application;
 
 /**
@@ -39,7 +47,7 @@ class Applications extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $applications = [];
-        foreach ($response as $application) {
+        foreach ((array)$response as $application) {
             $applications[] = new Application($this->client, $application);
         }
 

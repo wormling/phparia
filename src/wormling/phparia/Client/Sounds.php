@@ -39,7 +39,7 @@ class Sounds extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $sounds = [];
-        foreach ($response as $sound) {
+        foreach ((array)$response as $sound) {
             $sounds[] = new Sound($sound);
         }
 

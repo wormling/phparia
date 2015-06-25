@@ -43,7 +43,7 @@ class DeviceStates extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $deviceStates = [];
-        foreach ($response as $deviceState) {
+        foreach ((array)$response as $deviceState) {
             $deviceStates[] = new DeviceState($this->client, $deviceState);
         }
 

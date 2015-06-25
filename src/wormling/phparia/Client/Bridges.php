@@ -51,7 +51,7 @@ class Bridges extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $bridges = [];
-        foreach ($response as $bridge) {
+        foreach ((array)$response as $bridge) {
             $bridges[] = new Bridge($this->client, $bridge);
         }
 

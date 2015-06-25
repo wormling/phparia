@@ -44,7 +44,7 @@ class Recordings extends Base
         $response = $this->client->getEndpoint()->get($uri);
 
         $recordings = [];
-        foreach ($response as $recording) {
+        foreach ((array)$response as $recording) {
             $recordings[] = new StoredRecording($recording);
         }
 
