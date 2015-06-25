@@ -24,6 +24,7 @@ use phparia\Events\Event;
 use phparia\Exception\ConflictException;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
+use phparia\Exception\UnprocessableEntityException;
 
 /**
  * A specific communication connection between Asterisk and an Endpoint.
@@ -217,8 +218,7 @@ class Channel extends Resource
     }
     
     /**
-     * @param string $event
-     * @param \phparia\Resources\callable $callback
+     * @param callable $callback
      */
     public function removeChannelDestroyedListener(callable $callback)
     {
@@ -371,8 +371,7 @@ class Channel extends Resource
 
     /**
      * Delete (i.e. hangup) a channel.
-     * 
-     * @param string $channelId Channel's id
+     *
      * @throws NotFoundException
      */
     public function deleteChannel()
@@ -408,7 +407,7 @@ class Channel extends Resource
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function answer($channelId)
+    public function answer()
     {
         $this->client->channels()->answer($this->id);
     }
@@ -585,7 +584,7 @@ class Channel extends Resource
      */
     public function playMediaWithId($media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
     {
-        return $this->client->channels()->playMediaWithId($channelId, $media, $lang, $offsetms, $skipms, $playbackId);
+        return $this->client->channels()->playMediaWithId($this->getId(), $media, $lang, $offsetms, $skipms, $playbackId);
     }
 
     /**
