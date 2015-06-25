@@ -26,7 +26,7 @@ use phparia\Events\Event;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Application extends Response
+class Application extends Resource
 {
     /**
      * @var array Id's for bridges subscribed to. 
@@ -98,7 +98,7 @@ class Application extends Response
      */
     public function onApplicationReplaced(callable $callback)
     {
-        $this->on(Event::APPLICATION_REPLACED . '_' . $this->getId(), $callback);
+        $this->on(Event::APPLICATION_REPLACED . '_' . $this->getName(), $callback);
     }
     
     /**
@@ -106,7 +106,7 @@ class Application extends Response
      */
     public function onceApplicationReplaced(callable $callback)
     {
-        $this->once(Event::APPLICATION_REPLACED . '_' . $this->getId(), $callback);
+        $this->once(Event::APPLICATION_REPLACED . '_' . $this->getName(), $callback);
     }
     
     /**
