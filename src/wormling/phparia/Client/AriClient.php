@@ -141,14 +141,6 @@ class AriClient
 
         $this->wsClient = new WebSocket($address, $this->eventLoop, $this->logger);
 
-        $this->wsClient->on("request", function ($headers) {
-            $this->logger->notice("Request object created!");
-        });
-
-        $this->wsClient->on("handshake", function () {
-            $this->logger->notice("Handshake received!");
-        });
-
         $this->wsClient->on("message", function ($rawMessage) {
             $message = new Message($rawMessage->getData());
 
@@ -158,19 +150,33 @@ class AriClient
             // Emit the specific event (just to get it back to where is came from)
             if ($event instanceof IdentifiableEventInterface) {
                 $this->logger->notice("Emitting ID event: {$event->getEventId()}");
-                $this->wsClient->emit($event->getEventId(), array(
-                    'event' => $event
-                ));
+                $this->wsClient->emit($event->getEventId(), array('event' => $event));
             }
 
             // Emit the general event
             $this->logger->notice("Emitting    event: {$event->getType()}");
-            $this->wsClient->emit($message->getType(), array(
-                'event' => $event
-            ));
-
-            $this->logger->debug('Got message: '.$rawMessage->getData());
+            $this->wsClient->emit($message->getType(), array('event' => $event));
         });
+    }
+
+    /**
+     * Headers will be passed to the provided callback on request
+     *
+     * @param callable $callback
+     */
+    public function onRequest(callable $callback)
+    {
+        $this->wsClient->on("request", $callback);
+    }
+
+    /**
+     * Called when the handshake is completed
+     *
+     * @param callable|callable $callback
+     */
+    public function onConnect(callable $callback)
+    {
+        $this->wsClient->on("handshake", $callback);
     }
 
     /**
