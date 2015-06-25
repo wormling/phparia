@@ -18,6 +18,8 @@
 
 namespace phparia\Examples;
 
+use phparia\Client\Phparia;
+use phparia\Events\ChannelDtmfReceived;
 use phparia\Events\StasisStart;
 use Symfony\Component\Yaml\Yaml;
 
@@ -35,7 +37,7 @@ class InputExample
     /**
      * Example of listening for DTMF input from a caller.
      * 
-     * @var \phparia\Client\Client 
+     * @var Phparia
      */
     public $client;
 
@@ -66,7 +68,7 @@ class InputExample
             $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
 
             // Listen for DTMF
-            $channel->onChannelDtmfReceived(function($event) {
+            $channel->onChannelDtmfReceived(function(ChannelDtmfReceived $event) {
                 $this->log("Got digit: {$event->getDigit()}");
             });
         });

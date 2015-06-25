@@ -18,11 +18,10 @@
 
 namespace phparia\Examples;
 
+use phparia\Client\Phparia;
 use phparia\Events\ChannelDtmfReceived;
-use phparia\Events\ChannelHangupRequest;
 use phparia\Events\StasisStart;
 use Symfony\Component\Yaml\Yaml;
-use Zend\Log\Logger;
 
 // Make sure composer dependencies have been installed
 require __DIR__ . '/../../../../vendor/autoload.php';
@@ -38,7 +37,7 @@ class HangupExample
     /**
      * Example of listening for DTMF input from a caller and hanging up when '#' is pressed.
      *
-     * @var \phparia\Client\Client 
+     * @var Phparia
      */
     public $client;
 
