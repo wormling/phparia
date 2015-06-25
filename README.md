@@ -38,7 +38,7 @@ Creating a stasis application
         
     $this->client = new \phparia\Client\Phparia($logger);
     $this->client->connect($ariAddress);
-    $this->client->onStasisStart(function($event) {
+    $this->client->onStasisStart(function(StasisStart $event) {
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
         $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
@@ -62,7 +62,7 @@ Creating a stasis application and listening to AMI events
         
     $this->client = new \phparia\Client\Phparia($logger);
     $this->client->connect($ariAddress, $amiAddress);
-    $this->client->onStasisStart(function($event) {
+    $this->client->onStasisStart(function(StasisStart $event) {
         $channel = $event->getChannel();
         $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
         $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
