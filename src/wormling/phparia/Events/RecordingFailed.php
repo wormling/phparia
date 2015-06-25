@@ -54,7 +54,7 @@ class RecordingFailed extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->recording = LiveRecording($client, $this->response->recording);
+        $this->recording = new LiveRecording($client, $this->response->recording);
     }
 
 }
