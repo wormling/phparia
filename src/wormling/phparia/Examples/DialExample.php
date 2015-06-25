@@ -18,64 +18,82 @@
 
 namespace phparia\Examples;
 
+use phparia\Client\Phparia;
+use phparia\Events\StasisEnd;
+use phparia\Events\StasisStart;
+use phparia\Resources\Bridge;
+use phparia\Resources\Channel;
 use Symfony\Component\Yaml\Yaml;
 
 // Make sure composer dependencies have been installed
-require __DIR__ . '/../../../../vendor/autoload.php';
+require __DIR__.'/../../../../vendor/autoload.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('xdebug.var_display_max_depth', 4);
 
 /**
+ * Example of dialing.
+ *
  * @author Brian Smith <wormling@gmail.com>
  */
 class DialExample
 {
     /**
-     * Example of dialing.
-     *
-     * @todo Update to 2.X
-     * @var \phparia\Client\Client 
+     * @var Phparia
      */
     public $client;
 
+    /**
+     * @var Bridge
+     */
+    private $bridge = null;
+
+    /**
+     * @var Channel
+     */
+    private $dialedChannel = null;
+
     public function __construct()
     {
-        $configFile = __DIR__ . '/config.yml';
+        $configFile = __DIR__.'/config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $userName = $value['client']['userName'];
-        $password = $value['client']['password'];
-        $applicationName = $value['client']['applicationName'];
-        $host = $value['client']['host'];
-        $port = $value['client']['port'];
-        $id = uniqid();
-        $bridgeId = uniqid();
+        $ariAddress = $value['client']['ari_address'];
+        $dialString = $value['dial_example']['dial_string'];
+
+        $logger = new \Zend\Log\Logger();
+        $logWriter = new \Zend\Log\Writer\Stream("php://output");
+        $logger->addWriter($logWriter);
+        //$filter = new \Zend\Log\Filter\SuppressFilter(true);
+        $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+        $logWriter->addFilter($filter);
 
         // Connect to the ARI server
-        $client = new \phparia\Client\Client($userName, $password, $applicationName, $host, $port);
-        $this->client = $client;
-        $this->client->channels()->hangup($id);
+        $this->client = new Phparia($logger);
+        $this->client->connect($ariAddress);
+
         // Hangup this channel if the caller hangs up
-        $this->client->getStasisClient()->once(\phparia\Events\Event::STASIS_END, function($event) use ($id) {
-            $this->client->channels()->hangup($id);
+        $this->client->onStasisEnd(function (StasisEnd $event) {
+            $this->dialedChannel->hangup();
         });
 
         // Listen for the stasis start
-        $client->getStasisClient()->on(\phparia\Events\Event::STASIS_START, function($event) use ($bridgeId, $id) {
+        $this->client->onStasisStart(function (StasisStart $event) use ($dialString) {
             if (count($event->getArgs()) > 0 && $event->getArgs()[0] === 'dialed') {
                 $this->log('Detected outgoing call');
-                $this->client->bridges()->addChannel($bridgeId, $id);
+                $this->bridge->addChannel($event->getChannel()->getId());
 
                 return; // Not an incoming call
             }
 
             // Put the new channel in a bridge
             $channel = $event->getChannel();
-            $bridge = $this->client->bridges()->createBridge($bridgeId, 'dtmf_events, mixing', 'bridgename');
-            $this->client->bridges()->addChannel($bridge->getId(), $channel->getId());
+            $this->bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing',
+                'dial_example_bridge');
+            $this->bridge->addChannel($channel->getId());
             try {
-                $dialedChannel = $this->client->channels()->createChannel('SIP/8184560270@vitelity-out', null, null, null, $this->client->getStasisApplication(), 'dialed', '8005551212', null, $id);
+                $this->dialedChannel = $this->client->channels()->createChannel($dialString, null, null, null,
+                    $this->client->getStasisApplicationName(), 'dialed', '8005551212');
             } catch (\phparia\Exception\ServerException $e) {
                 $this->log($e->getMessage());
             }
@@ -95,4 +113,4 @@ class DialExample
 
 }
 
-$inputExample = new DialExample();
+$dialExample = new DialExample();
