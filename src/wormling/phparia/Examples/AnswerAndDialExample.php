@@ -36,7 +36,7 @@ ini_set('xdebug.var_display_max_depth', 4);
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class DialExample
+class AnswerAndDialExample
 {
     /**
      * @var Phparia
@@ -113,4 +113,4 @@ class DialExample
 
 }
 
-$dialExample = new DialExample();
+$answerAndDialExample = new AnswerAndDialExample();
