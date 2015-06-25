@@ -35,4 +35,12 @@ class Base
         $this->client = $client;
     }
 
+    /**
+     * @return AriClient
+     */
+    public function getClient()
+    {
+        return $this->client;
+    }
+
 }
