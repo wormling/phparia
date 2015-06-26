@@ -51,8 +51,8 @@ class DialExample
         $configFile = __DIR__.'/config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $ariAddress = $value['client']['ari_address'];
-        $dialString = $value['dial_example']['dial_string'];
+        $ariAddress = $value['examples']['client']['ari_address'];
+        $dialString = $value['examples']['dial_example']['dial_string'];
 
         $logger = new \Zend\Log\Logger();
         $logWriter = new \Zend\Log\Writer\Stream("php://output");
@@ -67,7 +67,7 @@ class DialExample
 
         $this->client->getAriClient()->onConnect(function () use ($dialString) {
             try {
-                $this->client->channels()->createChannel($dialString, null, null, null,
+                $this->client->channels()->createChannel($dialString, null, null, null, null,
                     $this->client->getStasisApplicationName(), 'dialed', '8185551212', 30, null, null,
                     array('MYVARIABLE' => 'value'));
             } catch (\phparia\Exception\ServerException $e) {

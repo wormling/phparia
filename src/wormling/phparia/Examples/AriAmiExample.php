@@ -46,8 +46,8 @@ class AriAmiExample
         $configFile = __DIR__ . '/config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $ariAddress = $value['client']['ari_address'];
-        $amiAddress = $value['client']['ami_address'];
+        $ariAddress = $value['examples']['client']['ari_address'];
+        $amiAddress = $value['examples']['client']['ami_address'];
 
         $logger = new \Zend\Log\Logger();
         $logWriter = new \Zend\Log\Writer\Stream("php://output");

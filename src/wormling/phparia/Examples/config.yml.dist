@@ -1,7 +1,8 @@
-client:
-    ari_address: 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name'
-    ami_address: 'username:password@localhost:5038'
+examples:
+    client:
+        ari_address: 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name'
+        ami_address: 'username:password@localhost:5038'
 
-dial_example:
-    dial_string: SIP/8185551212@vitelity-out
+    dial_example:
+        dial_string: SIP/8185551212@vitelity-out
 

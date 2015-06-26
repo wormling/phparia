@@ -25,14 +25,28 @@
             "url": "https://github.com/Devristo/phpws"
         }
     ],
+    "extra": {
+        "incenteev-parameters": {
+          "file": "src/wormling/phparia/Examples/config.yml",
+          "parameter-key": "examples"
+        }
+    },
     "require": {
         "php": ">=5.4",
         "educoder/pest": "1.0.0",
         "devristo/phpws": "dev-master",
-        "clue/ami-react": "~0.3.0"
+        "clue/ami-react": "~0.3.0",
+        "incenteev/composer-parameter-handler": "~2.0"
     },
     "require-dev": {
-        "symfony/yaml": "dev-master",
-        "phpunit/phpunit": "4.6.*"
+        "phpunit/phpunit": "4.7.*"
+    },
+    "scripts": {
+        "post-install-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ],
+        "post-update-cmd": [
+            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+        ]
     }
 }

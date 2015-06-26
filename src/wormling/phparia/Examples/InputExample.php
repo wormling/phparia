@@ -46,7 +46,7 @@ class InputExample
         $configFile = __DIR__ . '/config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $ariAddress = $value['client']['ari_address'];
+        $ariAddress = $value['examples']['client']['ari_address'];
 
         $logger = new \Zend\Log\Logger();
         $logWriter = new \Zend\Log\Writer\Stream("php://output");
