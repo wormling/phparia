@@ -24,6 +24,11 @@ abstract class PhpariaTestCase extends PHPUnit_Framework_TestCase
     protected $amiAddress;
 
     /**
+     * @var string
+     */
+    protected $dialString;
+
+    /**
      * @var LoggerInterface
      */
     protected $logger;
@@ -33,8 +38,9 @@ abstract class PhpariaTestCase extends PHPUnit_Framework_TestCase
         $configFile = __DIR__.'/../../config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
-        $this->ariAddress = $value['examples']['client']['ari_address'];
-        $this->amiAddress = $value['examples']['client']['ami_address'];
+        $this->ariAddress = $value['tests']['ari_address'];
+        $this->amiAddress = $value['tests']['ami_address'];
+        $this->dialString = $value['tests']['dial_string'];
 
         $this->logger = new \Zend\Log\Logger();
         $logWriter = new \Zend\Log\Writer\Stream("php://output");
