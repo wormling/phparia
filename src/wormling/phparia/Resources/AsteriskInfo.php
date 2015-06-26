@@ -71,11 +71,11 @@ class AsteriskInfo extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
-        $this->buildInfo = new BuildInfo($this->response->build);
-        $this->configInfo = new ConfigInfo($this->response->config);
-        $this->statusInfo = new StatusInfo($this->response->status);
-        $this->systemInfo = new SystemInfo($this->response->system);
+
+        property_exists($this->response, 'build') ? new BuildInfo($this->response->build) : null;
+        property_exists($this->response, 'config') ? new ConfigInfo($this->response->config) : null;
+        property_exists($this->response, 'statusInfo') ? new StatusInfo($this->response->statusInfo) : null;
+        property_exists($this->response, 'systemInfo') ? new SystemInfo($this->response->systemInfo) : null;
     }
 
 }
