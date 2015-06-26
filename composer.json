@@ -27,7 +27,7 @@
     ],
     "extra": {
         "incenteev-parameters": {
-          "file": "src/wormling/phparia/Examples/config.yml",
+          "file": "src/wormling/phparia/config.yml",
           "parameter-key": "examples"
         }
     },
