@@ -3,7 +3,7 @@
     "type": "library",
     "minimum-stability": "dev",
     "description": "Asterisk REST Interface (ARI) client for PHP.",
-    "keywords": ["asterisk", "ari", "client", "call", "rest", "ivr", "telephony", "voip"],
+    "keywords": ["asterisk", "ari", "ami", "client", "call", "rest", "ivr", "telephony", "voip", "php"],
     "homepage": "http://wormling.github.com/phparia",
     "license": "Apache-2.0",
     "authors": [
