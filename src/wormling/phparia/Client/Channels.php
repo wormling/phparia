@@ -70,7 +70,8 @@ class Channels extends Base
      * @param string $extension The extension to dial after the endpoint answers
      * @param string $context The context to dial after the endpoint answers. If omitted, uses 'default'
      * @param int $priority The priority to dial after the endpoint answers. If omitted, uses 1
-     * @param string $app The application that is subscribed to the originated channel, and passed to the Stasis application.
+     * @param string $label Asterisk 13+ The label to dial after the endpoint answers. Will supersede 'priority' if provided. Mutually exclusive with 'app'.
+     * @param string $app The application that is subscribed to the originated channel. When the channel is answered, it will be passed to this Stasis application. Mutually exclusive with 'context', 'extension', 'priority', and 'label'.
      * @param string $appArgs The application arguments to pass to the Stasis application.
      * @param string $callerId CallerID to use when dialing the endpoint or extension.
      * @param int $timeout (default 30) Timeout (in seconds) before giving up dialing, or -1 for no timeout.
@@ -81,7 +82,7 @@ class Channels extends Base
      * @throws InvalidParameterException
      * @throws ServerException
      */
-    public function createChannel($endpoint, $extension = null, $context = null, $priority = null, $app = null, $appArgs = null, $callerId = null, $timeout = null, $channelId = null, $otherChannelId = null, $variables = array())
+    public function createChannel($endpoint, $extension = null, $context = null, $priority = null, $label = null, $app = null, $appArgs = null, $callerId = null, $timeout = null, $channelId = null, $otherChannelId = null, $variables = array())
     {
         $uri = '/channels';
         try {
@@ -90,6 +91,7 @@ class Channels extends Base
                 'extension' => $extension,
                 'context' => $context,
                 'priority' => $priority,
+                'label' => $label,
                 'app' => $app,
                 'appArgs' => $appArgs,
                 'callerId' => $callerId,
@@ -285,11 +287,11 @@ class Channels extends Base
      * Send provided DTMF to a given channel.
      * 
      * @param string $channelId
-     * @param string $dtmf
-     * @param int $before
-     * @param int $between
-     * @param int $duration
-     * @param int $after
+     * @param string $dtmf DTMF To send.
+     * @param int $before Amount of time to wait before DTMF digits (specified in milliseconds) start.
+     * @param int $between Amount of time in between DTMF digits (specified in milliseconds).  Default: 100
+     * @param int $duration Length of each DTMF digit (specified in milliseconds).  Default: 100
+     * @param int $after Amount of time to wait after DTMF digits (specified in milliseconds) end.
      * @throws InvalidParameterException
      * @throws NotFoundException
      * @throws ConflictException
@@ -318,7 +320,7 @@ class Channels extends Base
      * Mute a channel.
      * 
      * @param string $channelId Channel's id
-     * @param string $direction (default both) Direction in which to mute audio
+     * @param string $direction (default both) Direction in which to mute audio.  Allowed values: both, in, out
      * @throws NotFoundException
      * @throws ConflictException
      */
