@@ -35,7 +35,7 @@ class Bridge extends Resource
     private $bridgeClass;
 
     /**
-     * @var string Type of bridge technology
+     * @var string Type of bridge technology (mixing, holding, dtmf_events, proxy_media)
      */
     private $bridgeType;
 
@@ -60,7 +60,7 @@ class Bridge extends Resource
     private $name;
 
     /**
-     * @var string Name of the current bridging technology 
+     * @var string Name of the current bridging technology
      */
     private $technology;
 
@@ -73,7 +73,7 @@ class Bridge extends Resource
     }
 
     /**
-     * @return type Type of bridge technology
+     * @return type Type of bridge technology (mixing, holding, dtmf_events, proxy_media)
      */
     public function getBridgeType()
     {
@@ -81,7 +81,7 @@ class Bridge extends Resource
     }
 
     /**
-     * @return array Ids of channels participating in this bridge 
+     * @return array Ids of channels participating in this bridge
      */
     public function getChannels()
     {
@@ -113,7 +113,7 @@ class Bridge extends Resource
     }
 
     /**
-     * @return string Name of the current bridging technology 
+     * @return string Name of the current bridging technology
      */
     public function getTechnology()
     {
@@ -125,7 +125,7 @@ class Bridge extends Resource
      */
     public function onBridgeCreated(callable $callback)
     {
-        $this->on(Event::BRIDGE_CREATED . '_' . $this->getId(), $callback);
+        $this->on(Event::BRIDGE_CREATED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -133,7 +133,7 @@ class Bridge extends Resource
      */
     public function onceBridgeCreated(callable $callback)
     {
-        $this->once(Event::BRIDGE_CREATED . '_' . $this->getId(), $callback);
+        $this->once(Event::BRIDGE_CREATED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -141,7 +141,7 @@ class Bridge extends Resource
      */
     public function onBridgeDestroyed(callable $callback)
     {
-        $this->on(Event::BRIDGE_DESTROYED . '_' . $this->getId(), $callback);
+        $this->on(Event::BRIDGE_DESTROYED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -149,7 +149,7 @@ class Bridge extends Resource
      */
     public function onceBridgeDestroyed(callable $callback)
     {
-        $this->once(Event::BRIDGE_DESTROYED . '_' . $this->getId(), $callback);
+        $this->once(Event::BRIDGE_DESTROYED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -157,7 +157,7 @@ class Bridge extends Resource
      */
     public function onBridgeMerged(callable $callback)
     {
-        $this->on(Event::BRIDGE_MERGED . '_' . $this->getId(), $callback);
+        $this->on(Event::BRIDGE_MERGED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -165,12 +165,12 @@ class Bridge extends Resource
      */
     public function onceBridgeMerged(callable $callback)
     {
-        $this->once(Event::BRIDGE_MERGED . '_' . $this->getId(), $callback);
+        $this->once(Event::BRIDGE_MERGED.'_'.$this->getId(), $callback);
     }
 
     /**
      * Shut down a bridge. If any channels are in this bridge, they will be removed and resume whatever they were doing beforehand.
-     * 
+     *
      * @throws NotFoundException
      */
     public function deleteBridge()
@@ -180,7 +180,7 @@ class Bridge extends Resource
 
     /**
      * Add a channel to a bridge.
-     * 
+     *
      * @param string $channel (required) Ids of channels to add to bridge.  Allows comma separated values.
      * @param string $role Channel's role in the bridge
      * @throws NotFoundException
@@ -194,7 +194,7 @@ class Bridge extends Resource
 
     /**
      * Remove a channel from a bridge.
-     * 
+     *
      * @param string $channel (required) Ids of channels to remove from bridge.  Allows comma separated values.
      * @throws NotFoundException
      * @throws ConflictException
@@ -207,7 +207,7 @@ class Bridge extends Resource
 
     /**
      * Play music on hold to a bridge or change the MOH class that is playing.
-     * 
+     *
      * @param string $mohClass Music on hold class to use
      * @throws NotFoundException
      * @throws ConflictException
@@ -219,7 +219,7 @@ class Bridge extends Resource
 
     /**
      * Stop playing music on hold to a bridge. This will only stop music on hold being played via POST bridges/{bridgeId}/moh.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -229,13 +229,13 @@ class Bridge extends Resource
     }
 
     /**
-     * Start playback of media on a bridge. The media URI may be any of a number of URI's. Currently 
-     * sound:, recording:, number:, digits:, characters:, and tone: URI's are supported. This operation 
-     * creates a playback resource that can be used to control the playback of media (pause, rewind, 
+     * Start playback of media on a bridge. The media URI may be any of a number of URI's. Currently
+     * sound:, recording:, number:, digits:, characters:, and tone: URI's are supported. This operation
+     * creates a playback resource that can be used to control the playback of media (pause, rewind,
      * fast forward, etc.)
-     * 
+     *
      * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     * 
+     *
      * @param string $media (required) Media's URI to play.
      * @param string $lang For sounds, selects language for sound.
      * @param int $offsetms Number of media to skip before playing.
@@ -251,13 +251,13 @@ class Bridge extends Resource
     }
 
     /**
-     * Start playback of media on a bridge. The media URI may be any of a number of URI's. Currently 
-     * sound:, recording:, number:, digits:, characters:, and tone: URI's are supported. This operation 
-     * creates a playback resource that can be used to control the playback of media (pause, rewind, 
+     * Start playback of media on a bridge. The media URI may be any of a number of URI's. Currently
+     * sound:, recording:, number:, digits:, characters:, and tone: URI's are supported. This operation
+     * creates a playback resource that can be used to control the playback of media (pause, rewind,
      * fast forward, etc.)
-     * 
+     *
      * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     * 
+     *
      * @param string $media (required) Media's URI to play.
      * @param string $lang For sounds, selects language for sound.
      * @param int $offsetms Number of media to skip before playing.
@@ -289,9 +289,17 @@ class Bridge extends Resource
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
-    public function record($name, $format, $maxDurationSeconds = null, $maxSilenceSeconds = null, $ifExists = null, $beep = null, $terminateOn = null)
-    {
-        return $this->client->bridges()->record($this->id, $name, $format, $maxDurationSeconds, $maxSilenceSeconds, $ifExists, $beep, $terminateOn);
+    public function record(
+        $name,
+        $format,
+        $maxDurationSeconds = null,
+        $maxSilenceSeconds = null,
+        $ifExists = null,
+        $beep = null,
+        $terminateOn = null
+    ) {
+        return $this->client->bridges()->record($this->id, $name, $format, $maxDurationSeconds, $maxSilenceSeconds,
+            $ifExists, $beep, $terminateOn);
     }
 
     /**
