@@ -55,7 +55,7 @@ class AnswerAndDialExample
 
     public function __construct()
     {
-        $configFile = __DIR__.'/config.yml';
+        $configFile = __DIR__.'/../config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
         $ariAddress = $value['examples']['client']['ari_address'];

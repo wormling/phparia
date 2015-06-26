@@ -1,0 +1,7 @@
+# This file is auto-generated during the composer install
+examples:
+    client:
+        ari_address: 'ws://27brotherhood.com:8088/ari/events?api_key=ari:TwaYp273&app=occ'
+        ami_address: null
+    dial_example:
+        dial_string: SIP/8184560270@Local
