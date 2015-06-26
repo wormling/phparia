@@ -348,11 +348,9 @@ class Channels extends Base
      */
     public function unmute($channelId, $direction)
     {
-        $uri = "/channels/$channelId/mute";
+        $uri = "/channels/$channelId/mute?direction=" . $this->client->getEndpoint()->jsonEncode($direction);
         try {
-            $this->client->getEndpoint()->delete($uri, array(
-                'direction' => $direction,
-            ));
+            $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
             throw new NotFoundException($e);
         } catch (Pest_Conflict $e) {
