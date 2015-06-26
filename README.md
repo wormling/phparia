@@ -1,7 +1,16 @@
-phparia
+phparia - PHP ARI API
 ===
 
-Framework for creating Asterisk 12/13 ARI applications.  This is just a wrapper around Asterisk REST Interface.  (https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI)
+Framework for creating Asterisk 12/13 ARI applications.  (https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI)
+
+Features
+---
+
+* Full support for Asterisk 12/13 ARI
+* Event system at the client and resource level
+* Optional basic AMI event/action support
+* Verbose for ease of use
+* Partial functional tests TODO!
 
 Breaking Change
 ---
@@ -48,7 +57,7 @@ Creating a stasis application
 
     $this->client->run();
 
-Creating a stasis application and listening to AMI events
+Creating a stasis application and listening for AMI events
 ---
     $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
     $amiAddress = 'username:password@localhost:5038';
@@ -85,6 +94,8 @@ You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+
 Examples
 ---
 (https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Examples)
+
+(https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Tests/Functional)
 
 License
 ---
