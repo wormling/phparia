@@ -66,7 +66,7 @@ class Applications extends Base
         $uri = "/applications/$applicationName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Channel not found
+        } catch (Pest_NotFound $e) { // Application does not exist.
             throw new NotFoundException($e);
         }
 
@@ -76,8 +76,8 @@ class Applications extends Base
     /**
      * Subscribe an application to a event source. Returns the state of the application after the subscriptions have changed
      *
-     * @param $applicationName Application's name
-     * @param $eventSource (required) URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}.  Allows comma separated values.
+     * @param string $applicationName Application's name
+     * @param string $eventSource (required) URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}.  Allows comma separated values.
      * @return Application
      * @throws InvalidParameterException
      * @throws NotFoundException
@@ -90,11 +90,11 @@ class Applications extends Base
             $response = $this->client->getEndpoint()->post($uri, array(
                 'eventSource' => $eventSource,
             ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters
+        } catch (Pest_BadRequest $e) { // Missing parameter.
             throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
+        } catch (Pest_NotFound $e) { // Application does not exist.
             throw new NotFoundException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
+        } catch (Pest_InvalidRecord $e) { // Event source does not exist.
             throw new UnprocessableEntityException($e);
         }
 
@@ -114,18 +114,16 @@ class Applications extends Base
      */
     public function unsubscribe($applicationName, $eventSource)
     {
-        $uri = "/applications/$applicationName/subscription";
+        $uri = "/applications/$applicationName/subscription?eventSource=" . $this->client->getEndpoint()->jsonEncode($eventSource);
         try {
-            $response = $this->client->getEndpoint()->delete($uri, array(
-                'eventSource' => $eventSource,
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters
+            $response = $this->client->getEndpoint()->delete($uri);
+        } catch (Pest_BadRequest $e) { // Missing parameter; event source scheme not recognized.
             throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
+        } catch (Pest_NotFound $e) { // Application does not exist.
             throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Channel is not in a Stasis application; A recording with the same name already exists on the system and can not be overwritten because it is in progress or ifExists=fail
+        } catch (Pest_Conflict $e) { // Application not subscribed to event source.
             throw new ConflictException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
+        } catch (Pest_InvalidRecord $e) { // Event source does not exist.
             throw new UnprocessableEntityException($e);
         }
 
