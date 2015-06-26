@@ -30,6 +30,10 @@ use phparia\Exception\InvalidParameterException;
  */
 class Asterisk extends Base
 {
+    const INFO_BUILD = 'build';
+    const INFO_SYSTEM = 'system';
+    const INFO_CONFIG = 'config';
+    const INFO_STATUS = 'status';
 
     /**
      * Gets Asterisk system information.

@@ -76,8 +76,8 @@ class Applications extends Base
     /**
      * Subscribe an application to a event source. Returns the state of the application after the subscriptions have changed
      *
-     * @param $applicationName
-     * @param $eventSource
+     * @param $applicationName Application's name
+     * @param $eventSource (required) URI for event source (channel:{channelId}, bridge:{bridgeId}, endpoint:{tech}[/{resource}], deviceState:{deviceName}.  Allows comma separated values.
      * @return Application
      * @throws InvalidParameterException
      * @throws NotFoundException
