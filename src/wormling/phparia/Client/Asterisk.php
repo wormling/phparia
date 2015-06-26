@@ -33,8 +33,8 @@ class Asterisk extends Base
 
     /**
      * Gets Asterisk system information.
-     * 
-     * @param string $only Filter information returned.  Allows comma separated values.
+     *
+     * @param string $only Filter information returned.  Allows comma separated values.  Allowed values: build, system, config, status.
      * @return AsteriskInfo
      */
     public function getInfo($only = null)
@@ -51,7 +51,7 @@ class Asterisk extends Base
 
     /**
      * Get the value of a global variable.
-     * 
+     *
      * @param string $variable (required) The variable to get
      * @return Variable
      * @throws InvalidParameterException
@@ -71,7 +71,7 @@ class Asterisk extends Base
 
     /**
      * Set the value of a global variable.
-     * 
+     *
      * @param string $variable (required) The variable to set
      * @param string $value The value to set the variable to
      * @throws InvalidParameterException
