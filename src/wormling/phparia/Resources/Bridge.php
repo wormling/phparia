@@ -73,7 +73,7 @@ class Bridge extends Resource
     }
 
     /**
-     * @return type Type of bridge technology (mixing, holding, dtmf_events, proxy_media)
+     * @return string Type of bridge technology (mixing, holding, dtmf_events, proxy_media)
      */
     public function getBridgeType()
     {
@@ -81,7 +81,7 @@ class Bridge extends Resource
     }
 
     /**
-     * @return array Ids of channels participating in this bridge
+     * @return Channel[] Ids of channels participating in this bridge
      */
     public function getChannels()
     {
