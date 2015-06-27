@@ -2,6 +2,7 @@
 namespace phparia\Tests\Functional;
 
 use phparia\Client\Phparia;
+use phparia\Events\StasisStart;
 use \PHPUnit_Framework_TestCase;
 use Symfony\Component\Yaml\Yaml;
 
