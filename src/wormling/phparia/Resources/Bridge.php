@@ -81,7 +81,7 @@ class Bridge extends Resource
     }
 
     /**
-     * @return Channel[] Ids of channels participating in this bridge
+     * @return array Ids of channels participating in this bridge
      */
     public function getChannels()
     {
