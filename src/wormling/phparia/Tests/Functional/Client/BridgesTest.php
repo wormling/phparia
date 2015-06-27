@@ -211,5 +211,49 @@ namespace {
             $this->client->run();
             $this->assertTrue($success);
         }
+
+        /**
+         * @test
+         * @expectedException phparia\Exception\NotFoundException
+         */
+        public function canRemoveChannelThrowNotFoundExceptionFromMissingBridge()
+        {
+            $success = false;
+            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+                $event->getChannel()->answer();
+                $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
+                $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
+                $this->client->bridges()->removeChannel('THIS_BRIDGE_ID_WILL_NOT_EXIST', $event->getChannel()->getId());
+                $this->client->bridges()->deleteBridge('BRIDGE_1_ID');
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+        }
+
+        /**
+         * @test
+         * @expectedException phparia\Exception\NotFoundException
+         */
+        public function canRemoveChannelThrowNotFoundExceptionFromMissingChannel()
+        {
+            $success = false;
+            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+                $event->getChannel()->answer();
+                $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
+                $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
+                $this->client->bridges()->removeChannel('BRIDGE_1_ID', 'THIS_CHANNEL_WILL_NOT_EXIST');
+                $this->client->bridges()->deleteBridge('BRIDGE_1_ID');
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+        }
     }
 }
