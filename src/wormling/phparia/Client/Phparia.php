@@ -95,6 +95,15 @@ class Phparia
     }
 
     /**
+     * Disconnect and stop the event loop
+     */
+    public function stop()
+    {
+        $this->wsClient->close();
+        $this->eventLoop->stop();
+    }
+
+    /**
      * @param callable|callable $callback
      */
     public function onStasisStart(callable $callback)
