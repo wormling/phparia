@@ -18,7 +18,7 @@ php:
   # aliased to a recent hhvm version
   - hhvm
 
-script: install
+script: composer install
 
 # omitting "script:" will default to phpunit
 script: phpunit --configuration phpunit.xml --coverage-text
