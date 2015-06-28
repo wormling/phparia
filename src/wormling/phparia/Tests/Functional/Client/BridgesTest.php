@@ -46,7 +46,7 @@ namespace {
             $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
             $this->client->bridges()->createBridge('BRIDGE_2_ID', null, 'BRIDGE_2_NAME');
             $this->client->bridges()->createBridge('BRIDGE_3_ID', null, 'BRIDGE_3_NAME');
-            $bridges = $this->client->bridges()->bridges();
+            $bridges = $this->client->bridges()->getBridges();
             $this->assertGreaterThanOrEqual(3, count($bridges));
             foreach ($bridges as $bridge) {
                 $this->assertInstanceOf('phparia\Resources\Bridge', $bridge);
@@ -218,8 +218,7 @@ namespace {
          */
         public function canRemoveChannelThrowNotFoundExceptionFromMissingBridge()
         {
-            $success = false;
-            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+            $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
                 $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
@@ -240,8 +239,7 @@ namespace {
          */
         public function canRemoveChannelThrowNotFoundExceptionFromMissingChannel()
         {
-            $success = false;
-            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+            $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
                 $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
@@ -254,6 +252,55 @@ namespace {
                     $this->client->getStasisApplicationName());
             });
             $this->client->run();
+        }
+
+        /**
+         * @todo
+         * @todo Doesn't technically prove that music on hold is playing
+         */
+        public function canStartMusicOnHold()
+        {
+            $success = false;
+            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+                $event->getChannel()->answer();
+                $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
+                $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
+                $this->client->bridges()->startMusicOnHold('BRIDGE_1_ID', 'default');
+                $this->client->bridges()->deleteBridge('BRIDGE_1_ID');
+                $success = true;
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+            $this->assertTrue($success);
+        }
+
+        /**
+         * @todo
+         * @todo Doesn't technically prove that music on hold has stopped playing
+         */
+        public function canStopMusicOnHold()
+        {
+            $success = false;
+            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+                $event->getChannel()->answer();
+                $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
+                $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
+                $this->client->bridges()->startMusicOnHold('BRIDGE_1_ID', 'default');
+                $this->client->bridges()->stopMusicOnHold('BRIDGE_1_ID');
+                $this->client->bridges()->deleteBridge('BRIDGE_1_ID');
+                $success = true;
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+            $this->assertTrue($success);
         }
     }
 }

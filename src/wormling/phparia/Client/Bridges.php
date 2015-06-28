@@ -45,7 +45,7 @@ class Bridges extends Base
      * 
      * @return Bridge[]
      */
-    public function bridges()
+    public function getBridges()
     {
         $uri = '/bridges';
         $response = $this->client->getEndpoint()->get($uri);
