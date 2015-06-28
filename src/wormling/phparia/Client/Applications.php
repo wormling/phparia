@@ -63,7 +63,7 @@ class Applications extends Base
      */
     public function getApplication($applicationName)
     {
-        $uri = "/getApplications/$applicationName";
+        $uri = "/applications/$applicationName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
         } catch (Pest_NotFound $e) { // Application does not exist.
@@ -85,7 +85,7 @@ class Applications extends Base
      */
     public function subscribe($applicationName, $eventSource)
     {
-        $uri = "/getApplications/$applicationName/subscription";
+        $uri = "/applications/$applicationName/subscription";
         try {
             $response = $this->client->getEndpoint()->post($uri, array(
                 'eventSource' => $eventSource,
@@ -114,7 +114,7 @@ class Applications extends Base
      */
     public function unsubscribe($applicationName, $eventSource)
     {
-        $uri = "/getApplications/$applicationName/subscription?eventSource=" . $this->client->getEndpoint()->jsonEncode($eventSource);
+        $uri = "/applications/$applicationName/subscription?eventSource=" . $this->client->getEndpoint()->jsonEncode($eventSource);
         try {
             $response = $this->client->getEndpoint()->delete($uri);
         } catch (Pest_BadRequest $e) { // Missing parameter; event source scheme not recognized.
