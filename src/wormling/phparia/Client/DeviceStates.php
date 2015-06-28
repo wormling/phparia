@@ -37,7 +37,7 @@ class DeviceStates extends Base
      * 
      * @return DeviceState[]
      */
-    public function deviceStates()
+    public function getDeviceStates()
     {
         $uri = '/deviceStates';
         $response = $this->client->getEndpoint()->get($uri);
