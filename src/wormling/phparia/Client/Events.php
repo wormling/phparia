@@ -40,7 +40,7 @@ class Events extends Base
      * @param string $app (required) Applications to subscribe to.  Allows comma separated values.
      * @return Event[]
      */
-    public function events($app)
+    public function getEvents($app)
     {
         $uri = '/events';
         $response = $this->client->getEndpoint()->get($uri, array(
