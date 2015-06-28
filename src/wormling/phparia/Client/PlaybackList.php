@@ -65,7 +65,7 @@ class PlaybackList extends \ArrayObject
     {
         foreach (array_reverse($this->playbacks) as $playback) {
             try {
-                $this->phparia->playbacks()->stopPlayback($playback);
+                $this->phparia->playbacks()->stopPlayback($playback->getId());
             } catch (\Exception $ignore) {
                 // Don't throw exception if the playback does not exist
             }
