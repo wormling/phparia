@@ -15,7 +15,7 @@ script:
   - mkdir -p build/logs
   - phpunit --configuration phpunit.xml --coverage-text
 
-after-script:
+after_script:
   - php vendor/bin/coveralls -vvv
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
