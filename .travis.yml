@@ -18,10 +18,10 @@ php:
   # aliased to a recent hhvm version
   - hhvm
 
-script: composer install
-
 # omitting "script:" will default to phpunit
-script: phpunit --configuration phpunit.xml --coverage-text
+script:
+  composer install
+  phpunit --configuration phpunit.xml --coverage-text
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
