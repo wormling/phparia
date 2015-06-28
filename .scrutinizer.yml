@@ -6,3 +6,14 @@ checks:
 filter:
     excluded_paths:
         - src/wormling/phparia/Tests/*
+
+tools:
+    external_code_coverage: true
+
+build:
+    tests:
+        override:
+            -
+                coverage:
+                    file: 'build/logs/clover.xml'
+                    format: 'php-clover'
