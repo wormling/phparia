@@ -14,5 +14,9 @@ before_script:
 script:
   - phpunit --configuration phpunit.xml --coverage-text
 
+after-script:
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+
 notifications:
   email: "wormling@gmail.com"
