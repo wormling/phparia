@@ -67,7 +67,7 @@ class PlaybackList extends \ArrayObject
             try {
                 $this->phparia->playbacks()->stopPlayback($playback);
             } catch (\Exception $ignore) {
-
+                // Don't throw exception if the playback does not exist
             }
         }
     }
