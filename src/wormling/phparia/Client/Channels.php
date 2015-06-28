@@ -48,7 +48,7 @@ class Channels extends Base
      * 
      * @return Channel[]
      */
-    public function channels()
+    public function getChannels()
     {
         $uri = '/channels';
         $response = $this->client->getEndpoint()->get($uri);
