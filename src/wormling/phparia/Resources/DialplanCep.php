@@ -61,7 +61,7 @@ class DialplanCep extends Response
      */
     public function getPriority()
     {
-        return $this->prority;
+        return $this->priority;
     }
 
     /**
