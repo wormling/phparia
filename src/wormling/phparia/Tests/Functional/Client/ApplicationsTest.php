@@ -12,7 +12,7 @@ namespace {
          */
         public function canGetApplications()
         {
-            $applications = $this->client->applications()->applications();
+            $applications = $this->client->applications()->getApplications();
             foreach($applications as $application) {
                 $this->assertInstanceOf('phparia\Resources\Application', $application);
             }
