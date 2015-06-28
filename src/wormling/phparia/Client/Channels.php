@@ -40,9 +40,6 @@ use phparia\Exception\ServerException;
  */
 class Channels extends Base
 {
-
-    use MediaTrait;
-
     /**
      * List all active channels in Asterisk.
      * 

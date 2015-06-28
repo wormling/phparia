@@ -37,9 +37,6 @@ use phparia\Exception\UnprocessableEntityException;
  */
 class Bridges extends Base
 {
-
-    use MediaTrait;
-
     /**
      * List all active bridges in Asterisk.
      * 
