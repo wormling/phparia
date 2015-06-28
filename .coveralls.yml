@@ -4,5 +4,6 @@
 # see https://coveralls.io/docs/php for more hints
 #
 service_name: travis-ci
-src_dir: framework
+src_dir: src
 coverage_clover: build/logs/clover.xml
+json_path: build/logs/coveralls-upload.json
