@@ -38,7 +38,7 @@ class Response
     public function __construct($response)
     {
         if (is_array($response)) { // For some reson, playback is an array, so this fixes that problem
-            $this->response = $object = json_decode(json_encode($response), false);
+            $this->response = json_decode(json_encode($response), false);
         } elseif (is_object($response)) {
             $this->response = $response;
         } else {
