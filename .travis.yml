@@ -13,12 +13,12 @@ before_script:
 
 script:
   - mkdir -p build/logs
-  - phpunit --configuration phpunit.xml --coverage-text
+  - phpunit --configuration phpunit.xml --coverage-text --coverage-clover=coverage.clover
 
 after-script:
   - php vendor/bin/coveralls -v
   - wget https://scrutinizer-ci.com/ocular.phar
-  - php ocular.phar code-coverage:upload --format=php-clover build/logs/clover.xml
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
 
 notifications:
   email: "wormling@gmail.com"
