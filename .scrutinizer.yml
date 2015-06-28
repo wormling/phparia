@@ -6,6 +6,7 @@ checks:
 filter:
     excluded_paths:
         - src/wormling/phparia/Tests/*
+        - vendor/*
 
 tools:
     external_code_coverage: true
