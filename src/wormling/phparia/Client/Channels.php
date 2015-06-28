@@ -625,7 +625,7 @@ class Channels extends Base
             throw new ConflictException($e);
         }
 
-        return new Variable($this->client, $response);
+        return new Variable($response);
     }
 
     /**
@@ -655,7 +655,7 @@ class Channels extends Base
             throw new ConflictException($e);
         }
 
-        return new Variable($this->client, $response);
+        return new Variable($response);
     }
 
     /**
