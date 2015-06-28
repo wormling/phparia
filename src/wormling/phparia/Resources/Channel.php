@@ -613,7 +613,7 @@ class Channel extends Resource
      * Get the value of a channel variable or function.
      * 
      * @param string $variable
-     * @return Variable
+     * @return string|Variable
      * @throws InvalidParameterException
      * @throws NotFoundException
      * @throws ConflictException
