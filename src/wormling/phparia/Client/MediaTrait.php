@@ -196,9 +196,7 @@ trait MediaTrait
                     }
                     break;
                 case 'q': // Date - "" (for today), "yesterday", weekday, or ABdY
-                    if ($timestamp->format('d/m/Y') === date('d/m/Y')) { // Today
-                        break;
-                    } else {
+                    if ($timestamp->format('d/m/Y') !== date('d/m/Y')) { // Today
                         if ($timestamp === date('d/m/Y', time() - (24 * 60 * 60))) { // Yesterday
                             $sound = 'digits/yesterday';
                             $playbackList[] = $this->playMedia($channelId, "sound:$sound", null, null, null,
