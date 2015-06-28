@@ -196,7 +196,7 @@ class Channels extends Base
         try {
             $this->deleteChannel($channelId);
         } catch (\Exception $ignore) {
-            
+            // Don't throw exception if the channel doesn't exist
         }
     }
 
