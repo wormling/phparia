@@ -1,7 +1,7 @@
 phparia - PHP ARI API
 ===
 
-Framework for creating Asterisk 12/13 ARI applications.  (https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI)
+Framework for creating Asterisk 12/13 ARI applications.  (https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI) [![Build Status](https://travis-ci.org/wormling/phparia.svg?branch=master)](https://travis-ci.org/wormling/phparia)
 
 Features
 ---
