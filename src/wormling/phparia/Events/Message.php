@@ -48,7 +48,7 @@ class Message
     public function __construct($response)
     {
         if (is_array($response)) {
-            $this->response = $object = json_decode(json_encode($response), false);
+            $this->response = json_decode(json_encode($response), false);
         } elseif (is_object($response)) {
             $this->response = $response;
         } else {
