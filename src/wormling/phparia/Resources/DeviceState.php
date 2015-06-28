@@ -59,7 +59,7 @@ class DeviceState extends Resource
      */
     public function onDeviceStateChange(callable $callback)
     {
-        $this->on(Event::DEVICE_STATE_CHANGE . '_' . $this->getId(), $callback);
+        $this->on(Event::DEVICE_STATE_CHANGE . '_' . $this->getName(), $callback);
     }
 
     /**
@@ -67,7 +67,7 @@ class DeviceState extends Resource
      */
     public function onceDeviceStateChange(callable $callback)
     {
-        $this->once(Event::DEVICE_STATE_CHANGE . '_' . $this->getId(), $callback);
+        $this->once(Event::DEVICE_STATE_CHANGE . '_' . $this->getName(), $callback);
     }
 
     /**
