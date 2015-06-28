@@ -10,14 +10,12 @@ php:
 before_script:
   - composer self-update
   - composer install
-  - pip install codecov
 
 script:
   - mkdir -p build/logs
   - phpunit --configuration phpunit.xml --coverage-text --coverage-clover=coverage.clover
 
 after-script:
-  - codecov
   - php vendor/bin/coveralls -v
   - wget https://scrutinizer-ci.com/ocular.phar
   - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
