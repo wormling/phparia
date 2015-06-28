@@ -33,7 +33,7 @@ class Sounds extends Base
      * 
      * @return Sound[]
      */
-    public function sounds()
+    public function getSounds()
     {
         $uri = '/sounds';
         $response = $this->client->getEndpoint()->get($uri);

@@ -35,7 +35,7 @@ class Mailboxes extends Base
      * 
      * @return Mailbox[]
      */
-    public function mailboxes()
+    public function getMailboxes()
     {
         $uri = '/mailboxes';
         $response = $this->client->getEndpoint()->get($uri);

@@ -38,7 +38,7 @@ class Recordings extends Base
      * 
      * @return StoredRecording[]
      */
-    public function recordings()
+    public function getRecordings()
     {
         $uri = '/recordings/stored';
         $response = $this->client->getEndpoint()->get($uri);
