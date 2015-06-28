@@ -1,13 +1,12 @@
 examples:
     client:
-        ari_address: 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name'
+        ari_address: 'ws://127.0.0.1:8088/ari/events?api_key=username:password&app=stasis_app_name'
         ami_address: 'username:password@localhost:5038'
 
     dial_example:
         dial_string: SIP/8185551212@vitelity-out
 
 tests:
-    ari_address: 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name'
-    ami_address: 'username:password@localhost:5038'
-    dial_string: SIP/8185551212@vitelity-out
-
+    ari_address: 'ws://wormling.org:8088/ari/events?api_key=ari:ari&app=phparia_test'
+    ami_address: 'ami:ami@wormling.org:5038'
+    dial_string: Local/8185551212@default
