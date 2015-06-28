@@ -6,6 +6,7 @@ checks:
 filter:
     excluded_paths:
         - src/wormling/phparia/Tests/*
+        - src/wormling/phparia/Examples/*
         - vendor/*
 
 tools:
