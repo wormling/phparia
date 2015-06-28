@@ -12,6 +12,7 @@ before_script:
   - composer install
 
 script:
+  - mkdir -p build/logs
   - phpunit --configuration phpunit.xml --coverage-text
 
 after-script:
