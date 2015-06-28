@@ -21,8 +21,12 @@
     },
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/Devristo/phpws"
+          "type": "vcs",
+          "url": "https://github.com/Devristo/phpws"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/onema/php-coveralls"
         }
     ],
     "extra": {
