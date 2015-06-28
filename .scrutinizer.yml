@@ -9,12 +9,3 @@ filter:
 
 tools:
     external_code_coverage: true
-
-build:
-    tests:
-        override:
-            -
-                coverage:
-                command: phpunit --coverage-clover=coverage.clover
-                    file: 'coverage.clover'
-                    format: 'php-clover'
