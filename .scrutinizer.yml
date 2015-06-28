@@ -15,5 +15,6 @@ build:
         override:
             -
                 coverage:
-                    file: 'build/logs/clover.xml'
+                command: phpunit --coverage-clover=coverage.clover
+                    file: 'coverage.clover'
                     format: 'php-clover'
