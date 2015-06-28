@@ -17,11 +17,12 @@ php:
   - 7.0
   # aliased to a recent hhvm version
   - hhvm
+before_script:
+  - composer install
 
 # omitting "script:" will default to phpunit
 script:
-  composer install
-  phpunit --configuration phpunit.xml --coverage-text
+  - phpunit --configuration phpunit.xml --coverage-text
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
