@@ -23,4 +23,4 @@ script: phpunit --configuration phpunit.xml --coverage-text
 
 # configure notifications (email, IRC, campfire etc)
 notifications:
-  irc: "wormling@gmail.com"
+  email: "wormling@gmail.com"
