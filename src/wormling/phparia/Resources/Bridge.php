@@ -20,6 +20,10 @@ namespace phparia\Resources;
 
 use phparia\Client\AriClient;
 use phparia\Events\Event;
+use phparia\Exception\ConflictException;
+use phparia\Exception\InvalidParameterException;
+use phparia\Exception\NotFoundException;
+use phparia\Exception\UnprocessableEntityException;
 
 /**
  * The merging of media from one or more channels.
@@ -81,7 +85,8 @@ class Bridge extends Resource
     }
 
     /**
-     * @return array Ids of channels participating in this bridge
+     * @todo Should this be renamed to getChannelIds()?
+     * @return Channel[] Ids of channels participating in this bridge
      */
     public function getChannels()
     {
