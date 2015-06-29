@@ -21,7 +21,7 @@ namespace phparia\Client;
 /**
  * @author Brian Smith <wormling@gmail.com>
  */
-class AriClientAware implements AriClientAwareInterface
+abstract class AriClientAware implements AriClientAwareInterface
 {
     /**
      * @var AriClient
