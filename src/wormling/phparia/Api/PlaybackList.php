@@ -17,6 +17,7 @@
 
 namespace phparia\Api;
 
+use phparia\Client\Phparia;
 use phparia\Events\PlaybackFinished;
 use phparia\Resources\Playback;
 
