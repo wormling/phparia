@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-namespace phparia\Client;
+namespace phparia\Api;
 
 use phparia\Events\PlaybackFinished;
 use phparia\Resources\Playback;

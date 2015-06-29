@@ -1,7 +1,7 @@
 <?php
 
 namespace {
-    use phparia\Client\Asterisk;
+    use phparia\Api\Asterisk;
     use phparia\Tests\Functional\PhpariaTestCase;
 
     class AsteriskTest extends PhpariaTestCase

@@ -16,12 +16,13 @@
  * limitations under the License.
  */
 
-namespace phparia\Client;
+namespace phparia\Api;
 
 use Pest_BadRequest;
 use Pest_Conflict;
 use Pest_InvalidRecord;
 use Pest_NotFound;
+use phparia\Client\AriClientAware;
 use phparia\Resources\Bridge;
 use phparia\Resources\LiveRecording;
 use phparia\Resources\Playback;

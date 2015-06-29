@@ -19,6 +19,17 @@ namespace phparia\Client;
 
 
 use Devristo\Phpws\Client\WebSocket;
+use phparia\Api\Applications;
+use phparia\Api\Asterisk;
+use phparia\Api\Bridges;
+use phparia\Api\Channels;
+use phparia\Api\DeviceStates;
+use phparia\Api\Endpoints;
+use phparia\Api\Events;
+use phparia\Api\Mailboxes;
+use phparia\Api\Playbacks;
+use phparia\Api\Recordings;
+use phparia\Api\Sounds;
 use phparia\Events\Event;
 use React\EventLoop\LoopInterface;
 use Zend\Log\LoggerInterface;

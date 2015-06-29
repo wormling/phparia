@@ -16,10 +16,11 @@
  * limitations under the License.
  */
 
-namespace phparia\Client;
+namespace phparia\Api;
 
 use Pest_BadRequest;
 use Pest_NotFound;
+use phparia\Client\AriClientAware;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
 use phparia\Resources\Endpoint;

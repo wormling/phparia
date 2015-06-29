@@ -19,6 +19,18 @@
 namespace phparia\Client;
 
 use Devristo\Phpws\Client\WebSocket;
+use Devristo\Phpws\Messaging\WebSocketMessage;
+use phparia\Api\Applications;
+use phparia\Api\Asterisk;
+use phparia\Api\Bridges;
+use phparia\Api\Channels;
+use phparia\Api\DeviceStates;
+use phparia\Api\Endpoints;
+use phparia\Api\Events;
+use phparia\Api\Mailboxes;
+use phparia\Api\Playbacks;
+use phparia\Api\Recordings;
+use phparia\Api\Sounds;
 use phparia\Events\IdentifiableEventInterface;
 use phparia\Events\Message;
 use React\EventLoop\LoopInterface;
@@ -141,7 +153,7 @@ class AriClient
 
         $this->wsClient = new WebSocket($address, $this->eventLoop, $this->logger);
 
-        $this->wsClient->on("message", function ($rawMessage) {
+        $this->wsClient->on("message", function (WebSocketMessage $rawMessage) {
             $message = new Message($rawMessage->getData());
 
             $eventType = '\\phparia\\Events\\'.$message->getType();
@@ -154,7 +166,7 @@ class AriClient
             }
 
             // Emit the general event
-            $this->logger->notice("Emitting    event: {$event->getType()}");
+            $this->logger->notice("Emitting event: {$event->getType()}");
             $this->wsClient->emit($message->getType(), array('event' => $event));
         });
     }

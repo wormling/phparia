@@ -16,8 +16,9 @@
  * limitations under the License.
  */
 
-namespace phparia\Client;
+namespace phparia\Api;
 
+use phparia\Client\AriClientAware;
 use phparia\Resources\Sound;
 
 /**
@@ -27,7 +28,6 @@ use phparia\Resources\Sound;
  */
 class Sounds extends AriClientAware
 {
-    
     /**
      * List all sounds.
      * 
