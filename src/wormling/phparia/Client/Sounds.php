@@ -25,7 +25,7 @@ use phparia\Resources\Sound;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Sounds extends Base
+class Sounds extends AriClientAware
 {
     
     /**

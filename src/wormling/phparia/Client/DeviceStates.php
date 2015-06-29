@@ -29,7 +29,7 @@ use phparia\Resources\DeviceState;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class DeviceStates extends Base
+class DeviceStates extends AriClientAware
 {
 
     /**

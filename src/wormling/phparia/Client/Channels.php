@@ -38,7 +38,7 @@ use phparia\Exception\ServerException;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Channels extends Base
+class Channels extends AriClientAware
 {
     /**
      * List all active channels in Asterisk.

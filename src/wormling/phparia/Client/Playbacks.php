@@ -31,7 +31,7 @@ use phparia\Resources\Playback;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Playbacks extends Base
+class Playbacks extends AriClientAware
 {
     const OPERATION_PAUSE = 'pause';
     const OPERATION_UNPAUSE = 'unpause';

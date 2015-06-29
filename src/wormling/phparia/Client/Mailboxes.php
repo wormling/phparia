@@ -27,7 +27,7 @@ use phparia\Resources\Mailbox;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Mailboxes extends Base
+class Mailboxes extends AriClientAware
 {
 
     /**

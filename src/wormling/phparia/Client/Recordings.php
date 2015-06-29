@@ -30,7 +30,7 @@ use phparia\Resources\StoredRecording;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Recordings extends Base
+class Recordings extends AriClientAware
 {
 
     /**

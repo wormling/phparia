@@ -31,7 +31,7 @@ use phparia\Exception\UnprocessableEntityException;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Events extends Base
+class Events extends AriClientAware
 {
 
     /**

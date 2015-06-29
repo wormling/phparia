@@ -28,7 +28,7 @@ use phparia\Exception\InvalidParameterException;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Asterisk extends Base
+class Asterisk extends AriClientAware
 {
     const INFO_BUILD = 'build';
     const INFO_SYSTEM = 'system';

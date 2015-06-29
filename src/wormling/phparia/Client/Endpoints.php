@@ -29,7 +29,7 @@ use phparia\Resources\Endpoint;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Endpoints extends Base
+class Endpoints extends AriClientAware
 {
 
     /**

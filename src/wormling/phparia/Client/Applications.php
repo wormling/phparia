@@ -33,7 +33,7 @@ use phparia\Resources\Application;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Applications extends Base
+class Applications extends AriClientAware
 {
 
     /**

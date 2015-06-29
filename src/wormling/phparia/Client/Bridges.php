@@ -35,7 +35,7 @@ use phparia\Exception\UnprocessableEntityException;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Bridges extends Base
+class Bridges extends AriClientAware
 {
     /**
      * List all active bridges in Asterisk.
