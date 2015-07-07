@@ -38,6 +38,7 @@ Just add the package "wormling/phparia":
 
 Creating a stasis application
 ---
+```php
     $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
 
     $logger = new \Zend\Log\Logger();
@@ -58,9 +59,11 @@ Creating a stasis application
     });
 
     $this->client->run();
+```
 
 Creating a stasis application and listening for AMI events
 ---
+```php
     $ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name';
     $amiAddress = 'username:password@localhost:5038';
 
@@ -86,6 +89,7 @@ Creating a stasis application and listening for AMI events
     });
 
     $this->client->run();
+```
 
 Documentation
 ---
