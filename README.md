@@ -21,20 +21,23 @@ Breaking Change
 
 Client class has been replaced with Phparia class with renamed methods
 
+```php
     getStasisApplication() => getStasisApplicationName()
     getStasisClient() => getWsClient()
     getStasisLoop() => getEventLoop()
-
+```
 
 Available via Composer
 ---
 Just add the package "wormling/phparia":
 
+```yaml
     {
         "require": {
             "wormling/phparia": "dev-master"
         }
     }
+```
 
 Creating a stasis application
 ---
