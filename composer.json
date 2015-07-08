@@ -15,8 +15,8 @@
         }
     ],
     "autoload": {
-        "psr-0": {
-            "phparia": "src/wormling"
+        "psr-4": {
+            "wormling\\phparia\\": "src/wormling/phparia/"
         }
     },
     "repositories": [
