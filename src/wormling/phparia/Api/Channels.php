@@ -20,10 +20,8 @@ namespace phparia\Api;
 
 use Pest_BadRequest;
 use Pest_Conflict;
-use Pest_InvalidRecord;
 use Pest_NotFound;
 use Pest_ServerError;
-use phparia\Client\AriClientAware;
 use phparia\Exception\UnprocessableEntityException;
 use phparia\Resources\Channel;
 use phparia\Resources\LiveRecording;
@@ -39,11 +37,11 @@ use phparia\Exception\ServerException;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Channels extends AriClientAware
+class Channels extends MediaBase
 {
     /**
      * List all active channels in Asterisk.
-     * 
+     *
      * @return Channel[]
      */
     public function getChannels()
@@ -60,10 +58,10 @@ class Channels extends AriClientAware
     }
 
     /**
-     * Create a new channel (originate). The new channel is created immediately and a snapshot of it 
-     * returned. If a Stasis application is provided it will be automatically subscribed to the originated 
+     * Create a new channel (originate). The new channel is created immediately and a snapshot of it
+     * returned. If a Stasis application is provided it will be automatically subscribed to the originated
      * channel for further events and updates.
-     * 
+     *
      * @param string $endpoint (required) Endpoint to call.
      * @param string $extension The extension to dial after the endpoint answers
      * @param string $context The context to dial after the endpoint answers. If omitted, uses 'default'
@@ -80,8 +78,20 @@ class Channels extends AriClientAware
      * @throws InvalidParameterException
      * @throws ServerException
      */
-    public function createChannel($endpoint, $extension = null, $context = null, $priority = null, $label = null, $app = null, $appArgs = null, $callerId = null, $timeout = null, $channelId = null, $otherChannelId = null, $variables = array())
-    {
+    public function createChannel(
+        $endpoint,
+        $extension = null,
+        $context = null,
+        $priority = null,
+        $label = null,
+        $app = null,
+        $appArgs = null,
+        $callerId = null,
+        $timeout = null,
+        $channelId = null,
+        $otherChannelId = null,
+        $variables = array()
+    ) {
         $uri = '/channels';
         try {
             $response = $this->client->getEndpoint()->post($uri, array(
@@ -109,7 +119,7 @@ class Channels extends AriClientAware
 
     /**
      * Channel details.
-     * 
+     *
      * @param string $channelId
      * @return Channel
      * @throws NotFoundException
@@ -127,10 +137,10 @@ class Channels extends AriClientAware
     }
 
     /**
-     * Create a new channel (originate). The new channel is created immediately and a snapshot of it 
-     * returned. If a Stasis application is provided it will be automatically subscribed to the originated 
+     * Create a new channel (originate). The new channel is created immediately and a snapshot of it
+     * returned. If a Stasis application is provided it will be automatically subscribed to the originated
      * channel for further events and updates.
-     * 
+     *
      * @param string $endpoint (required) Endpoint to call.
      * @param string $extension The extension to dial after the endpoint answers
      * @param string $context The context to dial after the endpoint answers. If omitted, uses 'default'
@@ -145,8 +155,19 @@ class Channels extends AriClientAware
      * @return Channel
      * @throws InvalidParameterException
      */
-    public function createChannelWithId($endpoint, $extension = null, $context = null, $priority = null, $app = null, $appArgs = null, $callerId = null, $timeout = null, $channelId = null, $otherChannelId = null, $variables = array())
-    {
+    public function createChannelWithId(
+        $endpoint,
+        $extension = null,
+        $context = null,
+        $priority = null,
+        $app = null,
+        $appArgs = null,
+        $callerId = null,
+        $timeout = null,
+        $channelId = null,
+        $otherChannelId = null,
+        $variables = array()
+    ) {
         $uri = "/channels/$channelId";
         try {
             $response = $this->client->getEndpoint()->post($uri, array(
@@ -170,7 +191,7 @@ class Channels extends AriClientAware
 
     /**
      * Delete (i.e. hangup) a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      */
@@ -186,7 +207,7 @@ class Channels extends AriClientAware
 
     /**
      * Hangup a channel if it still exists.
-     * 
+     *
      * @param string $channelId Channel's id
      */
     public function hangup($channelId)
@@ -200,7 +221,7 @@ class Channels extends AriClientAware
 
     /**
      * Exit application; continue execution in the dialplan.
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $context The context to continue to.
      * @param string $extension The extension to continue to.
@@ -226,7 +247,7 @@ class Channels extends AriClientAware
 
     /**
      * Answer a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      * @throws ConflictException
@@ -245,7 +266,7 @@ class Channels extends AriClientAware
 
     /**
      * Indicate ringing to a channel.
-     * 
+     *
      * @param string $channelId
      * @throws NotFoundException
      * @throws ConflictException
@@ -264,7 +285,7 @@ class Channels extends AriClientAware
 
     /**
      * Stop ringing indication on a channel if locally generated.
-     * 
+     *
      * @param string $channelId
      * @throws NotFoundException
      * @throws ConflictException
@@ -283,7 +304,7 @@ class Channels extends AriClientAware
 
     /**
      * Send provided DTMF to a given channel.
-     * 
+     *
      * @param string $channelId
      * @param string $dtmf DTMF To send.
      * @param int $before Amount of time to wait before DTMF digits (specified in milliseconds) start.
@@ -316,7 +337,7 @@ class Channels extends AriClientAware
 
     /**
      * Mute a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $direction (default both) Direction in which to mute audio.  Allowed values: both, in, out
      * @throws NotFoundException
@@ -338,7 +359,7 @@ class Channels extends AriClientAware
 
     /**
      * Unmute a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $direction (default both) Direction in which to unmute audio
      * @throws NotFoundException
@@ -346,7 +367,7 @@ class Channels extends AriClientAware
      */
     public function unmute($channelId, $direction)
     {
-        $uri = "/channels/$channelId/mute?direction=" . $this->client->getEndpoint()->jsonEncode($direction);
+        $uri = "/channels/$channelId/mute?direction=".$this->client->getEndpoint()->jsonEncode($direction);
         try {
             $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
@@ -358,7 +379,7 @@ class Channels extends AriClientAware
 
     /**
      * Hold a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      * @throws ConflictException
@@ -377,7 +398,7 @@ class Channels extends AriClientAware
 
     /**
      * Remove a channel from hold.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      * @throws ConflictException
@@ -395,10 +416,10 @@ class Channels extends AriClientAware
     }
 
     /**
-     * Play music on hold to a channel. Using media operations such as /play on a channel playing MOH in 
-     * this manner will suspend MOH without resuming automatically. If continuing music on hold is 
+     * Play music on hold to a channel. Using media operations such as /play on a channel playing MOH in
+     * this manner will suspend MOH without resuming automatically. If continuing music on hold is
      * desired, the stasis application must reinitiate music on hold.
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $mohClass Music on hold class to use
      * @throws NotFoundException
@@ -406,40 +427,24 @@ class Channels extends AriClientAware
      */
     public function startMusicOnHold($channelId, $mohClass)
     {
-        $uri = "/channels/$channelId/moh";
-        try {
-            $this->client->getEndpoint()->post($uri, array(
-                'mohClass' => $mohClass,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
-        }
+        parent::startMusicOnHold($channelId, $mohClass);
     }
 
     /**
      * Stop playing music on hold to a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      * @throws ConflictException
      */
     public function stopMusicOnHold($channelId)
     {
-        $uri = "/channels/$channelId/moh";
-        try {
-            $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
-        }
+        parent::stopMusicOnHold($channelId);
     }
 
     /**
      * Play silence to a channel. Using media operations such as /play on a channel playing silence in this manner will suspend silence without resuming automatically.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      * @throws ConflictException
@@ -458,7 +463,7 @@ class Channels extends AriClientAware
 
     /**
      * Stop playing silence to a channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @throws NotFoundException
      * @throws ConflictException
@@ -476,13 +481,13 @@ class Channels extends AriClientAware
     }
 
     /**
-     * Start playback of media. The media URI may be any of a number of URI's. Currently sound:, 
-     * recording:, number:, digits:, characters:, and tone: URI's are supported. This operation creates a 
-     * playback resource that can be used to control the playback of media (pause, rewind, fast forward, 
+     * Start playback of media. The media URI may be any of a number of URI's. Currently sound:,
+     * recording:, number:, digits:, characters:, and tone: URI's are supported. This operation creates a
+     * playback resource that can be used to control the playback of media (pause, rewind, fast forward,
      * etc.)
-     * 
+     *
      * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $media (required) Media's URI to play.
      * @param string $lang For sounds, selects language for sound.
@@ -495,32 +500,16 @@ class Channels extends AriClientAware
      */
     public function playMedia($channelId, $media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
     {
-        $uri = "/channels/$channelId/play";
-
-        try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'media' => $media,
-                'lang' => $lang,
-                'offsetms' => $offsetms,
-                'skipms' => $skipms,
-                'playbackId' => $playbackId,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
-        }
-
-        return new Playback($this->client, $response);
+        return parent::playMedia($channelId, $media, $lang, $offsetms, $skipms, $playbackId);
     }
 
     /**
-     * Start playback of media and specify the playbackId. The media URI may be any of a number of URI's. 
-     * Currently sound: and recording: URI's are supported. This operation creates a playback resource 
+     * Start playback of media and specify the playbackId. The media URI may be any of a number of URI's.
+     * Currently sound: and recording: URI's are supported. This operation creates a playback resource
      * that can be used to control the playback of media (pause, rewind, fast forward, etc.)
-     * 
+     *
      * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $media (required) Media's URI to play.
      * @param string $lang For sounds, selects language for sound.
@@ -531,36 +520,28 @@ class Channels extends AriClientAware
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function playMediaWithId($channelId, $media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
-    {
-        $uri = "/channels/$channelId/play/$playbackId";
-        try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'media' => $media,
-                'lang' => $lang,
-                'offsetms' => $offsetms,
-                'skipms' => $skipms,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
-        }
-
-        return new Playback($this->client, $response);
+    public function playMediaWithId(
+        $channelId,
+        $media,
+        $lang = null,
+        $offsetms = null,
+        $skipms = null,
+        $playbackId = null
+    ) {
+        return parent::playMediaWithId($channelId, $media, $lang, $offsetms, $skipms, $playbackId);
     }
 
     /**
-     * Start a recording. Record audio from a channel. Note that this will not capture audio sent to the 
+     * Start a recording. Record audio from a channel. Note that this will not capture audio sent to the
      * channel. The bridge itself has a record feature if that's what you want.
-     * 
+     *
      * @param string $channelId
      * @param string $name (required) Recording's filename
      * @param string $format (required) Format to encode audio in
      * @param int $maxDurationSeconds Maximum duration of the recording, in seconds. 0 for no limit
      * @param int $maxSilenceSeconds Maximum duration of silence, in seconds. 0 for no limit
      * @param string $ifExists = fail - Action to take if a recording with the same name already exists.
-     * @param boolean $beep  string = fail - Action to take if a recording with the same name already exists.
+     * @param boolean $beep string = fail - Action to take if a recording with the same name already exists.
      * @param string $terminateOn none - DTMF input to terminate recording
      * @return LiveRecording
      * @throws InvalidParameterException
@@ -568,30 +549,18 @@ class Channels extends AriClientAware
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
-    public function record($channelId, $name, $format, $maxDurationSeconds = null, $maxSilenceSeconds = null, $ifExists = null, $beep = null, $terminateOn = null)
-    {
-        $uri = "/channels/$channelId/record";
-        try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'name' => $name,
-                'format' => $format,
-                'maxDurationSeconds' => $maxDurationSeconds,
-                'maxSilenceSeconds' => $maxSilenceSeconds,
-                'ifExists' => $ifExists,
-                'beep' => $beep,
-                'terminateOn' => $terminateOn,
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Channel is not in a Stasis application; A recording with the same name already exists on the system and can not be overwritten because it is in progress or ifExists=fail
-            throw new ConflictException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
-            throw new UnprocessableEntityException($e);
-        }
-
-        return new LiveRecording($this->client, $response);
+    public function record(
+        $channelId,
+        $name,
+        $format,
+        $maxDurationSeconds = null,
+        $maxSilenceSeconds = null,
+        $ifExists = null,
+        $beep = null,
+        $terminateOn = null
+    ) {
+        return parent::record($channelId, $name, $format, $maxDurationSeconds, $maxSilenceSeconds,
+            $ifExists, $beep, $terminateOn);
     }
 
     /**
@@ -628,7 +597,7 @@ class Channels extends AriClientAware
 
     /**
      * Set the value of a channel variable or function.
-     * 
+     *
      * @param string $channelId
      * @param string $variable
      * @param string $value
@@ -658,7 +627,7 @@ class Channels extends AriClientAware
 
     /**
      * Start snooping. Snoop (spy/whisper) on a specific channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $spy (default none) Direction of audio to spy on
      * @param string $whisper (default none) Direction of audio to whisper into
@@ -691,7 +660,7 @@ class Channels extends AriClientAware
 
     /**
      * Start snooping. Snoop (spy/whisper) on a specific channel.
-     * 
+     *
      * @param string $channelId Channel's id
      * @param string $spy (default none) Direction of audio to spy on
      * @param string $whisper (default none) Direction of audio to whisper into
@@ -721,4 +690,11 @@ class Channels extends AriClientAware
         return new Channel($this->client, $response);
     }
 
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return 'channels';
+    }
 }
