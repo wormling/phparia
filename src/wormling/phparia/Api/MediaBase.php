@@ -40,7 +40,7 @@ abstract class MediaBase extends AriClientAware
     /**
      * @return string 'channels' or 'bridges'
      */
-    public abstract function getType();
+    abstract public function getType();
 
     /**
      * Play music on hold to a channel. Using media operations such as /play on a channel playing MOH in
