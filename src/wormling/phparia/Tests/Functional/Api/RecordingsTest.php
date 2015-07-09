@@ -20,7 +20,7 @@ namespace {
                 $this->client->bridges()->startMusicOnHold('BRIDGE_1_ID', 'default');
                 $this->client->bridges()->record('BRIDGE_1_ID', 'recording_1', 'wav', null, null, 'overwrite');
                 $this->client->bridges()->record('BRIDGE_1_ID', 'recording_2', 'wav', null, null, 'overwrite');
-                sleep(1);
+                sleep(2);
                 $this->client->bridges()->deleteBridge('BRIDGE_1_ID');
                 $success = true;
                 $this->client->stop();
@@ -75,6 +75,7 @@ namespace {
             $this->client->recordings()->copyRecording('recording_2', 'recording_3');
             $recording = $this->client->recordings()->getRecording('recording_3');
             $this->assertTrue(strtolower($recording->getName()) === 'recording_3');
+            $this->client->recordings()->deleteRecording('recording_3');
         }
     }
 }
