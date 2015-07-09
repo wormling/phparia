@@ -52,7 +52,7 @@ abstract class MediaBase extends AriClientAware
      * @throws NotFoundException
      * @throws ConflictException
      */
-    protected function startMusicOnHold($id, $mohClass)
+    public function startMusicOnHold($id, $mohClass)
     {
         $uri = "/{$this->getType()}/$id/moh";
         try {
@@ -73,7 +73,7 @@ abstract class MediaBase extends AriClientAware
      * @throws NotFoundException
      * @throws ConflictException
      */
-    protected function stopMusicOnHold($id)
+    public function stopMusicOnHold($id)
     {
         $uri = "/{$this->getType()}/$id/moh";
         try {
@@ -103,7 +103,7 @@ abstract class MediaBase extends AriClientAware
      * @throws NotFoundException
      * @throws ConflictException
      */
-    protected function playMedia($id, $media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
+    public function playMedia($id, $media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
     {
         $uri = "/{$this->getType()}/$id/play";
 
@@ -141,7 +141,7 @@ abstract class MediaBase extends AriClientAware
      * @throws NotFoundException
      * @throws ConflictException
      */
-    protected function playMediaWithId(
+    public function playMediaWithId(
         $id,
         $media,
         $lang = null,
@@ -184,7 +184,7 @@ abstract class MediaBase extends AriClientAware
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
-    protected function record(
+    public function record(
         $id,
         $name,
         $format,
