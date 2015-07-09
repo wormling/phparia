@@ -170,7 +170,7 @@ abstract class MediaBase extends AriClientAware
      * Start a recording. Record audio from a channel. Note that this will not capture audio sent to the
      * channel. The bridge itself has a record feature if that's what you want.
      *
-     * @param string $id
+     * @param string $id Channel/Bridge ID
      * @param string $name (required) Recording's filename
      * @param string $format (required) Format to encode audio in
      * @param int $maxDurationSeconds Maximum duration of the recording, in seconds. 0 for no limit
