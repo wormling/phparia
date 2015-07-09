@@ -416,33 +416,6 @@ class Channels extends MediaBase
     }
 
     /**
-     * Play music on hold to a channel. Using media operations such as /play on a channel playing MOH in
-     * this manner will suspend MOH without resuming automatically. If continuing music on hold is
-     * desired, the stasis application must reinitiate music on hold.
-     *
-     * @param string $channelId Channel's id
-     * @param string $mohClass Music on hold class to use
-     * @throws NotFoundException
-     * @throws ConflictException
-     */
-    public function startMusicOnHold($channelId, $mohClass)
-    {
-        parent::startMusicOnHold($channelId, $mohClass);
-    }
-
-    /**
-     * Stop playing music on hold to a channel.
-     *
-     * @param string $channelId Channel's id
-     * @throws NotFoundException
-     * @throws ConflictException
-     */
-    public function stopMusicOnHold($channelId)
-    {
-        parent::stopMusicOnHold($channelId);
-    }
-
-    /**
      * Play silence to a channel. Using media operations such as /play on a channel playing silence in this manner will suspend silence without resuming automatically.
      *
      * @param string $channelId Channel's id
@@ -478,89 +451,6 @@ class Channels extends MediaBase
         } catch (Pest_Conflict $e) {
             throw new ConflictException($e);
         }
-    }
-
-    /**
-     * Start playback of media. The media URI may be any of a number of URI's. Currently sound:,
-     * recording:, number:, digits:, characters:, and tone: URI's are supported. This operation creates a
-     * playback resource that can be used to control the playback of media (pause, rewind, fast forward,
-     * etc.)
-     *
-     * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     *
-     * @param string $channelId Channel's id
-     * @param string $media (required) Media's URI to play.
-     * @param string $lang For sounds, selects language for sound.
-     * @param int $offsetms Number of media to skip before playing.
-     * @param int $skipms (3000 default) Number of milliseconds to skip for forward/reverse operations.
-     * @param string $playbackId Playback Id.
-     * @return Playback
-     * @throws NotFoundException
-     * @throws ConflictException
-     */
-    public function playMedia($channelId, $media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
-    {
-        return parent::playMedia($channelId, $media, $lang, $offsetms, $skipms, $playbackId);
-    }
-
-    /**
-     * Start playback of media and specify the playbackId. The media URI may be any of a number of URI's.
-     * Currently sound: and recording: URI's are supported. This operation creates a playback resource
-     * that can be used to control the playback of media (pause, rewind, fast forward, etc.)
-     *
-     * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     *
-     * @param string $channelId Channel's id
-     * @param string $media (required) Media's URI to play.
-     * @param string $lang For sounds, selects language for sound.
-     * @param int $offsetms Number of media to skip before playing.
-     * @param int $skipms (3000 default) Number of milliseconds to skip for forward/reverse operations.
-     * @param string $playbackId Playback Id.
-     * @return Playback
-     * @throws NotFoundException
-     * @throws ConflictException
-     */
-    public function playMediaWithId(
-        $channelId,
-        $media,
-        $lang = null,
-        $offsetms = null,
-        $skipms = null,
-        $playbackId = null
-    ) {
-        return parent::playMediaWithId($channelId, $media, $lang, $offsetms, $skipms, $playbackId);
-    }
-
-    /**
-     * Start a recording. Record audio from a channel. Note that this will not capture audio sent to the
-     * channel. The bridge itself has a record feature if that's what you want.
-     *
-     * @param string $channelId
-     * @param string $name (required) Recording's filename
-     * @param string $format (required) Format to encode audio in
-     * @param int $maxDurationSeconds Maximum duration of the recording, in seconds. 0 for no limit
-     * @param int $maxSilenceSeconds Maximum duration of silence, in seconds. 0 for no limit
-     * @param string $ifExists = fail - Action to take if a recording with the same name already exists.
-     * @param boolean $beep string = fail - Action to take if a recording with the same name already exists.
-     * @param string $terminateOn none - DTMF input to terminate recording
-     * @return LiveRecording
-     * @throws InvalidParameterException
-     * @throws NotFoundException
-     * @throws ConflictException
-     * @throws UnprocessableEntityException
-     */
-    public function record(
-        $channelId,
-        $name,
-        $format,
-        $maxDurationSeconds = null,
-        $maxSilenceSeconds = null,
-        $ifExists = null,
-        $beep = null,
-        $terminateOn = null
-    ) {
-        return parent::record($channelId, $name, $format, $maxDurationSeconds, $maxSilenceSeconds,
-            $ifExists, $beep, $terminateOn);
     }
 
     /**
