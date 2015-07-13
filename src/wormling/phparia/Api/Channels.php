@@ -315,7 +315,7 @@ class Channels extends MediaBase
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function sendDtmf($channelId, $dtmf, $before, $between, $duration, $after)
+    public function sendDtmf($channelId, $dtmf, $before = null, $between = null, $duration = null, $after = null)
     {
         $uri = "/channels/$channelId/dtmf";
         try {
