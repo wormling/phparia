@@ -446,7 +446,7 @@ class Channel extends Resource
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function sendDtmf($dtmf, $before, $between, $duration, $after)
+    public function sendDtmf($dtmf, $before = null, $between = null, $duration = null, $after = null)
     {
         $this->client->channels()->sendDtmf($this->id, $dtmf, $before, $between, $duration, $after);
     }
