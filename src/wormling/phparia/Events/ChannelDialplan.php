@@ -51,6 +51,22 @@ class ChannelDialplan extends Event implements IdentifiableEventInterface
         return $this->channel;
     }
 
+    /**
+     * @return string The application about to be executed.
+     */
+    public function getDialplanApp()
+    {
+        return $this->dialplanApp;
+    }
+
+    /**
+     * @return string The data to be passed to the application.
+     */
+    public function getDialplanAppData()
+    {
+        return $this->dialplanAppData;
+    }
+
     public function getEventId()
     {
         return "{$this->getType()}_{$this->getChannel()->getId()}";
