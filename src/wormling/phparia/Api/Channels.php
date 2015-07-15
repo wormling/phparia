@@ -145,6 +145,7 @@ class Channels extends MediaBase
      * @param string $extension The extension to dial after the endpoint answers
      * @param string $context The context to dial after the endpoint answers. If omitted, uses 'default'
      * @param int $priority The priority to dial after the endpoint answers. If omitted, uses 1
+     * @param string $label Asterisk 13+ The label to dial after the endpoint answers. Will supersede 'priority' if provided. Mutually exclusive with 'app'.
      * @param string $app The application that is subscribed to the originated channel, and passed to the Stasis application.
      * @param string $appArgs The application arguments to pass to the Stasis application.
      * @param string $callerId CallerID to use when dialing the endpoint or extension.
@@ -160,6 +161,7 @@ class Channels extends MediaBase
         $extension = null,
         $context = null,
         $priority = null,
+        $label = null,
         $app = null,
         $appArgs = null,
         $callerId = null,
@@ -175,6 +177,7 @@ class Channels extends MediaBase
                 'extension' => $extension,
                 'context' => $context,
                 'priority' => $priority,
+                'label' => $label,
                 'app' => $app,
                 'appArgs' => $appArgs,
                 'callerId' => $callerId,
