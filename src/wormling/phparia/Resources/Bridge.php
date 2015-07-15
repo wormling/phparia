@@ -86,7 +86,7 @@ class Bridge extends Resource
 
     /**
      * @todo Should this be renamed to getChannelIds()?
-     * @return Channel[] Ids of channels participating in this bridge
+     * @return array Ids of channels participating in this bridge
      */
     public function getChannels()
     {
