@@ -437,11 +437,11 @@ class Channel extends Resource
     /**
      * Send provided DTMF to a given channel.
      * 
-     * @param string $dtmf
-     * @param int $before
-     * @param int $between
-     * @param int $duration
-     * @param int $after
+     * @param string $dtmf DTMF To send.
+     * @param int $before Amount of time to wait before DTMF digits (specified in milliseconds) start.
+     * @param int $between Amount of time in between DTMF digits (specified in milliseconds).  Default: 100
+     * @param int $duration Length of each DTMF digit (specified in milliseconds).  Default: 100
+     * @param int $after Amount of time to wait after DTMF digits (specified in milliseconds) end.
      * @throws InvalidParameterException
      * @throws NotFoundException
      * @throws ConflictException
