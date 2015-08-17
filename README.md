@@ -8,24 +8,11 @@ Framework for creating Asterisk 12/13 ARI applications.  (https://wiki.asterisk.
 Features
 ---
 
-* Full support for Asterisk 12/13 ARI
+* Full Asterisk REST Interface support (Tested with 12 and 13)
 * Event system at the client and resource level
 * Optional basic AMI event/action support
 * Verbose for ease of use
 * Partial functional tests TODO!
-
-Breaking Change
----
-
-1.X to 2.X
-
-Client class has been replaced with Phparia class with renamed methods
-
-```php
-    getStasisApplication() => getStasisApplicationName()
-    getStasisClient() => getWsClient()
-    getStasisLoop() => getEventLoop()
-```
 
 Available via Composer
 ---
