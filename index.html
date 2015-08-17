@@ -34,13 +34,15 @@
         <h1>
 <a id="phparia---php-ari-api" class="anchor" href="#phparia---php-ari-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>phparia - PHP ARI API</h1>
 
-<p>Framework for creating Asterisk 12/13 ARI applications.  (<a href="https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI">https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI</a>)</p>
+<p><a href="https://packagist.org/packages/wormling/phparia"><img src="https://img.shields.io/packagist/v/wormling/phparia.svg" alt="Latest Stable Version"></a> <a href="https://travis-ci.org/wormling/phparia"><img src="http://img.shields.io/travis/wormling/phparia.svg?branch=master" alt="Build Status"></a> <a href="https://scrutinizer-ci.com/g/wormling/phparia/?branch=master"><img src="https://scrutinizer-ci.com/g/wormling/phparia/badges/coverage.png?b=master" alt="Code Coverage"></a> <a href="https://scrutinizer-ci.com/g/wormling/phparia/"><img src="http://img.shields.io/scrutinizer/g/wormling/phparia.svg" alt="Scrutinizer Quality Score"></a> <a href="https://www.versioneye.com/user/projects/558fd8a5316338001a000515"><img src="https://www.versioneye.com/user/projects/558fd8a5316338001a000515/badge.svg?style=flat" alt="Dependency Status"></a><a href="http://www.apache.org/licenses/LICENSE-2.0"><img src="https://img.shields.io/github/license/wormling/phparia.svg" alt="License"></a></p>
+
+<p>Framework for creating Asterisk 12/13 ARI applications.  (<a href="https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI">https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI</a> </p>
 
 <h2>
 <a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
 
 <ul>
-<li>Full support for Asterisk 12/13 ARI</li>
+<li>Full Asterisk REST Interface support (Tested with 12 and 13)</li>
 <li>Event system at the client and resource level</li>
 <li>Optional basic AMI event/action support</li>
 <li>Verbose for ease of use</li>
@@ -48,88 +50,73 @@
 </ul>
 
 <h2>
-<a id="breaking-change" class="anchor" href="#breaking-change" aria-hidden="true"><span class="octicon octicon-link"></span></a>Breaking Change</h2>
-
-<p>1.X to 2.X</p>
-
-<p>Client class has been replaced with Phparia class with renamed methods</p>
-
-<pre><code>getStasisApplication() =&gt; getStasisApplicationName()
-getStasisClient() =&gt; getWsClient()
-getStasisLoop() =&gt; getEventLoop()
-</code></pre>
-
-<h2>
 <a id="available-via-composer" class="anchor" href="#available-via-composer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available via Composer</h2>
 
 <p>Just add the package "wormling/phparia":</p>
 
-<pre><code>{
-    "require": {
-        "wormling/phparia": "dev-master"
-    }
-}
-</code></pre>
+<div class="highlight highlight-yaml"><pre>    {
+        <span class="pl-s"><span class="pl-ent">"require":</span> <span class="pl-s">{</span></span>
+            <span class="pl-s"><span class="pl-ent">"wormling/phparia":</span> <span class="pl-s"><span class="pl-pds">"</span>dev-master<span class="pl-pds">"</span></span></span>
+        }
+    }</pre></div>
 
 <h2>
 <a id="creating-a-stasis-application" class="anchor" href="#creating-a-stasis-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a stasis application</h2>
 
-<pre><code>$ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name';
-
-$logger = new \Zend\Log\Logger();
-$logWriter = new \Zend\Log\Writer\Stream("php://output");
-$logger-&gt;addWriter($logWriter);
-//$filter = new \Zend\Log\Filter\SuppressFilter(true);
-$filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
-$logWriter-&gt;addFilter($filter);
-
-$this-&gt;client = new \phparia\Client\Phparia($logger);
-$this-&gt;client-&gt;connect($ariAddress);
-$this-&gt;client-&gt;onStasisStart(function(StasisStart $event) {
-    $channel = $event-&gt;getChannel();
-    $bridge = $this-&gt;client-&gt;bridges()-&gt;createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
-    $this-&gt;client-&gt;bridges()-&gt;addChannel($bridge-&gt;getId(), $channel-&gt;getId(), null);
-
-    ...
-});
-
-$this-&gt;client-&gt;run();
-</code></pre>
+<div class="highlight highlight-php"><pre><span class="pl-s1">    <span class="pl-smi">$ariAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$logger</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\</span><span class="pl-c1">Logger</span>();</span>
+<span class="pl-s1">    <span class="pl-smi">$logWriter</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\Writer\</span><span class="pl-c1">Stream</span>(<span class="pl-s"><span class="pl-pds">"</span>php://output<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$logger</span><span class="pl-k">-&gt;</span>addWriter(<span class="pl-smi">$logWriter</span>);</span>
+<span class="pl-s1">    <span class="pl-c">//$filter = new \Zend\Log\Filter\SuppressFilter(true);</span></span>
+<span class="pl-s1">    <span class="pl-smi">$filter</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\Filter\</span><span class="pl-c1">Priority</span>(<span class="pl-c1">\Zend\Log\</span><span class="pl-c1">Logger</span><span class="pl-k">::</span><span class="pl-c1">NOTICE</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$logWriter</span><span class="pl-k">-&gt;</span>addFilter(<span class="pl-smi">$filter</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\phparia\Client\</span><span class="pl-c1">Phparia</span>(<span class="pl-smi">$logger</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>connect(<span class="pl-smi">$ariAddress</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>onStasisStart(<span class="pl-k">function</span>(<span class="pl-c1">StasisStart</span> <span class="pl-smi">$event</span>) {</span>
+<span class="pl-s1">        <span class="pl-smi">$channel</span> <span class="pl-k">=</span> <span class="pl-smi">$event</span><span class="pl-k">-&gt;</span>getChannel();</span>
+<span class="pl-s1">        <span class="pl-smi">$bridge</span> <span class="pl-k">=</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>bridges()<span class="pl-k">-&gt;</span>createBridge(<span class="pl-c1">uniqid</span>(), <span class="pl-s"><span class="pl-pds">'</span>dtmf_events, mixing<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bridgename<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>bridges()<span class="pl-k">-&gt;</span>addChannel(<span class="pl-smi">$bridge</span><span class="pl-k">-&gt;</span>getId(), <span class="pl-smi">$channel</span><span class="pl-k">-&gt;</span>getId(), <span class="pl-c1">null</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-k">...</span></span>
+<span class="pl-s1">    });</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>run();</span></pre></div>
 
 <h2>
 <a id="creating-a-stasis-application-and-listening-for-ami-events" class="anchor" href="#creating-a-stasis-application-and-listening-for-ami-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a stasis application and listening for AMI events</h2>
 
-<pre><code>$ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name';
-$amiAddress = 'username:password@localhost:5038';
-
-$logger = new \Zend\Log\Logger();
-$logWriter = new \Zend\Log\Writer\Stream("php://output");
-$logger-&gt;addWriter($logWriter);
-//$filter = new \Zend\Log\Filter\SuppressFilter(true);
-$filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
-$logWriter-&gt;addFilter($filter);
-
-$this-&gt;client = new \phparia\Client\Phparia($logger);
-$this-&gt;client-&gt;connect($ariAddress, $amiAddress);
-$this-&gt;client-&gt;onStasisStart(function(StasisStart $event) {
-    $channel = $event-&gt;getChannel();
-    $bridge = $this-&gt;client-&gt;bridges()-&gt;createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
-    $this-&gt;client-&gt;bridges()-&gt;addChannel($bridge-&gt;getId(), $channel-&gt;getId(), null);
-
-    $this-&gt;client-&gt;getWsClient()-&gt;on('SomeAMIEventName', function($event) {
-        ...
-    });
-
-    ...
-});
-
-$this-&gt;client-&gt;run();
-</code></pre>
+<div class="highlight highlight-php"><pre><span class="pl-s1">    <span class="pl-smi">$ariAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1">    <span class="pl-smi">$amiAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>username:password@localhost:5038<span class="pl-pds">'</span></span>;</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$logger</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\</span><span class="pl-c1">Logger</span>();</span>
+<span class="pl-s1">    <span class="pl-smi">$logWriter</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\Writer\</span><span class="pl-c1">Stream</span>(<span class="pl-s"><span class="pl-pds">"</span>php://output<span class="pl-pds">"</span></span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$logger</span><span class="pl-k">-&gt;</span>addWriter(<span class="pl-smi">$logWriter</span>);</span>
+<span class="pl-s1">    <span class="pl-c">//$filter = new \Zend\Log\Filter\SuppressFilter(true);</span></span>
+<span class="pl-s1">    <span class="pl-smi">$filter</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\Filter\</span><span class="pl-c1">Priority</span>(<span class="pl-c1">\Zend\Log\</span><span class="pl-c1">Logger</span><span class="pl-k">::</span><span class="pl-c1">NOTICE</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$logWriter</span><span class="pl-k">-&gt;</span>addFilter(<span class="pl-smi">$filter</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\phparia\Client\</span><span class="pl-c1">Phparia</span>(<span class="pl-smi">$logger</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>connect(<span class="pl-smi">$ariAddress</span>, <span class="pl-smi">$amiAddress</span>);</span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>onStasisStart(<span class="pl-k">function</span>(<span class="pl-c1">StasisStart</span> <span class="pl-smi">$event</span>) {</span>
+<span class="pl-s1">        <span class="pl-smi">$channel</span> <span class="pl-k">=</span> <span class="pl-smi">$event</span><span class="pl-k">-&gt;</span>getChannel();</span>
+<span class="pl-s1">        <span class="pl-smi">$bridge</span> <span class="pl-k">=</span> <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>bridges()<span class="pl-k">-&gt;</span>createBridge(<span class="pl-c1">uniqid</span>(), <span class="pl-s"><span class="pl-pds">'</span>dtmf_events, mixing<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>bridgename<span class="pl-pds">'</span></span>);</span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>bridges()<span class="pl-k">-&gt;</span>addChannel(<span class="pl-smi">$bridge</span><span class="pl-k">-&gt;</span>getId(), <span class="pl-smi">$channel</span><span class="pl-k">-&gt;</span>getId(), <span class="pl-c1">null</span>);</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>getWsClient()<span class="pl-k">-&gt;</span>on(<span class="pl-s"><span class="pl-pds">'</span>SomeAMIEventName<span class="pl-pds">'</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">$event</span>) {</span>
+<span class="pl-s1">            <span class="pl-k">...</span></span>
+<span class="pl-s1">        });</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">        <span class="pl-k">...</span></span>
+<span class="pl-s1">    });</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-smi">$this</span><span class="pl-k">-&gt;</span><span class="pl-smi">client</span><span class="pl-k">-&gt;</span>run();</span></pre></div>
 
 <h2>
 <a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
 
-<p>You will find wrappers for (<a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI">https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI</a>) in the Client folder.</p>
+<p>You will find wrappers for (<a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI">https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI</a>) in the Api folder.</p>
 
 <p>You will find wrappers for (<a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models">https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models</a>) in the Resources and Events folders.</p>
 
