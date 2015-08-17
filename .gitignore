@@ -5,3 +5,5 @@
 /composer.phar
 /nbproject
 /src/wormling/phparia/config.yml
+/build/
+/coverage/
