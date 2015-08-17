@@ -12,7 +12,7 @@ abstract class PhpariaTestCase extends PHPUnit_Framework_TestCase
     /**
      * @var Phparia
      */
-    protected $client = null;
+    protected $client;
 
     /**
      * @var string
@@ -53,6 +53,4 @@ abstract class PhpariaTestCase extends PHPUnit_Framework_TestCase
         $this->client = new Phparia($this->logger);
         $this->client->connect($this->ariAddress, $this->amiAddress);
     }
-
-
 }
