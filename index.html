@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Phparia : PHP ARI API">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Phparia</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/wormling/phparia">View on GitHub</a>
+
+          <h1 id="project_title">Phparia</h1>
+          <h2 id="project_tagline">PHP ARI API</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/wormling/phparia/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/wormling/phparia/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="phparia---php-ari-api" class="anchor" href="#phparia---php-ari-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>phparia - PHP ARI API</h1>
+
+<p>Framework for creating Asterisk 12/13 ARI applications.  (<a href="https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI">https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI</a>)</p>
+
+<h2>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Full support for Asterisk 12/13 ARI</li>
+<li>Event system at the client and resource level</li>
+<li>Optional basic AMI event/action support</li>
+<li>Verbose for ease of use</li>
+<li>Partial functional tests TODO!</li>
+</ul>
+
+<h2>
+<a id="breaking-change" class="anchor" href="#breaking-change" aria-hidden="true"><span class="octicon octicon-link"></span></a>Breaking Change</h2>
+
+<p>1.X to 2.X</p>
+
+<p>Client class has been replaced with Phparia class with renamed methods</p>
+
+<pre><code>getStasisApplication() =&gt; getStasisApplicationName()
+getStasisClient() =&gt; getWsClient()
+getStasisLoop() =&gt; getEventLoop()
+</code></pre>
+
+<h2>
+<a id="available-via-composer" class="anchor" href="#available-via-composer" aria-hidden="true"><span class="octicon octicon-link"></span></a>Available via Composer</h2>
+
+<p>Just add the package "wormling/phparia":</p>
+
+<pre><code>{
+    "require": {
+        "wormling/phparia": "dev-master"
+    }
+}
+</code></pre>
+
+<h2>
+<a id="creating-a-stasis-application" class="anchor" href="#creating-a-stasis-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a stasis application</h2>
+
+<pre><code>$ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name';
+
+$logger = new \Zend\Log\Logger();
+$logWriter = new \Zend\Log\Writer\Stream("php://output");
+$logger-&gt;addWriter($logWriter);
+//$filter = new \Zend\Log\Filter\SuppressFilter(true);
+$filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+$logWriter-&gt;addFilter($filter);
+
+$this-&gt;client = new \phparia\Client\Phparia($logger);
+$this-&gt;client-&gt;connect($ariAddress);
+$this-&gt;client-&gt;onStasisStart(function(StasisStart $event) {
+    $channel = $event-&gt;getChannel();
+    $bridge = $this-&gt;client-&gt;bridges()-&gt;createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
+    $this-&gt;client-&gt;bridges()-&gt;addChannel($bridge-&gt;getId(), $channel-&gt;getId(), null);
+
+    ...
+});
+
+$this-&gt;client-&gt;run();
+</code></pre>
+
+<h2>
+<a id="creating-a-stasis-application-and-listening-for-ami-events" class="anchor" href="#creating-a-stasis-application-and-listening-for-ami-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a stasis application and listening for AMI events</h2>
+
+<pre><code>$ariAddress = 'ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name';
+$amiAddress = 'username:password@localhost:5038';
+
+$logger = new \Zend\Log\Logger();
+$logWriter = new \Zend\Log\Writer\Stream("php://output");
+$logger-&gt;addWriter($logWriter);
+//$filter = new \Zend\Log\Filter\SuppressFilter(true);
+$filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+$logWriter-&gt;addFilter($filter);
+
+$this-&gt;client = new \phparia\Client\Phparia($logger);
+$this-&gt;client-&gt;connect($ariAddress, $amiAddress);
+$this-&gt;client-&gt;onStasisStart(function(StasisStart $event) {
+    $channel = $event-&gt;getChannel();
+    $bridge = $this-&gt;client-&gt;bridges()-&gt;createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
+    $this-&gt;client-&gt;bridges()-&gt;addChannel($bridge-&gt;getId(), $channel-&gt;getId(), null);
+
+    $this-&gt;client-&gt;getWsClient()-&gt;on('SomeAMIEventName', function($event) {
+        ...
+    });
+
+    ...
+});
+
+$this-&gt;client-&gt;run();
+</code></pre>
+
+<h2>
+<a id="documentation" class="anchor" href="#documentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>You will find wrappers for (<a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI">https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI</a>) in the Client folder.</p>
+
+<p>You will find wrappers for (<a href="https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models">https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+REST+Data+Models</a>) in the Resources and Events folders.</p>
+
+<h2>
+<a id="examples" class="anchor" href="#examples" aria-hidden="true"><span class="octicon octicon-link"></span></a>Examples</h2>
+
+<p>(<a href="https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Examples">https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Examples</a>)</p>
+
+<p>(<a href="https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Tests/Functional">https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Tests/Functional</a>)</p>
+
+<h2>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h2>
+
+<p>Apache 2.0 (<a href="http://www.apache.org/licenses/LICENSE-2.0">http://www.apache.org/licenses/LICENSE-2.0</a>)</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Phparia maintained by <a href="https://github.com/wormling">wormling</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-64558004-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
