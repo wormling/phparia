@@ -21,9 +21,11 @@ namespace phparia\Examples;
 use phparia\Client\Phparia;
 use phparia\Events\StasisEnd;
 use phparia\Events\StasisStart;
+use phparia\Exception\ServerException;
 use phparia\Resources\Bridge;
 use phparia\Resources\Channel;
 use Symfony\Component\Yaml\Yaml;
+use Zend\Log;
 
 // Make sure composer dependencies have been installed
 require __DIR__.'/../../../../vendor/autoload.php';
@@ -61,11 +63,11 @@ class AnswerAndDialExample
         $ariAddress = $value['examples']['client']['ari_address'];
         $dialString = $value['examples']['dial_example']['dial_string'];
 
-        $logger = new \Zend\Log\Logger();
-        $logWriter = new \Zend\Log\Writer\Stream("php://output");
+        $logger = new Log\Logger();
+        $logWriter = new Log\Writer\Stream("php://output");
         $logger->addWriter($logWriter);
-        //$filter = new \Zend\Log\Filter\SuppressFilter(true);
-        $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+        //$filter = new Log\Filter\SuppressFilter(true);
+        $filter = new Log\Filter\Priority(Log\Logger::NOTICE);
         $logWriter->addFilter($filter);
 
         // Connect to the ARI server
@@ -74,6 +76,7 @@ class AnswerAndDialExample
 
         // Hangup this channel if the caller hangs up
         $this->client->onStasisEnd(function (StasisEnd $event) {
+            $this->log("Channel {$event->getChannel()->getId()} no longer in stasis app, hanging up on dialed channel");
             $this->dialedChannel->hangup();
         });
 
@@ -94,7 +97,7 @@ class AnswerAndDialExample
             try {
                 $this->dialedChannel = $this->client->channels()->createChannel($dialString, null, null, null,
                     $this->client->getStasisApplicationName(), 'dialed', '8005551212');
-            } catch (\phparia\Exception\ServerException $e) {
+            } catch (ServerException $e) {
                 $this->log($e->getMessage());
             }
         });
@@ -113,4 +116,4 @@ class AnswerAndDialExample
 
 }
 
-$answerAndDialExample = new AnswerAndDialExample();
+new AnswerAndDialExample();
