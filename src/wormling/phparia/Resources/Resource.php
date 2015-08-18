@@ -115,6 +115,7 @@ class Resource
     }
 
     /**
+     * @param AriClient $client
      * @param string $response The raw json response response data from ARI
      */
     public function __construct(AriClient $client, $response)
