@@ -26,7 +26,7 @@ namespace phparia\Resources;
 class Mailbox extends Response
 {
     /**
-     * @var sring Name of the mailbox.
+     * @var string Name of the mailbox.
      */
     private $name;
 
