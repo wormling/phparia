@@ -18,8 +18,6 @@
 
 namespace phparia\Resources;
 
-use phparia\Resources\SetId;
-
 /**
  * Info about Asterisk configuration
  *
@@ -38,17 +36,17 @@ class ConfigInfo extends Response
     private $max_channels;
 
     /**
-     * @var float (optional) - Maximum load avg on system. 
+     * @var float (optional) - Maximum load avg on system.
      */
     private $max_load;
 
     /**
-     * @var int (optional) - Maximum number of open file handles (files, sockets). 
+     * @var int (optional) - Maximum number of open file handles (files, sockets).
      */
     private $max_open_files;
 
     /**
-     * @var string Asterisk system name. 
+     * @var string Asterisk system name.
      */
     private $name;
 
@@ -74,7 +72,7 @@ class ConfigInfo extends Response
     }
 
     /**
-     * @return float (optional) - Maximum load avg on system. 
+     * @return float (optional) - Maximum load avg on system.
      */
     public function getMaxLoad()
     {
@@ -90,7 +88,7 @@ class ConfigInfo extends Response
     }
 
     /**
-     * @return string Asterisk system name. 
+     * @return string Asterisk system name.
      */
     public function getName()
     {
@@ -111,11 +109,12 @@ class ConfigInfo extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->default_language = $this->response->default_language;
         $this->max_channels = property_exists($this->response, 'max_channels') ? $this->response->max_channels : null;
         $this->max_load = property_exists($this->response, 'max_load') ? $this->response->max_load : null;
-        $this->max_open_files = property_exists($this->response, 'max_open_files') ? $this->response->max_open_files : null;
+        $this->max_open_files = property_exists($this->response,
+            'max_open_files') ? $this->response->max_open_files : null;
         $this->name = $this->response->name;
         $this->setid = new SetId($this->response->setid);
     }
