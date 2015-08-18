@@ -45,8 +45,7 @@ class Variable extends Response
     {
         parent::__construct($response);
 
-        // @TODO This is not technically an optional parameter, but if the variable doesn't exist we have to 
-        // deal with it using try/catch, etc and that's annoying (for now)
+        // @TODO This is not technically an optional parameter, but if the variable doesn't exist we have to deal with it using try/catch, etc and that's annoying (for now)
         $this->value = property_exists($this->response, 'value') ? $this->response->value : null;
     }
 
