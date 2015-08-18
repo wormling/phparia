@@ -31,7 +31,7 @@ use phparia\Api\Playbacks;
 use phparia\Api\Recordings;
 use phparia\Api\Sounds;
 use phparia\Events\Event;
-use React\EventLoop\LoopInterface;
+use React\EventLoop;
 use Zend\Log\LoggerInterface;
 
 class Phparia
@@ -42,7 +42,7 @@ class Phparia
     protected $wsClient;
 
     /**
-     * @var LoopInterface
+     * @var EventLoop\LoopInterface
      */
     protected $eventLoop;
 
@@ -82,7 +82,7 @@ class Phparia
      */
     public function connect($ariAddress, $amiAddress = null)
     {
-        $this->eventLoop = \React\EventLoop\Factory::create();
+        $this->eventLoop = EventLoop\Factory::create();
         $this->ariClient = new AriClient($this->eventLoop, $this->logger);
         $this->ariClient->connect($ariAddress);
         $this->wsClient = $this->ariClient->getWsClient();
@@ -139,7 +139,7 @@ class Phparia
     }
 
     /**
-     * @return LoopInterface
+     * @return EventLoop\LoopInterface
      */
     public function getEventLoop()
     {
