@@ -166,7 +166,7 @@ class AriClient
             }
 
             // Emit the general event
-            $this->logger->notice("Emitting event: {$event->getType()}");
+            $this->logger->notice("Emitting event: {$message->getType()}");
             $this->wsClient->emit($message->getType(), array('event' => $event));
         });
     }
