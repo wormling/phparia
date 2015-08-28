@@ -122,7 +122,7 @@ class Resource
     {
         $this->client = $client;
 
-        if (is_array($response)) { // For some reson, playback is an array, so this fixes that problem
+        if (is_array($response)) { // For some reason, playback is an array, so this fixes that problem
             $this->response = json_decode(json_encode($response), false);
         } elseif (is_object($response)) {
             $this->response = $response;
