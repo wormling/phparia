@@ -22,6 +22,7 @@ use phparia\Client\Phparia;
 use phparia\Events\ChannelDtmfReceived;
 use phparia\Events\StasisStart;
 use Symfony\Component\Yaml\Yaml;
+use Zend\Log;
 
 // Make sure composer dependencies have been installed
 require __DIR__ . '/../../../../vendor/autoload.php';
@@ -48,15 +49,15 @@ class InputExample
 
         $ariAddress = $value['examples']['client']['ari_address'];
 
-        $logger = new \Zend\Log\Logger();
-        $logWriter = new \Zend\Log\Writer\Stream("php://output");
+        $logger = new Log\Logger();
+        $logWriter = new Log\Writer\Stream("php://output");
         $logger->addWriter($logWriter);
         //$filter = new \Zend\Log\Filter\SuppressFilter(true);
-        $filter = new \Zend\Log\Filter\Priority(\Zend\Log\Logger::NOTICE);
+        $filter = new Log\Filter\Priority(Log\Logger::NOTICE);
         $logWriter->addFilter($filter);
 
         // Connect to the ARI server
-        $client = new \phparia\Client\Phparia($logger);
+        $client = new Phparia($logger);
         $client->connect($ariAddress);
         $this->client = $client;
 
@@ -87,4 +88,4 @@ class InputExample
 
 }
 
-$inputExample = new InputExample();
+new InputExample();
