@@ -93,6 +93,10 @@ Examples
 
 (https://github.com/wormling/phparia/tree/master/src/wormling/phparia/Tests/Functional)
 
+Extensions
+---
+[phparia-lyra](https://github.com/wormling/phparia-lyra) [Sangoma Lyra Answering Machine Detection for Asterisk.](http://www.sangoma.com/products/answering-machine-detection-for-asterisk-sangoma-lyra)
+
 License
 ---
 Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0)
