@@ -157,10 +157,10 @@ class AriClient
             $message = new Message($rawMessage->getData());
 
             $eventType = '\\phparia\\Events\\'.$message->getType();
-            if (class_exists($event)) {
+            if (class_exists($eventType)) {
                 $event = new $eventType($this, $rawMessage->getData());
             } else {
-                $this->logger->warn("Event: {$event->getType()} not implemented");
+                $this->logger->warn("Event: '$eventType' not implemented");
             }
 
             // Emit the specific event (just to get it back to where it came from)
