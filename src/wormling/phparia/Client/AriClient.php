@@ -161,6 +161,9 @@ class AriClient
                 $event = new $eventType($this, $rawMessage->getData());
             } else {
                 $this->logger->warn("Event: '$eventType' not implemented");
+                // @todo Create a generic event for any that are not implemented
+
+                return;
             }
 
             // Emit the specific event (just to get it back to where it came from)
