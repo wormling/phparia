@@ -37,6 +37,7 @@ class Event extends Message
     const BRIDGE_MERGED = 'BridgeMerged';
     const CHANNEL_CALLER_ID = 'ChannelCallerId';
     const CHANNEL_CREATED = 'ChannelCreated';
+    const CHANNEL_CONNECTED_LINE = 'ChannelConnectedLine';
     const CHANNEL_DESTROYED = 'ChannelDestroyed';
     const CHANNEL_DTMF_RECEIVED = 'ChannelDtmfReceived';
     const CHANNEL_ENTERED_BRIDGE = 'ChannelEnteredBridge';
