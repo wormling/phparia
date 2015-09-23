@@ -68,7 +68,7 @@ class Endpoints extends AriClientAware
                 'to' => $to,
                 'from' => $from,
                 'body' => $body,
-                'variables' => $variables,
+                'variables' => array_map('strval', $variables),
             ));
         } catch (Pest_NotFound $e) { // Channel not found
             throw new NotFoundException($e);
@@ -141,7 +141,7 @@ class Endpoints extends AriClientAware
             $this->client->getEndpoint()->put($uri, array(
                 'from' => $from,
                 'body' => $body,
-                'variables' => $variables,
+                'variables' => array_map('strval', $variables),
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters
             throw new InvalidParameterException($e);

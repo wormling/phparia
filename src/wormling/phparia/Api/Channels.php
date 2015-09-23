@@ -103,7 +103,7 @@ class Channels extends MediaBase
                 'timeout' => $timeout,
                 'channelId' => $channelId,
                 'otherChannelId' => $otherChannelId,
-                'variables' => $variables,
+                'variables' => array_map('strval', $variables),
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
             throw new InvalidParameterException($e);
@@ -180,7 +180,7 @@ class Channels extends MediaBase
                 'callerId' => $callerId,
                 'timeout' => $timeout,
                 'otherChannelId' => $otherChannelId,
-                'variables' => $variables,
+                'variables' => array_map('strval', $variables),
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
             throw new InvalidParameterException($e);

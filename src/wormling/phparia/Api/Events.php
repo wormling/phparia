@@ -74,7 +74,7 @@ class Events extends AriClientAware
             $this->client->getEndpoint()->post($uri, array(
                 'application' => $application,
                 'source' => $source,
-                'variables' => $variables,
+                'variables' => array_map('strval', $variables),
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters
             throw new InvalidParameterException($e);
