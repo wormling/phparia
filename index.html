@@ -54,7 +54,7 @@
 
 <p>Just add the package "wormling/phparia":</p>
 
-<div class="highlight highlight-yaml"><pre>    {
+<div class="highlight highlight-source-yaml"><pre>    {
         <span class="pl-s"><span class="pl-ent">"require":</span> <span class="pl-s">{</span></span>
             <span class="pl-s"><span class="pl-ent">"wormling/phparia":</span> <span class="pl-s"><span class="pl-pds">"</span>dev-master<span class="pl-pds">"</span></span></span>
         }
@@ -63,7 +63,7 @@
 <h2>
 <a id="creating-a-stasis-application" class="anchor" href="#creating-a-stasis-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a stasis application</h2>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1">    <span class="pl-smi">$ariAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name<span class="pl-pds">'</span></span>;</span>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$ariAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name<span class="pl-pds">'</span></span>;</span>
 <span class="pl-s1"></span>
 <span class="pl-s1">    <span class="pl-smi">$logger</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\</span><span class="pl-c1">Logger</span>();</span>
 <span class="pl-s1">    <span class="pl-smi">$logWriter</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\Writer\</span><span class="pl-c1">Stream</span>(<span class="pl-s"><span class="pl-pds">"</span>php://output<span class="pl-pds">"</span></span>);</span>
@@ -87,7 +87,7 @@
 <h2>
 <a id="creating-a-stasis-application-and-listening-for-ami-events" class="anchor" href="#creating-a-stasis-application-and-listening-for-ami-events" aria-hidden="true"><span class="octicon octicon-link"></span></a>Creating a stasis application and listening for AMI events</h2>
 
-<div class="highlight highlight-php"><pre><span class="pl-s1">    <span class="pl-smi">$ariAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name<span class="pl-pds">'</span></span>;</span>
+<div class="highlight highlight-text-html-php"><pre><span class="pl-s1">    <span class="pl-smi">$ariAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>ws://localhost:8088/ari/events?api_key=username:password&amp;app=stasis_app_name<span class="pl-pds">'</span></span>;</span>
 <span class="pl-s1">    <span class="pl-smi">$amiAddress</span> <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">'</span>username:password@localhost:5038<span class="pl-pds">'</span></span>;</span>
 <span class="pl-s1"></span>
 <span class="pl-s1">    <span class="pl-smi">$logger</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-c1">\Zend\Log\</span><span class="pl-c1">Logger</span>();</span>
