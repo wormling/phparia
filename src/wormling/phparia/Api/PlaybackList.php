@@ -63,7 +63,7 @@ class PlaybackList extends \ArrayObject
 
         // Remove playbacks when they are done playing
         $value->oncePlaybackFinished(function () use ($value) {
-            $key = array_search($value, $this);
+            $key = array_search($value, $this->getArrayCopy());
             if ($key !== false) {
                 $this->offsetUnset($key);
             }
