@@ -35,5 +35,46 @@ namespace {
             });
             $this->client->run();
         }
+
+        /**
+         * @test
+         */
+        public function canRemovePlaybackAfterFinished()
+        {
+            $this->markTestIncomplete('Not executing the code for some reason.');
+            $this->client->onStasisStart(function (StasisStart $event) {
+                $event->getChannel()->answer();
+                $playbackList = new PlaybackList($this->client);
+                $playbackList->append($playback = $event->getChannel()->playMedia('sound:beep'));
+                sleep(1);
+                $this->assertFalse((bool)array_search($playback, $playbackList->getArrayCopy()));
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+        }
+
+        /**
+         * @test
+         * @expectedException \InvalidArgumentException
+         */
+        public function appendCanThrowInvalidArgumentException()
+        {
+            $playbackList = new PlaybackList($this->client);
+            $playbackList->append('invalid argument');
+        }
+
+        /**
+         * @test
+         * @expectedException \InvalidArgumentException
+         */
+        public function offsetSetCanThrowInvalidArgumentException()
+        {
+            $playbackList = new PlaybackList($this->client);
+            $playbackList->offsetSet(0, 'invalid argument');
+        }
     }
 }
