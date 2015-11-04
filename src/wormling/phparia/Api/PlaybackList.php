@@ -28,15 +28,10 @@ class PlaybackList extends \ArrayObject
      */
     protected $phparia;
 
-    /**
-     * @var Playback[]
-     */
-    protected $playbacks = [];
-
     public function __construct(Phparia $phparia)
     {
         $this->phparia = $phparia;
-        parent::__construct($this->playbacks, \ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct(array(), \ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
@@ -51,10 +46,26 @@ class PlaybackList extends \ArrayObject
         parent::offsetSet($offset, $value);
 
         // Remove playbacks when they are done playing
-        $value->oncePlaybackFinished(function (PlaybackFinished $playbackFinished) {
-            $key = array_search($playbackFinished->getPlayback(), $this->playbacks);
+        $value->oncePlaybackFinished(function (PlaybackFinished $playbackFinished) use ($offset) {
+            $this->offsetUnset($offset);
+        });
+    }
+
+    /**
+     * @param Playback $value
+     */
+    public function append($value)
+    {
+        if (!$value instanceof Playback) {
+            throw new \InvalidArgumentException("Value must be of type Playback");
+        }
+        parent::append($value);
+
+        // Remove playbacks when they are done playing
+        $value->oncePlaybackFinished(function (PlaybackFinished $playbackFinished) use ($value) {
+            $key = array_search($value, $this);
             if ($key !== false) {
-                unset($this->playbacks[$key]);
+                $this->offsetUnset($key);
             }
         });
     }
@@ -64,8 +75,10 @@ class PlaybackList extends \ArrayObject
      */
     public function stop()
     {
-        foreach (array_reverse($this->playbacks) as $playback) {
+        foreach (array_reverse($this->getArrayCopy()) as $playback) {
+            /* @var $playback Playback */
             try {
+                echo $playback->getId();
                 $this->phparia->playbacks()->stopPlayback($playback->getId());
             } catch (\Exception $ignore) {
                 // Don't throw exception if the playback does not exist
