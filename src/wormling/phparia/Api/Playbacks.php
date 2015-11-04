@@ -79,7 +79,7 @@ class Playbacks extends AriClientAware
      * Control a playback.
      *
      * @param string $playbackId Playback's id
-     * @param string $operation (required) Operation to perform on the playback.
+     * @param string $operation (required) Operation to perform on the playback.  Allowed values: restart, pause, unpause, reverse, forward.
      * @throws ConflictException
      * @throws InvalidParameterException
      * @throws NotFoundException
