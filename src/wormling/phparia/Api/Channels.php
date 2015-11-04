@@ -108,7 +108,7 @@ class Channels extends MediaBase
         } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
             throw new InvalidParameterException($e);
         } catch (Pest_ServerError $e) {
-            throw new ServerException($e); // Couldn't the channel.
+            throw new ServerException($e); // Couldn't create the channel.
         }
 
         return new Channel($this->client, $response);
