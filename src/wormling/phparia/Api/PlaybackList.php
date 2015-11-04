@@ -46,7 +46,7 @@ class PlaybackList extends \ArrayObject
         parent::offsetSet($offset, $value);
 
         // Remove playbacks when they are done playing
-        $value->oncePlaybackFinished(function (PlaybackFinished $playbackFinished) use ($offset) {
+        $value->oncePlaybackFinished(function () use ($offset) {
             $this->offsetUnset($offset);
         });
     }
@@ -62,7 +62,7 @@ class PlaybackList extends \ArrayObject
         parent::append($value);
 
         // Remove playbacks when they are done playing
-        $value->oncePlaybackFinished(function (PlaybackFinished $playbackFinished) use ($value) {
+        $value->oncePlaybackFinished(function () use ($value) {
             $key = array_search($value, $this);
             if ($key !== false) {
                 $this->offsetUnset($key);
