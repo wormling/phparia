@@ -39,14 +39,35 @@ namespace {
         /**
          * @test
          */
-        public function canRemovePlaybackAfterFinished()
+        public function appendCanRemovePlaybackAfterFinished()
         {
-            $this->markTestIncomplete('Not executing the code for some reason.');
+            $this->markTestIncomplete('Event not firing.');
             $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $playbackList = new PlaybackList($this->client);
-                $playbackList->append($playback = $event->getChannel()->playMedia('sound:beep'));
-                sleep(1);
+                $playbackList->append($playback = $event->getChannel()->playMedia('sound:silence/2'));
+                sleep(3);
+                $this->assertFalse((bool)array_search($playback, $playbackList->getArrayCopy()));
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+        }
+
+        /**
+         * @test
+         */
+        public function offsetSetCanRemovePlaybackAfterFinished()
+        {
+            $this->markTestIncomplete('Event not firing.');
+            $this->client->onStasisStart(function (StasisStart $event) {
+                $event->getChannel()->answer();
+                $playbackList = new PlaybackList($this->client);
+                $playbackList->offsetSet(0, $playback = $event->getChannel()->playMedia('sound:silence/2'));
+                sleep(3);
                 $this->assertFalse((bool)array_search($playback, $playbackList->getArrayCopy()));
                 $this->client->stop();
             });
