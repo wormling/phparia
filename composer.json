@@ -36,7 +36,7 @@
         "educoder/pest": "1.0.0",
         "devristo/phpws": "dev-master",
         "clue/ami-react": "~0.3.0",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": ">=2.0"
     },
     "require-dev": {
         "phpunit/phpunit": ">=4.7"
