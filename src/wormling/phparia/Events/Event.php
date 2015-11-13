@@ -26,7 +26,7 @@ use phparia\Client\AriClient;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Event extends Message
+class Event extends Message implements EventInterface
 {
     // ARI events
     const APPLICATION_REPLACED = 'ApplicationReplaced';
