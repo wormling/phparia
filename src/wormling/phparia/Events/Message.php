@@ -23,7 +23,7 @@ namespace phparia\Events;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Message
+class Message implements MessageInterface
 {
     /**
      * The json_decoded message data from ARI
