@@ -26,6 +26,24 @@ namespace {
         /**
          * @test
          */
+        public function canRun()
+        {
+            $success = false;
+            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+                $success = true;
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, null, null, null, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+            $this->assertTrue($success);
+        }
+
+        /**
+         * @test
+         */
         public function canGetEventLoop()
         {
             $eventLoop = $this->client->getEventLoop();
