@@ -26,7 +26,7 @@ namespace {
         /**
          * @test
          */
-        public function canRun()
+        public function canRunAndStop()
         {
             $success = false;
             $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
