@@ -85,7 +85,7 @@ class Event extends Message implements EventInterface
     }
 
     /**
-     * @return DateTime (optional) - Time at which this event was created.
+     * @return \DateTime (optional) - Time at which this event was created.
      */
     public function getTimestamp()
     {
