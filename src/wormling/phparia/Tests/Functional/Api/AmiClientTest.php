@@ -8,7 +8,7 @@ namespace {
     use phparia\Events\StasisStart;
     use phparia\Tests\Functional\PhpariaTestCase;
 
-    class AriClientTest extends PhpariaTestCase
+    class AmiClientTest extends PhpariaTestCase
     {
         /**
          * @test
