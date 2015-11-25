@@ -35,7 +35,7 @@ namespace {
         public function canCallOnHandshake()
         {
             $success = false;
-            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+            $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $this->client->stop();
             });
@@ -56,7 +56,7 @@ namespace {
         public function canCallOnRequest()
         {
             $success = false;
-            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+            $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $this->client->stop();
             });
