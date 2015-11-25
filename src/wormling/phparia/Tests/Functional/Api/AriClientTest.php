@@ -39,7 +39,7 @@ namespace {
                 $event->getChannel()->answer();
                 $this->client->stop();
             });
-            $this->client->getAriClient()->onHandshake(function() use (&$success) {
+            $this->client->getAriClient()->onHandshake(function () use (&$success) {
                 $success = true;
             });
             $this->client->getAriClient()->onConnect(function () {
@@ -60,7 +60,7 @@ namespace {
                 $event->getChannel()->answer();
                 $this->client->stop();
             });
-            $this->client->getAriClient()->onRequest(function() use (&$success) {
+            $this->client->getAriClient()->onRequest(function () use (&$success) {
                 $success = true;
             });
             $this->client->getAriClient()->onConnect(function () {

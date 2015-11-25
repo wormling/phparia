@@ -23,6 +23,7 @@ use Pest_InvalidRecord;
 use Pest_NotFound;
 use phparia\Client\AriClientAware;
 use phparia\Events\Event;
+use phparia\Events\EventInterface;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
 use phparia\Exception\UnprocessableEntityException;
@@ -37,9 +38,9 @@ class Events extends AriClientAware
 
     /**
      * WebSocket connection for events.
-     * 
+     *
      * @param string $app (required) Applications to subscribe to.  Allows comma separated values.
-     * @return Event[]
+     * @return EventInterface[]
      */
     public function getEvents($app)
     {

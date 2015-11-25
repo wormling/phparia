@@ -1,6 +1,7 @@
 <?php
 
 namespace {
+
     use phparia\Tests\Functional\PhpariaTestCase;
 
     /**

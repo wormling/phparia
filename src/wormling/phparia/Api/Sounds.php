@@ -30,7 +30,7 @@ class Sounds extends AriClientAware
 {
     /**
      * List all sounds.
-     * 
+     *
      * @return Sound[]
      */
     public function getSounds()
@@ -45,10 +45,10 @@ class Sounds extends AriClientAware
 
         return $sounds;
     }
-    
+
     /**
      * Get a sound's details.
-     * 
+     *
      * @param string $soundId Sound's id
      * @return Sound
      */

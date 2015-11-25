@@ -32,9 +32,9 @@ class BridgeMerged extends Event implements IdentifiableEventInterface
      * @var Bridge
      */
     private $bridge;
-    
+
     /**
-     * @var Bridge 
+     * @var Bridge
      */
     private $bridgeFrom;
 
@@ -45,7 +45,7 @@ class BridgeMerged extends Event implements IdentifiableEventInterface
     {
         return $this->bridge;
     }
-    
+
     /**
      * @return Bridge
      */
@@ -58,7 +58,7 @@ class BridgeMerged extends Event implements IdentifiableEventInterface
     {
         return "{$this->getType()}_{$this->getBridge()->getId()}";
     }
-    
+
     /**
      * @param AriClient $client
      * @param string $response

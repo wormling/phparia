@@ -26,27 +26,27 @@ namespace phparia\Resources;
 class TextMessage extends Response
 {
     /**
-     * @var string The text of the message. 
+     * @var string The text of the message.
      */
     private $body;
 
     /**
-     * @var string A technology specific URI specifying the source of the message. For sip and pjsip technologies, any SIP URI can be specified. For xmpp, the URI must correspond to the client connection being used to send the message. 
+     * @var string A technology specific URI specifying the source of the message. For sip and pjsip technologies, any SIP URI can be specified. For xmpp, the URI must correspond to the client connection being used to send the message.
      */
     private $from;
 
     /**
-     * @var string A technology specific URI specifying the destination of the message. Valid technologies include sip, pjsip, and xmp. The destination of a message should be an endpoint. 
+     * @var string A technology specific URI specifying the destination of the message. Valid technologies include sip, pjsip, and xmp. The destination of a message should be an endpoint.
      */
     private $to;
 
     /**
-     * @var array (optional) - Technology specific key/value pairs associated with the message. 
+     * @var array (optional) - Technology specific key/value pairs associated with the message.
      */
     private $variables;
 
     /**
-     * @return string The text of the message. 
+     * @return string The text of the message.
      */
     public function getBody()
     {
@@ -54,7 +54,7 @@ class TextMessage extends Response
     }
 
     /**
-     * @return string A technology specific URI specifying the source of the message. For sip and pjsip technologies, any SIP URI can be specified. For xmpp, the URI must correspond to the client connection being used to send the message. 
+     * @return string A technology specific URI specifying the source of the message. For sip and pjsip technologies, any SIP URI can be specified. For xmpp, the URI must correspond to the client connection being used to send the message.
      */
     public function getFrom()
     {
@@ -62,7 +62,7 @@ class TextMessage extends Response
     }
 
     /**
-     * @return string A technology specific URI specifying the destination of the message. Valid technologies include sip, pjsip, and xmp. The destination of a message should be an endpoint. 
+     * @return string A technology specific URI specifying the destination of the message. Valid technologies include sip, pjsip, and xmp. The destination of a message should be an endpoint.
      */
     public function getTo()
     {
@@ -70,7 +70,7 @@ class TextMessage extends Response
     }
 
     /**
-     * @return TextMessageVariable[] (optional) - Technology specific key/value pairs associated with the message. 
+     * @return TextMessageVariable[] (optional) - Technology specific key/value pairs associated with the message.
      */
     public function getVariables()
     {

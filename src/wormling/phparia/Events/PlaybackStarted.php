@@ -29,12 +29,12 @@ use phparia\Resources\Playback;
 class PlaybackStarted extends Event implements IdentifiableEventInterface
 {
     /**
-     * @var Playback Playback control object 
+     * @var Playback Playback control object
      */
     private $playback;
 
     /**
-     * @return Playback Playback control object 
+     * @return Playback Playback control object
      */
     public function getPlayback()
     {

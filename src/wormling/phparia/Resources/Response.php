@@ -27,7 +27,7 @@ class Response
 {
     /**
      * The json_decoded message data from ARI
-     * 
+     *
      * @var object
      */
     protected $response;

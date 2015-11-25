@@ -25,7 +25,7 @@ use Symfony\Component\Yaml\Yaml;
 use Zend\Log;
 
 // Make sure composer dependencies have been installed
-require __DIR__ . '/../../../../vendor/autoload.php';
+require __DIR__.'/../../../../vendor/autoload.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('xdebug.var_display_max_depth', 4);
@@ -37,14 +37,14 @@ class InputExample
 {
     /**
      * Example of listening for DTMF input from a caller.
-     * 
+     *
      * @var Phparia
      */
     public $client;
 
     public function __construct()
     {
-        $configFile = __DIR__ . '/../config.yml';
+        $configFile = __DIR__.'/../config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
         $ariAddress = $value['examples']['client']['ari_address'];
@@ -62,14 +62,14 @@ class InputExample
         $this->client = $client;
 
         // Listen for the stasis start
-        $client->onStasisStart(function(StasisStart $event) {
+        $client->onStasisStart(function (StasisStart $event) {
             // Put the new channel in a bridge
             $channel = $event->getChannel();
             $bridge = $this->client->bridges()->createBridge(uniqid(), 'dtmf_events, mixing', 'bridgename');
             $this->client->bridges()->addChannel($bridge->getId(), $channel->getId(), null);
 
             // Listen for DTMF
-            $channel->onChannelDtmfReceived(function(ChannelDtmfReceived $event) {
+            $channel->onChannelDtmfReceived(function (ChannelDtmfReceived $event) {
                 $this->log("Got digit: {$event->getDigit()}");
             });
         });

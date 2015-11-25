@@ -29,32 +29,32 @@ class BuildInfo extends Response
      * @var string Username that build Asterisk
      */
     private $user;
-    
+
     /**
      * @var string Compile time options, or empty string if default.
      */
     private $options;
-    
+
     /**
-     * @var string Machine architecture (x86_64, i686, ppc, etc.) 
+     * @var string Machine architecture (x86_64, i686, ppc, etc.)
      */
     private $machine;
-    
+
     /**
-     * @var string OS Asterisk was built on. 
+     * @var string OS Asterisk was built on.
      */
     private $os;
-    
+
     /**
-     * @var string Kernel version Asterisk was built on. 
+     * @var string Kernel version Asterisk was built on.
      */
     private $kernel;
-    
+
     /**
-     * @var string Date and time when Asterisk was built. 
+     * @var string Date and time when Asterisk was built.
      */
     private $date;
-    
+
     /**
      * @return string Username that build Asterisk
      */
@@ -109,7 +109,7 @@ class BuildInfo extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->user = $this->response->user;
         $this->options = $this->response->options;
         $this->machine = $this->response->machine;

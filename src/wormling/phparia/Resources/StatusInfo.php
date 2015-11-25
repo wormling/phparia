@@ -31,12 +31,12 @@ class StatusInfo extends Response
      * @var DateTime Time when Asterisk was last reloaded.
      */
     private $lastReloadTime;
-    
+
     /**
      * @var DateTime Time when Asterisk was started.
      */
     private $startupTime;
-    
+
     /**
      * @return DateTime Time when Asterisk was last reloaded.
      */
@@ -52,14 +52,14 @@ class StatusInfo extends Response
     {
         return $this->startupTime;
     }
-    
+
     /**
      * @param string $response
      */
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->lastReloadTime = $this->response->last_reload_time;
         $this->startupTime = $this->response->startup_time;
     }

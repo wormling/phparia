@@ -18,6 +18,7 @@
 namespace phparia\Api;
 
 use phparia\Client\Phparia;
+use phparia\Events\PlaybackFinished;
 use phparia\Resources\Playback;
 
 class PlaybackList extends \ArrayObject
@@ -46,6 +47,8 @@ class PlaybackList extends \ArrayObject
 
         // Remove playbacks when they are done playing
         $value->oncePlaybackFinished(function () use ($offset) {
+            echo 'got here';
+            die;
             $this->offsetUnset($offset);
         });
     }
@@ -61,12 +64,17 @@ class PlaybackList extends \ArrayObject
         parent::append($value);
 
         // Remove playbacks when they are done playing
-        $value->oncePlaybackFinished(function () use ($value) {
-            $key = array_search($value, $this->getArrayCopy());
-            if ($key !== false) {
-                $this->offsetUnset($key);
-            }
-        });
+        $this->phparia->getWsClient()->once('PlaybackFinished',
+            function (PlaybackFinished $playbackFinished) use ($value) {
+                echo 'here';
+                die;
+                if ($playbackFinished->getPlayback()->getId() === $value->getId()) {
+                    $key = array_search($value, $this->getArrayCopy());
+                    if ($key !== false) {
+                        $this->offsetUnset($key);
+                    }
+                }
+            });
     }
 
     /**

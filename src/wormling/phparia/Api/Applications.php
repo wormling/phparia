@@ -39,7 +39,7 @@ class Applications extends AriClientAware
 
     /**
      * List all getApplications.
-     * 
+     *
      * @return Application[]
      */
     public function getApplications()
@@ -115,7 +115,7 @@ class Applications extends AriClientAware
      */
     public function unsubscribe($applicationName, $eventSource)
     {
-        $uri = "/applications/$applicationName/subscription?eventSource=" . $this->client->getEndpoint()->jsonEncode($eventSource);
+        $uri = "/applications/$applicationName/subscription?eventSource=".$this->client->getEndpoint()->jsonEncode($eventSource);
         try {
             $response = $this->client->getEndpoint()->delete($uri);
         } catch (Pest_BadRequest $e) { // Missing parameter; event source scheme not recognized.

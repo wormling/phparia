@@ -33,7 +33,7 @@ class Mailboxes extends AriClientAware
 
     /**
      * List all mailboxes.
-     * 
+     *
      * @return Mailbox[]
      */
     public function getMailboxes()

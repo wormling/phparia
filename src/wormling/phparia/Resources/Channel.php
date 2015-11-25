@@ -28,13 +28,13 @@ use phparia\Exception\UnprocessableEntityException;
 
 /**
  * A specific communication connection between Asterisk and an Endpoint.
- * 
+ *
  * @author Brian Smith <wormling@gmail.com>
  */
 class Channel extends Resource
 {
     /**
-     * @var string 
+     * @var string
      */
     private $accountCode;
 
@@ -44,17 +44,17 @@ class Channel extends Resource
     private $caller;
 
     /**
-     * @var CallerId 
+     * @var CallerId
      */
     private $connected;
 
     /**
-     * @var DateTime 
+     * @var DateTime
      */
     private $creationTime;
 
     /**
-     * @var DialplanCep 
+     * @var DialplanCep
      */
     private $dialplan;
 
@@ -64,12 +64,12 @@ class Channel extends Resource
     private $id;
 
     /**
-     * @var string Name of the channel (i.e. SIP/foo-0000a7e3) 
+     * @var string Name of the channel (i.e. SIP/foo-0000a7e3)
      */
     private $name;
 
     /**
-     * @var string 
+     * @var string
      */
     private $state;
 
@@ -122,7 +122,7 @@ class Channel extends Resource
     }
 
     /**
-     * @return string Name of the channel (i.e. SIP/foo-0000a7e3) 
+     * @return string Name of the channel (i.e. SIP/foo-0000a7e3)
      */
     public function getName()
     {
@@ -142,7 +142,7 @@ class Channel extends Resource
      */
     public function onStasisEnd(callable $callback)
     {
-        $this->on(Event::STASIS_END . '_' . $this->getId(), $callback);
+        $this->on(Event::STASIS_END.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -150,7 +150,7 @@ class Channel extends Resource
      */
     public function onceStasisEnd(callable $callback)
     {
-        $this->once(Event::STASIS_END . '_' . $this->getId(), $callback);
+        $this->once(Event::STASIS_END.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -158,7 +158,7 @@ class Channel extends Resource
      */
     public function onStasisStart(callable $callback)
     {
-        $this->on(Event::STASIS_START . '_' . $this->getId(), $callback);
+        $this->on(Event::STASIS_START.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -166,7 +166,7 @@ class Channel extends Resource
      */
     public function onceStasisStart(callable $callback)
     {
-        $this->once(Event::STASIS_START . '_' . $this->getId(), $callback);
+        $this->once(Event::STASIS_START.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -174,7 +174,7 @@ class Channel extends Resource
      */
     public function onChannelCallerId(callable $callback)
     {
-        $this->on(Event::CHANNEL_CALLER_ID . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_CALLER_ID.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -182,7 +182,7 @@ class Channel extends Resource
      */
     public function onceChannelCallerId(callable $callback)
     {
-        $this->once(Event::CHANNEL_CALLER_ID . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_CALLER_ID.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -190,7 +190,7 @@ class Channel extends Resource
      */
     public function onChannelCreated(callable $callback)
     {
-        $this->on(Event::CHANNEL_CREATED . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_CREATED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -198,7 +198,7 @@ class Channel extends Resource
      */
     public function onceChannelCreated(callable $callback)
     {
-        $this->once(Event::CHANNEL_CREATED . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_CREATED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -206,7 +206,7 @@ class Channel extends Resource
      */
     public function onChannelDestroyed(callable $callback)
     {
-        $this->on(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_DESTROYED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -214,15 +214,15 @@ class Channel extends Resource
      */
     public function onceChannelDestroyed(callable $callback)
     {
-        $this->once(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_DESTROYED.'_'.$this->getId(), $callback);
     }
-    
+
     /**
      * @param callable $callback
      */
     public function removeChannelDestroyedListener(callable $callback)
     {
-        $this->removeListener(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
+        $this->removeListener(Event::CHANNEL_DESTROYED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -230,7 +230,7 @@ class Channel extends Resource
      */
     public function onChannelDtmfReceived(callable $callback)
     {
-        $this->on(Event::CHANNEL_DTMF_RECEIVED . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_DTMF_RECEIVED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -238,7 +238,7 @@ class Channel extends Resource
      */
     public function onceChannelDtmfReceived(callable $callback)
     {
-        $this->once(Event::CHANNEL_DTMF_RECEIVED . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_DTMF_RECEIVED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -246,7 +246,7 @@ class Channel extends Resource
      */
     public function onChannelEnteredBridge(callable $callback)
     {
-        $this->on(Event::CHANNEL_ENTERED_BRIDGE . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_ENTERED_BRIDGE.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -254,7 +254,7 @@ class Channel extends Resource
      */
     public function onceChannelEnteredBridge(callable $callback)
     {
-        $this->once(Event::CHANNEL_ENTERED_BRIDGE . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_ENTERED_BRIDGE.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -262,7 +262,7 @@ class Channel extends Resource
      */
     public function onChannelHangupRequest(callable $callback)
     {
-        $this->on(Event::CHANNEL_HANGUP_REQUEST . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_HANGUP_REQUEST.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -270,7 +270,7 @@ class Channel extends Resource
      */
     public function onceChannelHangupRequest(callable $callback)
     {
-        $this->once(Event::CHANNEL_HANGUP_REQUEST . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_HANGUP_REQUEST.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -278,7 +278,7 @@ class Channel extends Resource
      */
     public function onChannelLeftBridge(callable $callback)
     {
-        $this->on(Event::CHANNEL_LEFT_BRIDGE . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_LEFT_BRIDGE.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -286,7 +286,7 @@ class Channel extends Resource
      */
     public function onceChannelLeftBridge(callable $callback)
     {
-        $this->once(Event::CHANNEL_LEFT_BRIDGE . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_LEFT_BRIDGE.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -294,7 +294,7 @@ class Channel extends Resource
      */
     public function onChannelStateChange(callable $callback)
     {
-        $this->on(Event::CHANNEL_STATE_CHANGED . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_STATE_CHANGED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -302,7 +302,7 @@ class Channel extends Resource
      */
     public function onceChannelStateChange(callable $callback)
     {
-        $this->once(Event::CHANNEL_STATE_CHANGED . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_STATE_CHANGED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -310,7 +310,7 @@ class Channel extends Resource
      */
     public function onChannelTalkingFinished(callable $callback)
     {
-        $this->on(Event::CHANNEL_TALKING_FINISHED . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_TALKING_FINISHED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -318,7 +318,7 @@ class Channel extends Resource
      */
     public function onceChannelTalkingFinished(callable $callback)
     {
-        $this->once(Event::CHANNEL_TALKING_FINISHED . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_TALKING_FINISHED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -326,7 +326,7 @@ class Channel extends Resource
      */
     public function onChannelTalkingStarted(callable $callback)
     {
-        $this->on(Event::CHANNEL_TALKING_STARTED . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_TALKING_STARTED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -334,7 +334,7 @@ class Channel extends Resource
      */
     public function onceChannelTalkingStarted(callable $callback)
     {
-        $this->once(Event::CHANNEL_TALKING_STARTED . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_TALKING_STARTED.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -342,7 +342,7 @@ class Channel extends Resource
      */
     public function onChannelUserevent(callable $callback)
     {
-        $this->on(Event::CHANNEL_USEREVENT . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_USEREVENT.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -350,7 +350,7 @@ class Channel extends Resource
      */
     public function onceChannelUserevent(callable $callback)
     {
-        $this->once(Event::CHANNEL_USEREVENT . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_USEREVENT.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -358,7 +358,7 @@ class Channel extends Resource
      */
     public function onChannelVarset(callable $callback)
     {
-        $this->on(Event::CHANNEL_VARSET . '_' . $this->getId(), $callback);
+        $this->on(Event::CHANNEL_VARSET.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -366,7 +366,7 @@ class Channel extends Resource
      */
     public function onceChannelVarset(callable $callback)
     {
-        $this->once(Event::CHANNEL_VARSET . '_' . $this->getId(), $callback);
+        $this->once(Event::CHANNEL_VARSET.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -378,7 +378,7 @@ class Channel extends Resource
     {
         $this->client->channels()->deleteChannel($this->id);
     }
-    
+
     /**
      * Hangup the channel if it still exists.
      */
@@ -389,7 +389,7 @@ class Channel extends Resource
 
     /**
      * Exit application; continue execution in the dialplan.
-     * 
+     *
      * @param string $context The context to continue to.
      * @param string $extension The extension to continue to.
      * @param int $priority The priority to continue to.
@@ -403,7 +403,7 @@ class Channel extends Resource
 
     /**
      * Answer a channel.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -414,7 +414,7 @@ class Channel extends Resource
 
     /**
      * Indicate ringing to a channel.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -425,7 +425,7 @@ class Channel extends Resource
 
     /**
      * Stop ringing indication on a channel if locally generated.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -436,7 +436,7 @@ class Channel extends Resource
 
     /**
      * Send provided DTMF to a given channel.
-     * 
+     *
      * @param string $dtmf DTMF To send.
      * @param int $before Amount of time to wait before DTMF digits (specified in milliseconds) start.
      * @param int $between Amount of time in between DTMF digits (specified in milliseconds).  Default: 100
@@ -453,7 +453,7 @@ class Channel extends Resource
 
     /**
      * Mute a channel.
-     * 
+     *
      * @param string $direction (default both) Direction in which to mute audio
      * @throws NotFoundException
      * @throws ConflictException
@@ -465,7 +465,7 @@ class Channel extends Resource
 
     /**
      * Unmute a channel.
-     * 
+     *
      * @param string $direction (default both) Direction in which to unmute audio
      * @throws NotFoundException
      * @throws ConflictException
@@ -477,7 +477,7 @@ class Channel extends Resource
 
     /**
      * Hold a channel.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -488,7 +488,7 @@ class Channel extends Resource
 
     /**
      * Remove a channel from hold.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -498,10 +498,10 @@ class Channel extends Resource
     }
 
     /**
-     * Play music on hold to a channel. Using media operations such as /play on a channel playing MOH in 
-     * this manner will suspend MOH without resuming automatically. If continuing music on hold is 
+     * Play music on hold to a channel. Using media operations such as /play on a channel playing MOH in
+     * this manner will suspend MOH without resuming automatically. If continuing music on hold is
      * desired, the stasis application must reinitiate music on hold.
-     * 
+     *
      * @param string $mohClass Music on hold class to use
      * @throws NotFoundException
      * @throws ConflictException
@@ -513,7 +513,7 @@ class Channel extends Resource
 
     /**
      * Stop playing music on hold to a channel.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -524,7 +524,7 @@ class Channel extends Resource
 
     /**
      * Play silence to a channel. Using media operations such as /play on a channel playing silence in this manner will suspend silence without resuming automatically.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -535,7 +535,7 @@ class Channel extends Resource
 
     /**
      * Stop playing silence to a channel.
-     * 
+     *
      * @throws NotFoundException
      * @throws ConflictException
      */
@@ -545,13 +545,13 @@ class Channel extends Resource
     }
 
     /**
-     * Start playback of media. The media URI may be any of a number of URI's. Currently sound:, 
-     * recording:, number:, digits:, characters:, and tone: URI's are supported. This operation creates a 
-     * playback resource that can be used to control the playback of media (pause, rewind, fast forward, 
+     * Start playback of media. The media URI may be any of a number of URI's. Currently sound:,
+     * recording:, number:, digits:, characters:, and tone: URI's are supported. This operation creates a
+     * playback resource that can be used to control the playback of media (pause, rewind, fast forward,
      * etc.)
-     * 
+     *
      * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     * 
+     *
      * @param string $media (required) Media's URI to play.
      * @param string $lang For sounds, selects language for sound.
      * @param int $offsetms Number of media to skip before playing.
@@ -567,12 +567,12 @@ class Channel extends Resource
     }
 
     /**
-     * Start playback of media and specify the playbackId. The media URI may be any of a number of URI's. 
-     * Currently sound: and recording: URI's are supported. This operation creates a playback resource 
+     * Start playback of media and specify the playbackId. The media URI may be any of a number of URI's.
+     * Currently sound: and recording: URI's are supported. This operation creates a playback resource
      * that can be used to control the playback of media (pause, rewind, fast forward, etc.)
-     * 
+     *
      * @link https://wiki.asterisk.org/wiki/display/AST/ARI+and+Channels%3A+Simple+Media+Manipulation Simple media playback
-     * 
+     *
      * @param string $media (required) Media's URI to play.
      * @param string $lang For sounds, selects language for sound.
      * @param int $offsetms Number of media to skip before playing.
@@ -584,7 +584,8 @@ class Channel extends Resource
      */
     public function playMediaWithId($media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
     {
-        return $this->client->channels()->playMediaWithId($this->getId(), $media, $lang, $offsetms, $skipms, $playbackId);
+        return $this->client->channels()->playMediaWithId($this->getId(), $media, $lang, $offsetms, $skipms,
+            $playbackId);
     }
 
     /**
@@ -604,14 +605,22 @@ class Channel extends Resource
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
-    public function record($name, $format, $maxDurationSeconds = null, $maxSilenceSeconds = null, $ifExists = null, $beep = null, $terminateOn = null)
-    {
-        return $this->client->channels()->record($this->id, $name, $format, $maxDurationSeconds, $maxSilenceSeconds, $ifExists, $beep, $terminateOn);
+    public function record(
+        $name,
+        $format,
+        $maxDurationSeconds = null,
+        $maxSilenceSeconds = null,
+        $ifExists = null,
+        $beep = null,
+        $terminateOn = null
+    ) {
+        return $this->client->channels()->record($this->id, $name, $format, $maxDurationSeconds, $maxSilenceSeconds,
+            $ifExists, $beep, $terminateOn);
     }
 
     /**
      * Get the value of a channel variable or function.
-     * 
+     *
      * @param string $variable
      * @return string|Variable
      * @throws InvalidParameterException
@@ -625,7 +634,7 @@ class Channel extends Resource
 
     /**
      * Set the value of a channel variable or function.
-     * 
+     *
      * @param string $variable
      * @param string $value
      * @return Variable
@@ -640,7 +649,7 @@ class Channel extends Resource
 
     /**
      * Start snooping. Snoop (spy/whisper) on a specific channel.
-     * 
+     *
      * @param string $spy (default none) Direction of audio to spy on
      * @param string $whisper (default none) Direction of audio to whisper into
      * @param string $app (required) Application the snooping channel is placed into
@@ -657,7 +666,7 @@ class Channel extends Resource
 
     /**
      * Start snooping. Snoop (spy/whisper) on a specific channel.
-     * 
+     *
      * @param string $spy (default none) Direction of audio to spy on
      * @param string $whisper (default none) Direction of audio to whisper into
      * @param string $app (required) Application the snooping channel is placed into

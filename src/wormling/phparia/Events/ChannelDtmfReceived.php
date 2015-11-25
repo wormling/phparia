@@ -35,12 +35,12 @@ class ChannelDtmfReceived extends Event implements IdentifiableEventInterface
     private $channel;
 
     /**
-     * @var string DTMF digit received (0-9, A-E, # or *) 
+     * @var string DTMF digit received (0-9, A-E, # or *)
      */
     private $digit;
 
     /**
-     * @var int Number of milliseconds DTMF was received 
+     * @var int Number of milliseconds DTMF was received
      */
     private $durationMs;
 
@@ -53,7 +53,7 @@ class ChannelDtmfReceived extends Event implements IdentifiableEventInterface
     }
 
     /**
-     * @return string DTMF digit received (0-9, A-E, # or *) 
+     * @return string DTMF digit received (0-9, A-E, # or *)
      */
     public function getDigit()
     {
@@ -61,7 +61,7 @@ class ChannelDtmfReceived extends Event implements IdentifiableEventInterface
     }
 
     /**
-     * @return int Number of milliseconds DTMF was received 
+     * @return int Number of milliseconds DTMF was received
      */
     public function getDurationMs()
     {

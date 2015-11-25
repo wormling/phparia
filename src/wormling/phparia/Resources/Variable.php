@@ -26,12 +26,12 @@ namespace phparia\Resources;
 class Variable extends Response
 {
     /**
-     * @var string The value of the variable requested 
+     * @var string The value of the variable requested
      */
     private $value;
 
     /**
-     * @return string The value of the variable requested 
+     * @return string The value of the variable requested
      */
     public function getValue()
     {

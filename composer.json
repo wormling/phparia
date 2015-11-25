@@ -1,52 +1,63 @@
 {
-    "name": "wormling/phparia",
-    "type": "library",
-    "minimum-stability": "dev",
-    "description": "Asterisk REST Interface (ARI) client for PHP.",
-    "keywords": ["asterisk", "ari", "ami", "client", "call", "rest", "ivr", "telephony", "voip", "php"],
-    "homepage": "http://wormling.github.com/phparia",
-    "license": "Apache-2.0",
-    "authors": [
-        {
-            "name": "Brian Smith",
-            "email": "wormling@gmail.com",
-            "homepage": "http://wormling.github.com/",
-            "role": "Developer"
-        }
-    ],
-    "autoload": {
-        "psr-0": {
-            "phparia": "src/wormling"
-        }
-    },
-    "repositories": [
-        {
-          "type": "vcs",
-          "url": "https://github.com/Devristo/phpws"
-        }
-    ],
-    "extra": {
-        "incenteev-parameters": {
-          "file": "src/wormling/phparia/config.yml",
-          "parameter-key": "examples"
-        }
-    },
-    "require": {
-        "php": ">=5.4",
-        "educoder/pest": "1.0.0",
-        "devristo/phpws": "dev-master",
-        "clue/ami-react": "~0.3.0",
-        "incenteev/composer-parameter-handler": ">=2.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": ">=4.7"
-    },
-    "scripts": {
-        "post-install-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-        ],
-        "post-update-cmd": [
-            "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
-        ]
+  "name": "wormling/phparia",
+  "type": "library",
+  "minimum-stability": "dev",
+  "description": "Asterisk REST Interface (ARI) client for PHP.",
+  "keywords": [
+    "asterisk",
+    "ari",
+    "ami",
+    "client",
+    "call",
+    "rest",
+    "ivr",
+    "telephony",
+    "voip",
+    "php"
+  ],
+  "homepage": "http://wormling.github.com/phparia",
+  "license": "Apache-2.0",
+  "authors": [
+    {
+      "name": "Brian Smith",
+      "email": "wormling@gmail.com",
+      "homepage": "http://wormling.github.com/",
+      "role": "Developer"
     }
+  ],
+  "autoload": {
+    "psr-0": {
+      "phparia": "src/wormling"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/Devristo/phpws"
+    }
+  ],
+  "extra": {
+    "incenteev-parameters": {
+      "file": "src/wormling/phparia/config.yml",
+      "parameter-key": "examples"
+    }
+  },
+  "require": {
+    "php": ">=5.4",
+    "educoder/pest": "1.0.0",
+    "devristo/phpws": "dev-master",
+    "clue/ami-react": "~0.3.0",
+    "incenteev/composer-parameter-handler": ">=2.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": ">=4.7"
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ],
+    "post-update-cmd": [
+      "Incenteev\\ParameterHandler\\ScriptHandler::buildParameters"
+    ]
+  }
 }

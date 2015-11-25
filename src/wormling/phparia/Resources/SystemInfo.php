@@ -27,7 +27,7 @@ class SystemInfo extends Response
 {
     /**
      *
-     * @var string 
+     * @var string
      */
     private $entityId;
 

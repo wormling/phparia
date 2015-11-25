@@ -26,22 +26,22 @@ namespace phparia\Resources;
 class DialplanCep extends Response
 {
     /**
-     * @var string Context in the dialplan 
+     * @var string Context in the dialplan
      */
     private $context;
 
     /**
-     * @var string Extension in the dialplan 
+     * @var string Extension in the dialplan
      */
     private $exten;
 
     /**
-     * @var int Priority in the dialplan 
+     * @var int Priority in the dialplan
      */
     private $priority;
 
     /**
-     * @return string Context in the dialplan 
+     * @return string Context in the dialplan
      */
     public function getContext()
     {
@@ -49,7 +49,7 @@ class DialplanCep extends Response
     }
 
     /**
-     * @return string Extension in the dialplan 
+     * @return string Extension in the dialplan
      */
     public function getExten()
     {
@@ -57,7 +57,7 @@ class DialplanCep extends Response
     }
 
     /**
-     * @return int Priority in the dialplan 
+     * @return int Priority in the dialplan
      */
     public function getPriority()
     {
@@ -70,7 +70,7 @@ class DialplanCep extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->context = $this->response->context;
         $this->exten = $this->response->exten;
         $this->priority = $this->response->priority;

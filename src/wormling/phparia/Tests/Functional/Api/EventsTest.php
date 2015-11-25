@@ -18,7 +18,7 @@ namespace {
                 $event->getChannel()->answer();
                 try {
                     $this->client->events()->getEvents($this->client->getStasisApplicationName());
-                } catch(\Pest_ClientError $ignore) {
+                } catch (\Pest_ClientError $ignore) {
 
                 }
                 $this->client->stop();

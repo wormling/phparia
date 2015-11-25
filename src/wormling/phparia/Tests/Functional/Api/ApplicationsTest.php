@@ -13,7 +13,7 @@ namespace {
         public function canGetApplications()
         {
             $applications = $this->client->applications()->getApplications();
-            foreach($applications as $application) {
+            foreach ($applications as $application) {
                 $this->assertInstanceOf('phparia\Resources\Application', $application);
             }
         }
@@ -44,7 +44,8 @@ namespace {
         public function canSubscribe()
         {
             $bridge = $this->client->bridges()->createBridge('BRIDGE_ID', null, 'BRIDGE_NAME');
-            $application = $this->client->applications()->subscribe($this->client->getStasisApplicationName(), "bridge:{$bridge->getId()}");
+            $application = $this->client->applications()->subscribe($this->client->getStasisApplicationName(),
+                "bridge:{$bridge->getId()}");
             $this->assertEquals($this->client->getStasisApplicationName(), $application->getName());
 
             return $bridge;
@@ -65,7 +66,8 @@ namespace {
          */
         public function canSubscribeThrowNotFoundException()
         {
-            $this->client->applications()->subscribe('THIS_APPLICATION_NAME_WILL_NOT_EXIST', "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
+            $this->client->applications()->subscribe('THIS_APPLICATION_NAME_WILL_NOT_EXIST',
+                "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
         }
 
         /**
@@ -74,7 +76,8 @@ namespace {
          */
         public function canSubscribeThrowUnprocessableEntityException()
         {
-            $this->client->applications()->subscribe($this->client->getStasisApplicationName(), "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
+            $this->client->applications()->subscribe($this->client->getStasisApplicationName(),
+                "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
         }
 
         /**
@@ -84,7 +87,8 @@ namespace {
          */
         public function canUnsubscribe(Bridge $bridge)
         {
-            $application = $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(), "bridge:{$bridge->getId()}");
+            $application = $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(),
+                "bridge:{$bridge->getId()}");
             $this->assertEquals($this->client->getStasisApplicationName(), $application->getName());
         }
 
@@ -103,7 +107,8 @@ namespace {
          */
         public function canUnsubscribeThrowNotFoundException()
         {
-            $this->client->applications()->unsubscribe('THIS_APPLICATION_NAME_WILL_NOT_EXIST', "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
+            $this->client->applications()->unsubscribe('THIS_APPLICATION_NAME_WILL_NOT_EXIST',
+                "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
         }
 
         /**
@@ -114,8 +119,10 @@ namespace {
          */
         public function canUnsubscribeThrowConflictException(Bridge $bridge)
         {
-            $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(), "bridge:{$bridge->getId()}");
-            $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(), "bridge:{$bridge->getId()}");
+            $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(),
+                "bridge:{$bridge->getId()}");
+            $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(),
+                "bridge:{$bridge->getId()}");
         }
 
         /**
@@ -124,7 +131,8 @@ namespace {
          */
         public function canUnsubscribeThrowUnprocessableEntityException()
         {
-            $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(), "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
+            $this->client->applications()->unsubscribe($this->client->getStasisApplicationName(),
+                "bridge:THIS_BRIDGE_NAME_WILL_NOT_EXIST");
         }
     }
 }

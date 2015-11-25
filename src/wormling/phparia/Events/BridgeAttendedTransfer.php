@@ -60,7 +60,7 @@ class BridgeAttendedTransfer extends Event
     private $destinationThreewayChannel;
 
     /**
-     * @var string How the transfer was accomplished 
+     * @var string How the transfer was accomplished
      */
     private $destinationType;
 
@@ -75,7 +75,7 @@ class BridgeAttendedTransfer extends Event
     private $replaceChannel;
 
     /**
-     * @var string The result of the transfer attempt 
+     * @var string The result of the transfer attempt
      */
     private $result;
 
@@ -85,27 +85,27 @@ class BridgeAttendedTransfer extends Event
     private $transferTarget;
 
     /**
-     * @var Channel (optional) - The channel that is being transferred 
+     * @var Channel (optional) - The channel that is being transferred
      */
     private $transferee;
 
     /**
-     * @var Channel First leg of the transferer 
+     * @var Channel First leg of the transferer
      */
     private $transfererFirstLeg;
 
     /**
-     * @var Bridge (optional) - Bridge the transferer first leg is in 
+     * @var Bridge (optional) - Bridge the transferer first leg is in
      */
     private $transfererFirstLegBridge;
 
     /**
-     * @var Channel Second leg of the transferer 
+     * @var Channel Second leg of the transferer
      */
     private $transfererSecondLeg;
 
     /**
-     * @var Bridge (optional) - Bridge the transferer second leg is in 
+     * @var Bridge (optional) - Bridge the transferer second leg is in
      */
     private $transfererSecondLegBridge;
 
@@ -241,26 +241,39 @@ class BridgeAttendedTransfer extends Event
      * @param AriClient $client
      * @param string $response
      */
-    public function __construct(AriClient  $client, $response)
+    public function __construct(AriClient $client, $response)
     {
         parent::__construct($client, $response);
 
-        $this->destinationApplication = property_exists($this->response, 'destination_application') ? $this->response->destination_application : null;
-        $this->destinationBridge = property_exists($this->response, 'destination_bridge') ? $this->response->destination_bridge : null;
-        $this->destinationLinkFirstLeg = property_exists($this->response, 'destination_link_first_leg') ? new Channel($client, $this->response->destination_link_first_leg) : null;
-        $this->destinationLinkSecondLeg = property_exists($this->response, 'destination_link_second_leg') ? new Channel($client, $this->response->destination_link_second_leg) : null;
-        $this->destinationThreewayBridge = property_exists($this->response, 'destination_threeway_bridge') ? new Bridge($client, $this->response->destination_threeway_bridge) : null;
-        $this->destinationThreewayChannel = property_exists($this->response, 'destination_threeway_channel') ? new Channel($client, $this->response->destination_threeway_channel) : null;
-        $this->destinationType = property_exists($this->response, 'destination_type') ? $this->response->destination_type : null;
+        $this->destinationApplication = property_exists($this->response,
+            'destination_application') ? $this->response->destination_application : null;
+        $this->destinationBridge = property_exists($this->response,
+            'destination_bridge') ? $this->response->destination_bridge : null;
+        $this->destinationLinkFirstLeg = property_exists($this->response,
+            'destination_link_first_leg') ? new Channel($client, $this->response->destination_link_first_leg) : null;
+        $this->destinationLinkSecondLeg = property_exists($this->response,
+            'destination_link_second_leg') ? new Channel($client, $this->response->destination_link_second_leg) : null;
+        $this->destinationThreewayBridge = property_exists($this->response,
+            'destination_threeway_bridge') ? new Bridge($client, $this->response->destination_threeway_bridge) : null;
+        $this->destinationThreewayChannel = property_exists($this->response,
+            'destination_threeway_channel') ? new Channel($client,
+            $this->response->destination_threeway_channel) : null;
+        $this->destinationType = property_exists($this->response,
+            'destination_type') ? $this->response->destination_type : null;
         $this->isExternal = $this->response->is_external;
-        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client, $this->response->replace_channel) : null;
+        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client,
+            $this->response->replace_channel) : null;
         $this->result = $this->response->result;
-        $this->transferTarget = property_exists($this->response, 'transfer_target') ? new Channel($client, $this->response->transfer_target) : null;
-        $this->transferee = property_exists($this->response, 'transferee') ? new Channel($client, $this->response->transferee) : null;
+        $this->transferTarget = property_exists($this->response, 'transfer_target') ? new Channel($client,
+            $this->response->transfer_target) : null;
+        $this->transferee = property_exists($this->response, 'transferee') ? new Channel($client,
+            $this->response->transferee) : null;
         $this->transfererFirstLeg = new Channel($client, $this->response->transferer_first_leg);
-        $this->transfererFirstLegBridge = property_exists($this->response, 'transferer_first_leg_bridge') ? new Bridge($client, $this->response->transferer_first_leg_bridge) : null;
+        $this->transfererFirstLegBridge = property_exists($this->response,
+            'transferer_first_leg_bridge') ? new Bridge($client, $this->response->transferer_first_leg_bridge) : null;
         $this->transfererSecondLeg = new Channel($client, $this->response->transferer_second_leg);
-        $this->transfererSecondLegBridge = property_exists($this->response, 'transferer_second_leg_bridge') ? new Bridge($client, $this->response->transferer_second_leg_bridge) : null;
+        $this->transfererSecondLegBridge = property_exists($this->response,
+            'transferer_second_leg_bridge') ? new Bridge($client, $this->response->transferer_second_leg_bridge) : null;
     }
 
 }

@@ -22,8 +22,8 @@ use phparia\Client\AriClient;
 
 /**
  * Base type ARI resources
- * 
- * The event code is a wrapper to isolate the listeners for the particular resource 
+ *
+ * The event code is a wrapper to isolate the listeners for the particular resource
  *
  * @author Brian Smith <wormling@gmail.com>
  */
@@ -41,7 +41,7 @@ class Resource
 
     /**
      * The json_decoded message data from ARI
-     * 
+     *
      * @var object
      */
     protected $response;

@@ -26,17 +26,17 @@ namespace phparia\Resources;
 class TextMessageVariable extends Response
 {
     /**
-     * @var string A unique key identifying the variable. 
+     * @var string A unique key identifying the variable.
      */
     private $key;
 
     /**
-     * @var string The value of the variable. 
+     * @var string The value of the variable.
      */
     private $value;
 
     /**
-     * @return string A unique key identifying the variable. 
+     * @return string A unique key identifying the variable.
      */
     public function getKey()
     {
@@ -44,7 +44,7 @@ class TextMessageVariable extends Response
     }
 
     /**
-     * @return string The value of the variable. 
+     * @return string The value of the variable.
      */
     public function getValue()
     {
@@ -57,7 +57,7 @@ class TextMessageVariable extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->key = $this->response->key;
         $this->value = $this->response->value;
     }

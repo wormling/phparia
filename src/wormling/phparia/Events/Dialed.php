@@ -25,5 +25,5 @@ namespace phparia\Events;
  */
 class Dialed extends Event
 {
-    
+
 }

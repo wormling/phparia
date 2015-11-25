@@ -34,12 +34,12 @@ class ChannelVarset extends Event implements IdentifiableEventInterface
     private $channel;
 
     /**
-     * @var string The new value of the variable. 
+     * @var string The new value of the variable.
      */
     private $value;
 
     /**
-     * @var string The variable that changed. 
+     * @var string The variable that changed.
      */
     private $variable;
 
@@ -80,7 +80,8 @@ class ChannelVarset extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->channel = property_exists($this->response, 'channel') ? new Channel($client, $this->response->channel) : null;
+        $this->channel = property_exists($this->response, 'channel') ? new Channel($client,
+            $this->response->channel) : null;
         $this->value = property_exists($this->response, 'value') ? $this->response->value : null;
         $this->variable = property_exists($this->response, 'variable') ? $this->response->variable : null;
     }

@@ -31,12 +31,12 @@ class Mailbox extends Response
     private $name;
 
     /**
-     * @var int Count of new messages in the mailbox. 
+     * @var int Count of new messages in the mailbox.
      */
     private $newMessages;
 
     /**
-     * @var int Count of old messages in the mailbox. 
+     * @var int Count of old messages in the mailbox.
      */
     private $oldMessages;
 
@@ -49,7 +49,7 @@ class Mailbox extends Response
     }
 
     /**
-     * @return int Count of new messages in the mailbox. 
+     * @return int Count of new messages in the mailbox.
      */
     public function getNewMessages()
     {
@@ -57,7 +57,7 @@ class Mailbox extends Response
     }
 
     /**
-     * @return int Count of old messages in the mailbox. 
+     * @return int Count of old messages in the mailbox.
      */
     public function getOldMessages()
     {
@@ -70,7 +70,7 @@ class Mailbox extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->name = $this->response->name;
         $this->newMessages = $this->response->new_messages;
         $this->oldMessages = $this->response->old_messages;

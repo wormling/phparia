@@ -45,7 +45,7 @@ class RecordingFinished extends Event implements IdentifiableEventInterface
     {
         return "{$this->getType()}_{$this->getRecording()->getName()}";
     }
-    
+
     /**
      * @param AriClient $client
      * @param string $response

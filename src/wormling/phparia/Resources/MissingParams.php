@@ -29,12 +29,12 @@ class MissingParams extends Response
      * @var string Indicates the type of this message.
      */
     private $type;
-    
+
     /**
-     * @var array A list of the missing parameters 
+     * @var array A list of the missing parameters
      */
     private $params;
-    
+
     /**
      * @return string Indicates the type of this message.
      */
@@ -44,7 +44,7 @@ class MissingParams extends Response
     }
 
     /**
-     * @return array A list of the missing parameters 
+     * @return array A list of the missing parameters
      */
     public function getParams()
     {
@@ -57,7 +57,7 @@ class MissingParams extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->type = $this->response->type;
         $this->params = $this->response->params;
     }

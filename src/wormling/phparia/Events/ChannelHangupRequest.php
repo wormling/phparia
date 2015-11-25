@@ -30,17 +30,17 @@ use phparia\Resources\Channel;
 class ChannelHangupRequest extends Event implements IdentifiableEventInterface
 {
     /**
-     * @var int (optional) - Integer representation of the cause of the hangup. 
+     * @var int (optional) - Integer representation of the cause of the hangup.
      */
     private $cause;
 
     /**
-     * @var \phparia\Resources\Channel The channel on which the hangup was requested. 
+     * @var \phparia\Resources\Channel The channel on which the hangup was requested.
      */
     private $channel;
 
     /**
-     * @var boolean (optional) - Whether the hangup request was a soft hangup request. 
+     * @var boolean (optional) - Whether the hangup request was a soft hangup request.
      */
     private $soft;
 
@@ -51,7 +51,7 @@ class ChannelHangupRequest extends Event implements IdentifiableEventInterface
     {
         return $this->cause;
     }
-    
+
     /**
      * @return Channel
      */
@@ -59,7 +59,7 @@ class ChannelHangupRequest extends Event implements IdentifiableEventInterface
     {
         return $this->channel;
     }
-    
+
     /**
      * @return boolean
      */
@@ -67,7 +67,7 @@ class ChannelHangupRequest extends Event implements IdentifiableEventInterface
     {
         return $this->soft;
     }
-    
+
     public function getEventId()
     {
         return "{$this->getType()}_{$this->getChannel()->getId()}";

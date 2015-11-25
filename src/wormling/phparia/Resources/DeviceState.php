@@ -29,17 +29,17 @@ use phparia\Events\Event;
 class DeviceState extends Resource
 {
     /**
-     * @var string Name of the device. 
+     * @var string Name of the device.
      */
     private $name;
 
     /**
-     * @var string Device's state 
+     * @var string Device's state
      */
     private $state;
 
     /**
-     * @return string Name of the device. 
+     * @return string Name of the device.
      */
     public function getName()
     {
@@ -47,19 +47,19 @@ class DeviceState extends Resource
     }
 
     /**
-     * @return string Device's state 
+     * @return string Device's state
      */
     public function getState()
     {
         return $this->state;
     }
-    
+
     /**
      * @param callable $callback
      */
     public function onDeviceStateChange(callable $callback)
     {
-        $this->on(Event::DEVICE_STATE_CHANGE . '_' . $this->getName(), $callback);
+        $this->on(Event::DEVICE_STATE_CHANGE.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -67,7 +67,7 @@ class DeviceState extends Resource
      */
     public function onceDeviceStateChange(callable $callback)
     {
-        $this->once(Event::DEVICE_STATE_CHANGE . '_' . $this->getName(), $callback);
+        $this->once(Event::DEVICE_STATE_CHANGE.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -77,7 +77,7 @@ class DeviceState extends Resource
     public function __construct(AriClient $client, $response)
     {
         parent::__construct($client, $response);
-        
+
         $this->name = $this->response->name;
         $this->state = $this->response->state;
     }

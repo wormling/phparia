@@ -26,12 +26,12 @@ namespace phparia\Resources;
 class CallerId extends Response
 {
     /**
-     * @var string 
+     * @var string
      */
     private $name;
 
     /**
-     * @var string 
+     * @var string
      */
     private $number;
 
@@ -57,7 +57,7 @@ class CallerId extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->name = $this->response->name;
         $this->number = $this->response->number;
     }

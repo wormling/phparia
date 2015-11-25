@@ -27,13 +27,13 @@ class Message implements MessageInterface
 {
     /**
      * The json_decoded message data from ARI
-     * 
+     *
      * @var object
      */
     protected $response;
 
     /**
-     * @var string Indicates the type of this message. 
+     * @var string Indicates the type of this message.
      */
     private $type;
 

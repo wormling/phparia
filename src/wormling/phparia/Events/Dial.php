@@ -57,12 +57,12 @@ class Dial extends Event
     private $dialstring;
 
     /**
-     * @var string (optional) - Forwarding target requested by the original dialed channel. 
+     * @var string (optional) - Forwarding target requested by the original dialed channel.
      */
     private $forward;
 
     /**
-     * @var Channel (optional) - Channel that the caller has been forwarded to.  
+     * @var Channel (optional) - Channel that the caller has been forwarded to.
      */
     private $forwarded;
 
@@ -96,7 +96,7 @@ class Dial extends Event
     }
 
     /**
-     * @return string (optional) - Forwarding target requested by the original dialed channel. 
+     * @return string (optional) - Forwarding target requested by the original dialed channel.
      */
     public function getForward()
     {
@@ -104,7 +104,7 @@ class Dial extends Event
     }
 
     /**
-     * @return Channel (optional) - Forwarding target requested by the original dialed channel. 
+     * @return Channel (optional) - Forwarding target requested by the original dialed channel.
      */
     public function getForwarded()
     {
@@ -127,11 +127,13 @@ class Dial extends Event
     {
         parent::__construct($client, $response);
 
-        $this->caller = property_exists($this->response, 'channel') ? new Channel($client, $this->response->caller) : null;
+        $this->caller = property_exists($this->response, 'channel') ? new Channel($client,
+            $this->response->caller) : null;
         $this->dialstatus = $this->response->dialstatus;
         $this->dialstring = property_exists($this->response, 'dialstring') ? $this->response->dialstring : null;
         $this->forward = property_exists($this->response, 'forward') ? $this->response->forward : null;
-        $this->forwarded = property_exists($this->response, 'forwarded') ? new Channel($client, $this->response->forwarded) : null;
+        $this->forwarded = property_exists($this->response, 'forwarded') ? new Channel($client,
+            $this->response->forwarded) : null;
         $this->peer = $this->response->peer;
     }
 

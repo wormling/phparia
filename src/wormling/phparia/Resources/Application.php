@@ -29,7 +29,7 @@ use phparia\Events\Event;
 class Application extends Resource
 {
     /**
-     * @var array Id's for bridges subscribed to. 
+     * @var array Id's for bridges subscribed to.
      */
     private $bridgeIds;
 
@@ -44,17 +44,17 @@ class Application extends Resource
     private $deviceNames;
 
     /**
-     * @var array {tech}/{resource} for endpoints subscribed to. 
+     * @var array {tech}/{resource} for endpoints subscribed to.
      */
     private $endpointIds;
 
     /**
-     * @var string Name of this application 
+     * @var string Name of this application
      */
     private $name;
 
     /**
-     * @return array Id's for bridges subscribed to. 
+     * @return array Id's for bridges subscribed to.
      */
     public function getBridgeIds()
     {
@@ -78,7 +78,7 @@ class Application extends Resource
     }
 
     /**
-     * @return array {tech}/{resource} for endpoints subscribed to. 
+     * @return array {tech}/{resource} for endpoints subscribed to.
      */
     public function getEndpointIds()
     {
@@ -86,7 +86,7 @@ class Application extends Resource
     }
 
     /**
-     * @return string string Name of this application 
+     * @return string string Name of this application
      */
     public function getName()
     {
@@ -98,17 +98,17 @@ class Application extends Resource
      */
     public function onApplicationReplaced(callable $callback)
     {
-        $this->on(Event::APPLICATION_REPLACED . '_' . $this->getName(), $callback);
+        $this->on(Event::APPLICATION_REPLACED.'_'.$this->getName(), $callback);
     }
-    
+
     /**
      * @param callable $callback
      */
     public function onceApplicationReplaced(callable $callback)
     {
-        $this->once(Event::APPLICATION_REPLACED . '_' . $this->getName(), $callback);
+        $this->once(Event::APPLICATION_REPLACED.'_'.$this->getName(), $callback);
     }
-    
+
     /**
      * @param AriClient $client
      * @param string $response
@@ -116,7 +116,7 @@ class Application extends Resource
     public function __construct(AriClient $client, $response)
     {
         parent::__construct($client, $response);
-        
+
         $this->bridgeIds = $this->response->bridge_ids;
         $this->channelIds = $this->response->channel_ids;
         $this->deviceNames = $this->response->device_names;

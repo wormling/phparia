@@ -75,12 +75,12 @@ class ChannelDestroyed extends Event implements IdentifiableEventInterface
     const AST_CAUSE_INTERWORKING = 127;
 
     /**
-     * @var int Integer representation of the cause of the hangup 
+     * @var int Integer representation of the cause of the hangup
      */
     private $cause;
 
     /**
-     * @var string Text representation of the cause of the hangup 
+     * @var string Text representation of the cause of the hangup
      */
     private $causeTxt;
 
@@ -90,7 +90,7 @@ class ChannelDestroyed extends Event implements IdentifiableEventInterface
     private $channel;
 
     /**
-     * @return int Integer representation of the cause of the hangup 
+     * @return int Integer representation of the cause of the hangup
      */
     public function getCause()
     {

@@ -29,27 +29,27 @@ use phparia\Events\Event;
 class Endpoint extends Resource
 {
     /**
-     * @var array Id's of channels associated with this endpoint 
+     * @var array Id's of channels associated with this endpoint
      */
     private $channelIds;
 
     /**
-     * @var string Identifier of the endpoint, specific to the given technology. 
+     * @var string Identifier of the endpoint, specific to the given technology.
      */
     private $resource;
 
     /**
-     * @var string (optional) - Endpoint's state 
+     * @var string (optional) - Endpoint's state
      */
     private $state;
 
     /**
-     * @var string Technology of the endpoint 
+     * @var string Technology of the endpoint
      */
     private $technology;
 
     /**
-     * @return array Id's of channels associated with this endpoint 
+     * @return array Id's of channels associated with this endpoint
      */
     public function getChannelIds()
     {
@@ -57,7 +57,7 @@ class Endpoint extends Resource
     }
 
     /**
-     * @return string Identifier of the endpoint, specific to the given technology. 
+     * @return string Identifier of the endpoint, specific to the given technology.
      */
     public function getResource()
     {
@@ -65,7 +65,7 @@ class Endpoint extends Resource
     }
 
     /**
-     * @return string (optional) - Endpoint's state 
+     * @return string (optional) - Endpoint's state
      */
     public function getState()
     {
@@ -73,19 +73,19 @@ class Endpoint extends Resource
     }
 
     /**
-     * @return string Technology of the endpoint 
+     * @return string Technology of the endpoint
      */
     public function getTechnology()
     {
         return $this->technology;
     }
-    
+
     /**
      * @param callable $callback
      */
     public function onEndpointStateChange(callable $callback)
     {
-        $this->on(Event::ENDPOINT_STATE_CHANGE . '_' . $this->getResource(), $callback);
+        $this->on(Event::ENDPOINT_STATE_CHANGE.'_'.$this->getResource(), $callback);
     }
 
     /**
@@ -93,7 +93,7 @@ class Endpoint extends Resource
      */
     public function onceEndpointStateChange(callable $callback)
     {
-        $this->once(Event::ENDPOINT_STATE_CHANGE . '_' . $this->getResource(), $callback);
+        $this->once(Event::ENDPOINT_STATE_CHANGE.'_'.$this->getResource(), $callback);
     }
 
     /**

@@ -34,37 +34,37 @@ class LiveRecording extends Resource
     private $cause;
 
     /**
-     * @var int (optional) - Duration in seconds of the recording 
+     * @var int (optional) - Duration in seconds of the recording
      */
     private $duration;
 
     /**
-     * @var string Recording format (wav, gsm, etc.) 
+     * @var string Recording format (wav, gsm, etc.)
      */
     private $format;
 
     /**
-     * @var string Base name for the recording 
+     * @var string Base name for the recording
      */
     private $name;
 
     /**
-     * @var int (optional) - Duration of silence, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds. 
+     * @var int (optional) - Duration of silence, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
     private $silenceDuration;
 
     /**
-     * @var string 
+     * @var string
      */
     private $state;
 
     /**
-     * @var int (optional) - Duration of talking, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds. 
+     * @var int (optional) - Duration of talking, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
     private $talkingDuration;
 
     /**
-     * @var string URI for the channel or bridge being recorded 
+     * @var string URI for the channel or bridge being recorded
      */
     private $targetUri;
 
@@ -77,7 +77,7 @@ class LiveRecording extends Resource
     }
 
     /**
-     * @return int (optional) - Duration in seconds of the recording 
+     * @return int (optional) - Duration in seconds of the recording
      */
     public function getDuration()
     {
@@ -85,7 +85,7 @@ class LiveRecording extends Resource
     }
 
     /**
-     * @return string Recording format (wav, gsm, etc.) 
+     * @return string Recording format (wav, gsm, etc.)
      */
     public function getFormat()
     {
@@ -93,7 +93,7 @@ class LiveRecording extends Resource
     }
 
     /**
-     * @return string Base name for the recording 
+     * @return string Base name for the recording
      */
     public function getName()
     {
@@ -101,7 +101,7 @@ class LiveRecording extends Resource
     }
 
     /**
-     * @return int (optional) - Duration of silence, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds. 
+     * @return int (optional) - Duration of silence, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
     public function getSilenceDuration()
     {
@@ -117,7 +117,7 @@ class LiveRecording extends Resource
     }
 
     /**
-     * @return int (optional) - Duration of talking, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds. 
+     * @return int (optional) - Duration of talking, in seconds, detected in the recording. This is only available if the recording was initiated with a non-zero maxSilenceSeconds.
      */
     public function getTalkingDuration()
     {
@@ -125,19 +125,19 @@ class LiveRecording extends Resource
     }
 
     /**
-     * @return string URI for the channel or bridge being recorded 
+     * @return string URI for the channel or bridge being recorded
      */
     public function getTargetUri()
     {
         return $this->targetUri;
     }
-    
+
     /**
      * @param callable $callback
      */
     public function onRecordingFailed(callable $callback)
     {
-        $this->on(Event::RECORDING_FAILED . '_' . $this->getName(), $callback);
+        $this->on(Event::RECORDING_FAILED.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -145,7 +145,7 @@ class LiveRecording extends Resource
      */
     public function onceRecordingFailed(callable $callback)
     {
-        $this->once(Event::RECORDING_FAILED . '_' . $this->getName(), $callback);
+        $this->once(Event::RECORDING_FAILED.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -153,7 +153,7 @@ class LiveRecording extends Resource
      */
     public function onRecordingFinished(callable $callback)
     {
-        $this->on(Event::RECORDING_FINISHED . '_' . $this->getName(), $callback);
+        $this->on(Event::RECORDING_FINISHED.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -161,7 +161,7 @@ class LiveRecording extends Resource
      */
     public function onceRecordingFinished(callable $callback)
     {
-        $this->once(Event::RECORDING_FINISHED . '_' . $this->getName(), $callback);
+        $this->once(Event::RECORDING_FINISHED.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -169,7 +169,7 @@ class LiveRecording extends Resource
      */
     public function onRecordingStarted(callable $callback)
     {
-        $this->on(Event::RECORDING_STARTED . '_' . $this->getName(), $callback);
+        $this->on(Event::RECORDING_STARTED.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -177,7 +177,7 @@ class LiveRecording extends Resource
      */
     public function onceRecordingStarted(callable $callback)
     {
-        $this->once(Event::RECORDING_STARTED . '_' . $this->getName(), $callback);
+        $this->once(Event::RECORDING_STARTED.'_'.$this->getName(), $callback);
     }
 
     /**
@@ -192,9 +192,11 @@ class LiveRecording extends Resource
         $this->duration = property_exists($this->response, 'duration') ? $this->response->duration : null;
         $this->format = $this->response->format;
         $this->name = $this->response->name;
-        $this->silenceDuration = property_exists($this->response, 'silence_duration') ? $this->response->silence_duration : null;
+        $this->silenceDuration = property_exists($this->response,
+            'silence_duration') ? $this->response->silence_duration : null;
         $this->state = $this->response->state;
-        $this->talkingDuration = property_exists($this->response, 'talking_duration') ? $this->response->talking_duration : null;
+        $this->talkingDuration = property_exists($this->response,
+            'talking_duration') ? $this->response->talking_duration : null;
         $this->targetUri = $this->response->target_uri;
     }
 

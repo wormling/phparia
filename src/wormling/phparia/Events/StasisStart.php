@@ -29,7 +29,7 @@ use phparia\Resources\Channel;
 class StasisStart extends Event implements IdentifiableEventInterface
 {
     /**
-     * @var array Arguments to the application 
+     * @var array Arguments to the application
      */
     private $args;
 
@@ -82,7 +82,8 @@ class StasisStart extends Event implements IdentifiableEventInterface
 
         $this->args = $this->response->args;
         $this->channel = new Channel($client, $this->response->channel);
-        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client, $this->response->replace_channel) : null;
+        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client,
+            $this->response->replace_channel) : null;
     }
 
 }

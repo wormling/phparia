@@ -29,7 +29,7 @@ use phparia\Events\Event;
 class Playback extends Resource
 {
     /**
-     * @var string ID for this playback operation 
+     * @var string ID for this playback operation
      */
     private $id;
 
@@ -39,22 +39,22 @@ class Playback extends Resource
     private $language;
 
     /**
-     * @var string URI for the media to play back. 
+     * @var string URI for the media to play back.
      */
     private $mediaUri;
 
     /**
-     * @var string Current state of the playback operation. 
+     * @var string Current state of the playback operation.
      */
     private $state;
 
     /**
-     * @var string URI for the channel or bridge to play the media on 
+     * @var string URI for the channel or bridge to play the media on
      */
     private $targetUri;
 
     /**
-     * @return string ID for this playback operation 
+     * @return string ID for this playback operation
      */
     public function getId()
     {
@@ -70,7 +70,7 @@ class Playback extends Resource
     }
 
     /**
-     * @return string URI for the media to play back. 
+     * @return string URI for the media to play back.
      */
     public function getMediaUri()
     {
@@ -78,7 +78,7 @@ class Playback extends Resource
     }
 
     /**
-     * @return string Current state of the playback operation. 
+     * @return string Current state of the playback operation.
      */
     public function getState()
     {
@@ -86,7 +86,7 @@ class Playback extends Resource
     }
 
     /**
-     * @return string URI for the channel or bridge to play the media on 
+     * @return string URI for the channel or bridge to play the media on
      */
     public function getTargetUri()
     {
@@ -98,33 +98,33 @@ class Playback extends Resource
      */
     public function onPlaybackStarted(callable $callback)
     {
-        $this->on(Event::PLAYBACK_STARTED . '_' . $this->getId(), $callback);
+        $this->on(Event::PLAYBACK_STARTED.'_'.$this->getId(), $callback);
     }
-    
+
     /**
      * @param callable $callback
      */
     public function oncePlaybackStarted(callable $callback)
     {
-        $this->once(Event::PLAYBACK_STARTED . '_' . $this->getId(), $callback);
+        $this->once(Event::PLAYBACK_STARTED.'_'.$this->getId(), $callback);
     }
-    
+
     /**
      * @param callable $callback
      */
     public function onPlaybackFinished(callable $callback)
     {
-        $this->on(Event::PLAYBACK_FINISHED . '_' . $this->getId(), $callback);
+        $this->on(Event::PLAYBACK_FINISHED.'_'.$this->getId(), $callback);
     }
-    
+
     /**
      * @param callable $callback
      */
     public function oncePlaybackFinished(callable $callback)
     {
-        $this->once(Event::PLAYBACK_FINISHED . '_' . $this->getId(), $callback);
+        $this->once(Event::PLAYBACK_FINISHED.'_'.$this->getId(), $callback);
     }
-    
+
     /**
      * @param AriClient $client
      * @param string $response

@@ -22,7 +22,7 @@ use Exception;
 
 /**
  * @author Brian Smith <wormling@gmail.com>
- * 
+ *
  * The error code is actially 500-599
  */
 class ServerException extends Exception

@@ -31,12 +31,12 @@ class Sound extends Response
     private $formats;
 
     /**
-     * @var string Sound's identifier. 
+     * @var string Sound's identifier.
      */
     private $id;
 
     /**
-     * @var string (optional) - Text description of the sound, usually the words spoken. 
+     * @var string (optional) - Text description of the sound, usually the words spoken.
      */
     private $text;
 
@@ -49,7 +49,7 @@ class Sound extends Response
     }
 
     /**
-     * @return string Sound's identifier. 
+     * @return string Sound's identifier.
      */
     public function getId()
     {
@@ -57,7 +57,7 @@ class Sound extends Response
     }
 
     /**
-     * @return string (optional) - Text description of the sound, usually the words spoken. 
+     * @return string (optional) - Text description of the sound, usually the words spoken.
      */
     public function getText()
     {
@@ -70,7 +70,7 @@ class Sound extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         foreach ($this->response->formats as $key => $format) {
             $this->formats[$key] = new FormatLangPair($format);
         }

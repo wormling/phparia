@@ -65,9 +65,9 @@ class Event extends Message implements EventInterface
      * @var AriClient
      */
     protected $client;
-    
+
     /**
-     * @var string Name of the application receiving the event. 
+     * @var string Name of the application receiving the event.
      */
     private $application;
 
@@ -77,7 +77,7 @@ class Event extends Message implements EventInterface
     private $timestamp;
 
     /**
-     * @return string Name of the application receiving the event. 
+     * @return string Name of the application receiving the event.
      */
     public function getApplication()
     {
@@ -99,11 +99,12 @@ class Event extends Message implements EventInterface
     public function __construct(AriClient $client, $response)
     {
         $this->client = $client;
-        
+
         parent::__construct($response);
 
         $this->application = $this->response->application;
-        $this->timestamp = property_exists($this->response, 'timestamp') ? new \DateTime($this->response->timestamp) : null;
+        $this->timestamp = property_exists($this->response,
+            'timestamp') ? new \DateTime($this->response->timestamp) : null;
     }
 
 }

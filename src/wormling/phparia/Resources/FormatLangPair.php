@@ -26,12 +26,12 @@ namespace phparia\Resources;
 class FormatLangPair extends Response
 {
     /**
-     * @var string 
+     * @var string
      */
     private $format;
 
     /**
-     * @var string 
+     * @var string
      */
     private $language;
 
@@ -57,7 +57,7 @@ class FormatLangPair extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->format = $this->response->format;
         $this->language = $this->response->language;
     }

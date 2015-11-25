@@ -34,7 +34,7 @@ class ChannelTalkingFinished extends Event implements IdentifiableEventInterface
     private $channel;
 
     /**
-     * @var int The length of time, in milliseconds, that talking was detected on the channel 
+     * @var int The length of time, in milliseconds, that talking was detected on the channel
      */
     private $duration;
 

@@ -35,12 +35,12 @@ class BridgeBlindTransfer extends Event
     private $bridge;
 
     /**
-     * @var Channel The channel performing the blind transfer 
+     * @var Channel The channel performing the blind transfer
      */
     private $channel;
 
     /**
-     * @var string The context transferred to 
+     * @var string The context transferred to
      */
     private $contex;
 
@@ -50,7 +50,7 @@ class BridgeBlindTransfer extends Event
     private $exten;
 
     /**
-     * @var boolean Whether the transfer was externally initiated or not 
+     * @var boolean Whether the transfer was externally initiated or not
      */
     private $isExternal;
 
@@ -60,7 +60,7 @@ class BridgeBlindTransfer extends Event
     private $replaceChannel;
 
     /**
-     * @var string The result of the transfer attempt 
+     * @var string The result of the transfer attempt
      */
     private $result;
 
@@ -78,7 +78,7 @@ class BridgeBlindTransfer extends Event
     }
 
     /**
-     * @return Channel The channel performing the blind transfer 
+     * @return Channel The channel performing the blind transfer
      */
     public function getChannel()
     {
@@ -86,7 +86,7 @@ class BridgeBlindTransfer extends Event
     }
 
     /**
-     * @return string The context transferred to 
+     * @return string The context transferred to
      */
     public function getContext()
     {
@@ -102,7 +102,7 @@ class BridgeBlindTransfer extends Event
     }
 
     /**
-     * @return boolean Whether the transfer was externally initiated or not 
+     * @return boolean Whether the transfer was externally initiated or not
      */
     public function isExternal()
     {
@@ -118,7 +118,7 @@ class BridgeBlindTransfer extends Event
     }
 
     /**
-     * @return string The result of the transfer attempt 
+     * @return string The result of the transfer attempt
      */
     public function getResult()
     {
@@ -137,18 +137,21 @@ class BridgeBlindTransfer extends Event
      * @param AriClient $client
      * @param string $response
      */
-    public function __construct(AriClient  $client, $response)
+    public function __construct(AriClient $client, $response)
     {
         parent::__construct($client, $response);
 
-        $this->bridge = property_exists($this->response, 'bridge') ? new Bridge($client, $this->response->bridge) : null;
+        $this->bridge = property_exists($this->response, 'bridge') ? new Bridge($client,
+            $this->response->bridge) : null;
         $this->channel = new Channel($client, $this->response->channel);
         $this->contex = $this->response->context;
         $this->exten = $this->response->exten;
         $this->isExternal = $this->response->is_external;
-        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client, $this->response->replace_channel) : null;
+        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client,
+            $this->response->replace_channel) : null;
         $this->result = $this->response->result;
-        $this->transferee = property_exists($this->response, 'transferee') ? new Channel($client, $this->response->transferee) : null;
+        $this->transferee = property_exists($this->response, 'transferee') ? new Channel($client,
+            $this->response->transferee) : null;
     }
 
 }

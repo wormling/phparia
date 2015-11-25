@@ -35,7 +35,7 @@ class Recordings extends AriClientAware
 {
     /**
      * List recordings that are complete.
-     * 
+     *
      * @return StoredRecording[]
      */
     public function getRecordings()

@@ -35,7 +35,7 @@ class Endpoints extends AriClientAware
 
     /**
      * List all endpoints.
-     * 
+     *
      * @return Endpoint
      */
     public function getEndpoints()

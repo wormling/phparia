@@ -40,7 +40,7 @@ class ChannelConnectedLine extends Event implements IdentifiableEventInterface
     {
         return $this->channel;
     }
-    
+
     public function getEventId()
     {
         return "{$this->getType()}_{$this->getChannel()->getId()}";

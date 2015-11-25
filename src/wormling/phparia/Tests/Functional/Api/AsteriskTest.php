@@ -1,6 +1,7 @@
 <?php
 
 namespace {
+
     use phparia\Api\Asterisk;
     use phparia\Tests\Functional\PhpariaTestCase;
 

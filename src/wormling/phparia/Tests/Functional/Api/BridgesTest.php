@@ -168,7 +168,7 @@ namespace {
                 $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
                 try {
                     $this->client->bridges()->addChannel('BRIDGE_1_ID', 'THIS_CHANNEL_WILL_NOT_EXIST');
-                } catch(NotFoundException $e) {
+                } catch (NotFoundException $e) {
                     $this->client->bridges()->deleteBridge('BRIDGE_1_ID');
                     throw $e;
                 }

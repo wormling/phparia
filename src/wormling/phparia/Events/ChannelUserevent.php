@@ -31,7 +31,7 @@ use phparia\Resources\Endpoint;
 class ChannelUserevent extends Event
 {
     /**
-     * @var Bridge (optional) - A bridge that is signaled with the user event. 
+     * @var Bridge (optional) - A bridge that is signaled with the user event.
      */
     private $bridge;
 
@@ -46,7 +46,7 @@ class ChannelUserevent extends Event
     private $endpoint;
 
     /**
-     * @var string The name of the user event. 
+     * @var string The name of the user event.
      */
     private $eventname;
 
@@ -103,9 +103,12 @@ class ChannelUserevent extends Event
     {
         parent::__construct($client, $response);
 
-        $this->bridge = property_exists($this->response, 'bridge') ? new Bridge($client, $this->response->bridge) : null;
-        $this->channel = property_exists($this->response, 'channel') ? new Channel($client, $this->response->channel) : null;
-        $this->endpoint = property_exists($this->response, 'endpoint') ? new Endpoint($client, $this->response->endpoint) : null;
+        $this->bridge = property_exists($this->response, 'bridge') ? new Bridge($client,
+            $this->response->bridge) : null;
+        $this->channel = property_exists($this->response, 'channel') ? new Channel($client,
+            $this->response->channel) : null;
+        $this->endpoint = property_exists($this->response, 'endpoint') ? new Endpoint($client,
+            $this->response->endpoint) : null;
         $this->eventname = $this->response->eventname;
         $this->userevent = $this->response->userevent;
     }

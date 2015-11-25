@@ -35,7 +35,7 @@ class ChannelLeftBridge extends Event implements IdentifiableEventInterface
     private $bridge;
 
     /**
-     * @var Channel 
+     * @var Channel
      */
     private $channel;
 

@@ -26,12 +26,12 @@ namespace phparia\Resources;
 class StoredRecording extends Response
 {
     /**
-     * @var string 
+     * @var string
      */
     private $format;
 
     /**
-     * @var string 
+     * @var string
      */
     private $name;
 
@@ -57,7 +57,7 @@ class StoredRecording extends Response
     public function __construct($response)
     {
         parent::__construct($response);
-        
+
         $this->format = $this->response->format;
         $this->name = $this->response->name;
     }

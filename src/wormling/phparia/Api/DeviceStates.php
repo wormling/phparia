@@ -35,7 +35,7 @@ class DeviceStates extends AriClientAware
 
     /**
      * List all ARI controlled device states.
-     * 
+     *
      * @return DeviceState[]
      */
     public function getDeviceStates()
@@ -53,7 +53,7 @@ class DeviceStates extends AriClientAware
 
     /**
      * Retrieve the current state of a device.
-     * 
+     *
      * @param string $deviceName
      * @return DeviceState
      */
