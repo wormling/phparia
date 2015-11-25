@@ -18,20 +18,15 @@
 
 namespace phparia\Events;
 
+use phparia\Resources\Response;
+
 /**
  * Base type for errors and events
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Message implements MessageInterface
+class Message extends Response implements MessageInterface
 {
-    /**
-     * The json_decoded message data from ARI
-     *
-     * @var object
-     */
-    protected $response;
-
     /**
      * @var string Indicates the type of this message.
      */
@@ -47,13 +42,8 @@ class Message implements MessageInterface
      */
     public function __construct($response)
     {
-        if (is_array($response)) {
-            $this->response = json_decode(json_encode($response), false);
-        } elseif (is_object($response)) {
-            $this->response = $response;
-        } else {
-            $this->response = json_decode($response);
-        }
+        parent::__construct($response);
+
         $this->type = $this->response->type;
     }
 

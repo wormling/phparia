@@ -27,7 +27,7 @@ use phparia\Client\AriClient;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class Resource
+class Resource extends Response
 {
     /**
      * @var array
@@ -38,13 +38,6 @@ class Resource
      * @var AriClient
      */
     protected $client;
-
-    /**
-     * The json_decoded message data from ARI
-     *
-     * @var object
-     */
-    protected $response;
 
     /**
      * @param string $event
@@ -122,13 +115,7 @@ class Resource
     {
         $this->client = $client;
 
-        if (is_array($response)) { // For some reason, playback is an array, so this fixes that problem
-            $this->response = json_decode(json_encode($response), false);
-        } elseif (is_object($response)) {
-            $this->response = $response;
-        } else {
-            $this->response = json_decode($response);
-        }
+        parent::__construct($response);
     }
 
     public function __destruct()

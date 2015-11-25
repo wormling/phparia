@@ -46,4 +46,12 @@ class Response
         }
     }
 
+    /**
+     * @param $propertyName
+     * @return mixed
+     */
+    protected function getResponseValue($propertyName)
+    {
+        return property_exists($this->response, $propertyName) ? $this->response->{$propertyName} : null;
+    }
 }
