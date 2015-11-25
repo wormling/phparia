@@ -28,7 +28,7 @@ interface EventInterface
     public function getApplication();
 
     /**
-     * @return DateTime (optional) - Time at which this event was created.
+     * @return \DateTime (optional) - Time at which this event was created.
      */
     public function getTimestamp();
 }
