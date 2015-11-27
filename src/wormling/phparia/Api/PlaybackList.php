@@ -66,8 +66,6 @@ class PlaybackList extends \ArrayObject
         // Remove playbacks when they are done playing
         $this->phparia->getWsClient()->once('PlaybackFinished',
             function (PlaybackFinished $playbackFinished) use ($value) {
-                echo 'here';
-                die;
                 if ($playbackFinished->getPlayback()->getId() === $value->getId()) {
                     $key = array_search($value, $this->getArrayCopy());
                     if ($key !== false) {
