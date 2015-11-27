@@ -47,8 +47,6 @@ class PlaybackList extends \ArrayObject
 
         // Remove playbacks when they are done playing
         $value->oncePlaybackFinished(function () use ($offset) {
-            echo 'got here';
-            die;
             $this->offsetUnset($offset);
         });
     }
