@@ -40,13 +40,15 @@ class Events extends AriClientAware
      * WebSocket connection for events.
      *
      * @param string $app (required) Applications to subscribe to.  Allows comma separated values.
+     * @param boolean $subscribeAll Subscribe to all Asterisk events. If provided, the applications listed will be subscribed to all events, effectively disabling the application specific subscriptions. Default is 'false'.
      * @return EventInterface[]
      */
-    public function getEvents($app)
+    public function getEvents($app, $subscribeAll = false)
     {
         $uri = '/events';
         $response = $this->client->getEndpoint()->get($uri, array(
             'app' => $app,
+            'subscribeAll' => $subscribeAll,
         ));
 
         $events = [];
@@ -85,5 +87,4 @@ class Events extends AriClientAware
             throw new UnprocessableEntityException($e);
         }
     }
-
 }
