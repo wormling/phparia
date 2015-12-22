@@ -61,7 +61,7 @@ class Mailboxes extends AriClientAware
         $uri = "/mailboxes/$mailboxName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
+        } catch (Pest_NotFound $e) { // Mailbox not found
             throw new NotFoundException($e);
         }
 
@@ -84,7 +84,7 @@ class Mailboxes extends AriClientAware
                 'newMessages' => $newMessages,
                 'oldMessages' => $oldMessages,
             ));
-        } catch (Pest_NotFound $e) { // Playback not found
+        } catch (Pest_NotFound $e) { // Mailbox not found
             throw new NotFoundException($e);
         }
     }
@@ -100,7 +100,7 @@ class Mailboxes extends AriClientAware
         $uri = "/mailboxes/$mailboxName";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
+        } catch (Pest_NotFound $e) { // Mailbox not found
             throw new NotFoundException($e);
         }
     }
