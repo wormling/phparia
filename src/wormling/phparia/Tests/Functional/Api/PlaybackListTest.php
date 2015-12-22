@@ -41,12 +41,12 @@ namespace {
          */
         public function appendCanRemovePlaybackAfterFinished()
         {
-            $this->markTestIncomplete('Event not firing.');
             $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $playbackList = new PlaybackList($this->client);
-                $playbackList->append($playback = $event->getChannel()->playMedia('sound:silence/2'));
-                sleep(3);
+                $playbackList->append($playback = $event->getChannel()->playMedia('sound:silence/1'));
+                sleep(2);
+                $this->client->getEventLoop()->tick();
                 $this->assertFalse((bool)array_search($playback, $playbackList->getArrayCopy()));
                 $this->client->stop();
             });
@@ -62,12 +62,12 @@ namespace {
          */
         public function offsetSetCanRemovePlaybackAfterFinished()
         {
-            $this->markTestIncomplete('Event not firing.');
             $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
                 $playbackList = new PlaybackList($this->client);
-                $playbackList->offsetSet(0, $playback = $event->getChannel()->playMedia('sound:silence/2'));
-                sleep(3);
+                $playbackList->offsetSet(0, $playback = $event->getChannel()->playMedia('sound:silence/1'));
+                sleep(2);
+                $this->client->getEventLoop()->tick();
                 $this->assertFalse((bool)array_search($playback, $playbackList->getArrayCopy()));
                 $this->client->stop();
             });

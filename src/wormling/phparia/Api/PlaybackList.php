@@ -28,10 +28,12 @@ class PlaybackList extends \ArrayObject
      */
     protected $phparia;
 
+    protected $playbacks = [];
+
     public function __construct(Phparia $phparia)
     {
         $this->phparia = $phparia;
-        parent::__construct(array(), \ArrayObject::ARRAY_AS_PROPS);
+        parent::__construct($this->playbacks, \ArrayObject::ARRAY_AS_PROPS);
     }
 
     /**
@@ -46,8 +48,13 @@ class PlaybackList extends \ArrayObject
         parent::offsetSet($offset, $value);
 
         // Remove playbacks when they are done playing
-        $value->oncePlaybackFinished(function () use ($offset) {
-            $this->offsetUnset($offset);
+        $value->oncePlaybackFinished(function (PlaybackFinished $playbackFinished) use ($value) {
+            if ($playbackFinished->getPlayback()->getId() === $value->getId()) {
+                $key = array_search($value, $this->getArrayCopy());
+                if ($key !== false) {
+                    $this->offsetUnset($key);
+                }
+            }
         });
     }
 
