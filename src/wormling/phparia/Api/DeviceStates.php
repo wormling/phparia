@@ -32,6 +32,15 @@ use phparia\Resources\DeviceState;
  */
 class DeviceStates extends AriClientAware
 {
+    const DEVICE_STATE_UNKNOWN = 'UNKNOWN';
+    const DEVICE_STATE_NOT_INUSE = 'NOT_INUSE';
+    const DEVICE_STATE_INUSE = 'INUSE';
+    const DEVICE_STATE_BUSY = 'BUSY';
+    const DEVICE_STATE_INVALID = 'INVALID';
+    const DEVICE_STATE_UNAVAILABLE = 'UNAVAILABLE';
+    const DEVICE_STATE_RINGING = 'RINGING';
+    const DEVICE_STATE_RINGINUSE = 'RINGINUSE';
+    const DEVICE_STATE_ONHOLD = 'ONHOLD';
 
     /**
      * List all ARI controlled device states.
