@@ -36,6 +36,18 @@ use phparia\Exception\ServerException;
  */
 class Channels extends MediaBase
 {
+    const CHANNEL_STATE_DOWN = 'Down';
+    const CHANNEL_STATE_RSRVD = 'Rsrvd';
+    const CHANNEL_STATE_OFFHOOK 'OffHook';
+    const CHANNEL_STATE_DIALING = 'Dialing';
+    const CHANNEL_STATE_RING = 'Ring';
+    const CHANNEL_STATE_RINGING = 'Ringing';
+    const CHANNEL_STATE_UP = 'Up';
+    const CHANNEL_STATE_BUSY = 'Busy';
+    const CHANNEL_STATE_DIALING = 'Dialing Offhook';
+    const CHANNEL_STATE_PRE-RING = 'Pre-ring';
+    const CHANNEL_STATE_UNKNOWN = 'Unknown';
+
     /**
      * List all active channels in Asterisk.
      *
