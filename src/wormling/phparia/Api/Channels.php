@@ -36,17 +36,18 @@ use phparia\Exception\ServerException;
  */
 class Channels extends MediaBase
 {
-    const CHANNEL_STATE_DOWN = 'Down';
-    const CHANNEL_STATE_RSRVD = 'Rsrvd';
-    const CHANNEL_STATE_OFFHOOK 'OffHook';
-    const CHANNEL_STATE_DIALING = 'Dialing';
-    const CHANNEL_STATE_RING = 'Ring';
-    const CHANNEL_STATE_RINGING = 'Ringing';
-    const CHANNEL_STATE_UP = 'Up';
-    const CHANNEL_STATE_BUSY = 'Busy';
-    const CHANNEL_STATE_DIALING = 'Dialing Offhook';
-    const CHANNEL_STATE_PRE-RING = 'Pre-ring';
-    const CHANNEL_STATE_UNKNOWN = 'Unknown';
+    const AST_STATE_DOWN = 'Down'; // Channel is down and available
+    const AST_STATE_RESERVED = 'Rsrvd'; // Channel is down, but reserved
+    const AST_STATE_OFFHOOK = 'OffHook'; // Channel is off hook
+    const AST_STATE_DIALING = 'Dialing'; // Digits (or equivalent) have been dialed
+    const AST_STATE_RING = 'Ring'; // Line is ringing
+    const AST_STATE_RINGING = 'Ringing'; // Remote end is ringing
+    const AST_STATE_UP = 'Up'; // Line is up
+    const AST_STATE_BUSY = 'Busy'; // Line is busy
+    const AST_STATE_DIALING_OFFHOOK = 'Dialing Offhook'; // Digits (or equivalent) have been dialed while offhook
+    const AST_STATE_PRERING = 'Pre-ring'; // Channel has detected an incoming call and is waiting for ring
+    const AST_STATE_MUTE = 'Mute'; // Do not transmit voice data
+    const AST_STATE_UNKNOWN = 'Unknown';
 
     /**
      * List all active channels in Asterisk.
