@@ -2,6 +2,7 @@
 
 namespace {
 
+    use phparia\Api\DeviceStates;
     use phparia\Events\DeviceStateChange;
     use phparia\Events\StasisStart;
     use phparia\Exception\NotFoundException;
@@ -17,7 +18,7 @@ namespace {
             $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
 
-                $this->client->deviceStates()->updateDeviceState('Stasis:TEST_DEVICE', 'INUSE');
+                $this->client->deviceStates()->updateDeviceState('Stasis:TEST_DEVICE', DeviceStates::DEVICE_STATE_INUSE);
                 $this->client->deviceStates()->getDeviceState('Stasis:TEST_DEVICE');
                 $this->client->stop();
             });
@@ -37,7 +38,7 @@ namespace {
             $this->client->onStasisStart(function (StasisStart $event) {
                 $event->getChannel()->answer();
 
-                $this->client->deviceStates()->updateDeviceState('Bad:TEST_DEVICE', 'INUSE');
+                $this->client->deviceStates()->updateDeviceState('Bad:TEST_DEVICE', DeviceStates::DEVICE_STATE_INUSE);
                 $this->client->stop();
             });
             $this->client->getAriClient()->onConnect(function () {
@@ -98,7 +99,7 @@ namespace {
 
                 $this->client->deviceStates()->deleteDeviceState('Stasis:TEST_DEVICE');
                 $deviceState = $this->client->deviceStates()->getDeviceState('Stasis:TEST_DEVICE');
-                $this->assertNotEquals('INUSE', $deviceState->getState(), 'Device state delete failed');
+                $this->assertNotEquals(DeviceStates::DEVICE_STATE_INUSE, $deviceState->getState(), 'Device state delete failed');
                 $this->client->stop();
             });
             $this->client->getAriClient()->onConnect(function () {
