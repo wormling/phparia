@@ -35,6 +35,27 @@ namespace {
             $this->assertTrue($success);
         }
 
+        /**
+         * @test
+         */
+        public function canCreateChannelWithContext()
+        {
+            $success = false;
+            $this->client->onStasisStart(function (StasisStart $event) use (&$success) {
+                $event->getChannel()->answer();
+                $dialplan = $event->getChannel()->getDialplan();
+                if ($dialplan->getContext() === 'default' && $dialplan->getExten() === '8185551212' && $dialplan->getPriority() === 1) {
+                    $success = true;
+                }
+                $this->client->stop();
+            });
+            $this->client->getAriClient()->onConnect(function () {
+                $this->client->channels()->createChannel($this->dialString, 'default', '8185551212', 1, null,
+                    $this->client->getStasisApplicationName());
+            });
+            $this->client->run();
+            $this->assertTrue($success);
+        }
 
         /**
          * @test
