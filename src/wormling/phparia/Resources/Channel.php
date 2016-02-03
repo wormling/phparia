@@ -622,14 +622,15 @@ class Channel extends Resource
      * Get the value of a channel variable or function.
      *
      * @param string $variable
+     * @param null|string $default The value to return if the variable does not exist
      * @return string|Variable
      * @throws InvalidParameterException
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function getVariable($variable)
+    public function getVariable($variable, $default = null)
     {
-        return $this->client->channels()->getVariable($this->id, $variable);
+        return $this->client->channels()->getVariable($this->id, $variable, $default);
     }
 
     /**
