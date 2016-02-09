@@ -111,7 +111,9 @@ class Phparia
     public function stop()
     {
         $this->wsClient->close();
-        $this->eventLoop->stop();
+        $this->ariClient->onClose(function() {
+            $this->eventLoop->stop();
+        });
     }
 
     /**
