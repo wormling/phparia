@@ -208,6 +208,14 @@ class AriClient
     }
 
     /**
+     * @param callable|callable $callback
+     */
+    public function onClose(callable $callback)
+    {
+        $this->wsClient->on("close", $callback);
+    }
+
+    /**
      * @return WebSocket
      */
     public function getWsClient()
