@@ -55,7 +55,7 @@ class Response
      * @param string $propertyName The name of the property to retrieve
      * @param string|null $class (optional) The name of the class to pass the propertyValue to and return
      * @param AriClient|null $client (optional, requires $class) The AriClient instance to pass to the class in the case of Resource types
-     * @return mixed
+     * @return array|mixed
      */
     protected function getResponseValue($propertyName, $class = null, AriClient $client = null)
     {
