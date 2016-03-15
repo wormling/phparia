@@ -19,9 +19,6 @@
 namespace phparia\Events;
 
 use phparia\Client\AriClient;
-use phparia\Resources\Bridge;
-use phparia\Resources\Channel;
-use phparia\Resources\Endpoint;
 
 /**
  * User-generated event with additional user-defined fields in the object.
@@ -103,14 +100,10 @@ class ChannelUserevent extends Event
     {
         parent::__construct($client, $response);
 
-        $this->bridge = property_exists($this->response, 'bridge') ? new Bridge($client,
-            $this->response->bridge) : null;
-        $this->channel = property_exists($this->response, 'channel') ? new Channel($client,
-            $this->response->channel) : null;
-        $this->endpoint = property_exists($this->response, 'endpoint') ? new Endpoint($client,
-            $this->response->endpoint) : null;
-        $this->eventname = $this->response->eventname;
-        $this->userevent = $this->response->userevent;
+        $this->bridge = $this->getResponseValue('bridge', '\phparia\Resources\Bridge', $client);
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->endpoint = $this->getResponseValue('endpoint', '\phparia\Resources\Endpoint', $client);
+        $this->eventname = $this->getResponseValue('eventname');
+        $this->userevent = $this->getResponseValue('userevent');
     }
-
 }

@@ -80,9 +80,8 @@ class ChannelCallerId extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->callerPresentation = $this->response->caller_presentation;
-        $this->callerPresentationTxt = $this->response->caller_presentation_txt;
-        $this->channel = new Channel($client, $this->response->channel);
+        $this->callerPresentation = $this->getResponseValue('caller_presentation');
+        $this->callerPresentationTxt = $this->getResponseValue('caller_presentation_txt');
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
     }
-
 }

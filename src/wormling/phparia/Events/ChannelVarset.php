@@ -80,10 +80,8 @@ class ChannelVarset extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->channel = property_exists($this->response, 'channel') ? new Channel($client,
-            $this->response->channel) : null;
-        $this->value = property_exists($this->response, 'value') ? $this->response->value : null;
-        $this->variable = property_exists($this->response, 'variable') ? $this->response->variable : null;
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->value = $this->getResponseValue('value');
+        $this->variable = $this->getResponseValue('variable');
     }
-
 }

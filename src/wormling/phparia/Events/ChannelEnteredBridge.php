@@ -68,8 +68,7 @@ class ChannelEnteredBridge extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->bridge = new Bridge($client, $this->response->bridge);
-        $this->channel = new Channel($client, $this->response->channel);
+        $this->bridge = $this->getResponseValue('bridge', '\phparia\Resources\Bridge', $client);
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
     }
-
 }

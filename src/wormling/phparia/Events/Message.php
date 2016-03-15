@@ -44,7 +44,6 @@ class Message extends Response implements MessageInterface
     {
         parent::__construct($response);
 
-        $this->type = $this->response->type;
+        $this->type = $this->getResponseValue('type');
     }
-
 }

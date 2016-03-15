@@ -67,8 +67,7 @@ class ChannelTalkingFinished extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->channel = new Channel($client, $this->response->channel);
-        $this->duration = $this->response->duration;
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->duration = $this->getResponseValue('duration');
     }
-
 }

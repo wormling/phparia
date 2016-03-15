@@ -60,9 +60,7 @@ class TextMessageReceived extends Event
     {
         parent::__construct($client, $response);
 
-        $this->endpoint = property_exists($this->response, 'endpoint') ? new Endpoint($client,
-            $this->response->endpoint) : null;
-        $this->message = new TextMessage($this->response->message);
+        $this->endpoint = $this->getResponseValue('endpoint', '\phparia\Resources\Endpoint', $client);
+        $this->message = $this->getResponseValue('message', '\phparia\Resources\TextMessage');
     }
-
 }

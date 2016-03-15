@@ -49,7 +49,6 @@ class DeviceStateChange extends Event
     {
         parent::__construct($client, $response);
 
-        $this->deviceState = new DeviceState($client, $this->response->device_state);
+        $this->deviceState = $this->getResponseValue('device_state', '\phparia\Resources\DeviceState', $client);
     }
-
 }

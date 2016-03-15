@@ -81,9 +81,8 @@ class ChannelHangupRequest extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->cause = property_exists($this->response, 'cause') ? $this->response->cause : null;
-        $this->channel = new Channel($client, $this->response->channel);
-        $this->soft = property_exists($this->response, 'soft') ? $this->response->soft : null;
+        $this->cause = $this->getResponseValue('cause');
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->soft = $this->getResponseValue('soft');
     }
-
 }

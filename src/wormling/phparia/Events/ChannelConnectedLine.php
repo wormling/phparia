@@ -54,7 +54,6 @@ class ChannelConnectedLine extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->channel = new Channel($client, $this->response->channel);
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
     }
-
 }

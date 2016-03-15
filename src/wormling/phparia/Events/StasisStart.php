@@ -80,10 +80,8 @@ class StasisStart extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->args = $this->response->args;
-        $this->channel = new Channel($client, $this->response->channel);
-        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client,
-            $this->response->replace_channel) : null;
+        $this->args = $this->getResponseValue('args');
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->replaceChannel = $this->getResponseValue('replace_channel', '\phparia\Resources\Channel', $client);
     }
-
 }
