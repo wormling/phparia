@@ -315,13 +315,13 @@ class Bridge extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->bridgeClass = $this->response->bridge_class;
-        $this->bridgeType = $this->response->bridge_type;
-        $this->channels = $this->response->channels;
-        $this->creator = $this->response->creator;
-        $this->id = $this->response->id;
-        $this->name = $this->response->name;
-        $this->technology = $this->response->technology;
+        $this->bridgeClass = $this->getResponseValue('bridge_class');
+        $this->bridgeType = $this->getResponseValue('bridge_type');
+        $this->channels = $this->getResponseValue('channels');
+        $this->creator = $this->getResponseValue('creator');
+        $this->id = $this->getResponseValue('id');
+        $this->name = $this->getResponseValue('name');
+        $this->technology = $this->getResponseValue('technology');
     }
 
 }

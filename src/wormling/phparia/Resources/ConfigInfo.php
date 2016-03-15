@@ -110,13 +110,12 @@ class ConfigInfo extends Response
     {
         parent::__construct($response);
 
-        $this->default_language = $this->response->default_language;
-        $this->max_channels = property_exists($this->response, 'max_channels') ? $this->response->max_channels : null;
-        $this->max_load = property_exists($this->response, 'max_load') ? $this->response->max_load : null;
-        $this->max_open_files = property_exists($this->response,
-            'max_open_files') ? $this->response->max_open_files : null;
-        $this->name = $this->response->name;
-        $this->setid = new SetId($this->response->setid);
+        $this->default_language = $this->getResponseValue('default_language');
+        $this->max_channels = $this->getResponseValue('max_channels');
+        $this->max_load = $this->getResponseValue('max_load');
+        $this->max_open_files =$this->getResponseValue('max_open_files');
+        $this->name = $this->getResponseValue('name');
+        $this->setid = $this->getResponseValue('setid', '\phparia\Resources\SetId');
     }
 
 }

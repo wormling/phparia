@@ -58,8 +58,8 @@ class CallerId extends Response
     {
         parent::__construct($response);
 
-        $this->name = $this->response->name;
-        $this->number = $this->response->number;
+        $this->name = $this->getResponseValue('name');
+        $this->number = $this->getResponseValue('number');
     }
 
 }

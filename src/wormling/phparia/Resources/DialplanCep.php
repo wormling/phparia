@@ -71,9 +71,9 @@ class DialplanCep extends Response
     {
         parent::__construct($response);
 
-        $this->context = $this->response->context;
-        $this->exten = $this->response->exten;
-        $this->priority = $this->response->priority;
+        $this->context = $this->getResponseValue('context');
+        $this->exten = $this->getResponseValue('exten');
+        $this->priority = $this->getResponseValue('priority');
     }
 
 }

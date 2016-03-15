@@ -104,10 +104,10 @@ class Endpoint extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->channelIds = $this->response->channel_ids;
-        $this->resource = $this->response->resource;
-        $this->state = property_exists($this->response, 'state') ? $this->response->state : null;
-        $this->technology = $this->response->technology;
+        $this->channelIds = $this->getResponseValue('channel_ids');
+        $this->resource = $this->getResponseValue('resource');
+        $this->state = $this->getResponseValue('state');
+        $this->technology = $this->getResponseValue('technology');
     }
 
 }

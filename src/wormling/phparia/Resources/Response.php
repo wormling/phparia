@@ -18,6 +18,9 @@
 
 namespace phparia\Resources;
 
+use phparia\Client\AriClient;
+use phparia\Exception\InvalidParameterException;
+
 /**
  * Base type for API call responses
  *
@@ -47,11 +50,27 @@ class Response
     }
 
     /**
-     * @param $propertyName
+     * Get the response value or object depending on which type of class.
+     *
+     * @param string $propertyName The name of the property to retrieve
+     * @param string|null $class (optional) The name of the class to pass the propertyValue to and return
+     * @param AriClient|null $client (optional, requires $class) The AriClient instance to pass to the class in the case of Resource types
      * @return mixed
      */
-    protected function getResponseValue($propertyName)
+    protected function getResponseValue($propertyName, $class = null, AriClient $client = null)
     {
-        return property_exists($this->response, $propertyName) ? $this->response->{$propertyName} : null;
+        if (property_exists($this->response, $propertyName)) {
+            if ($class !== null) {
+                if ($client instanceof AriClient) {
+                    return new $class($client, $this->response->{$propertyName});
+                } else {
+                    return new $class($this->response->{$propertyName});
+                }
+            } else {
+                return $this->response->{$propertyName};
+            }
+        } else {
+            return null;
+        }
     }
 }

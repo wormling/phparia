@@ -60,7 +60,7 @@ class StatusInfo extends Response
     {
         parent::__construct($response);
 
-        $this->lastReloadTime = $this->response->last_reload_time;
-        $this->startupTime = $this->response->startup_time;
+        $this->lastReloadTime = $this->getResponseValue('last_reload_time');
+        $this->startupTime = $this->getResponseValue('startup_time');
     }
 }
