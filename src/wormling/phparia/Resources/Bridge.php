@@ -33,6 +33,11 @@ use phparia\Exception\UnprocessableEntityException;
  */
 class Bridge extends Resource
 {
+    const TYPE_MIXING = 'mixing';
+    const TYPE_HOLDING = 'holding';
+    const TYPE_DTMF_EVENTS = 'dtmf_events';
+    const TYPE_PROXY_MEDIA = 'proxy_media';
+    
     /**
      * @var string Bridging class
      */
