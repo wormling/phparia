@@ -90,9 +90,7 @@ class Resource extends Response
             }
         } else {
             foreach ($this->listeners as $event => $listeners) {
-                foreach ($listeners as $listener) {
-                    $this->client->getWsClient()->removeListener($event, $listener);
-                }
+                $this->client->getWsClient()->removeAllListeners($event);
             }
             $this->listeners = [];
         }
