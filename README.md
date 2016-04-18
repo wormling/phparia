@@ -81,6 +81,10 @@ Creating a stasis application and listening for AMI events
     $this->client->run();
 ```
 
+TODO
+---
+wss support coming very soon  
+
 Documentation
 ---
 You will find wrappers for (https://wiki.asterisk.org/wiki/display/AST/Asterisk+13+ARI) in the Api folder.
