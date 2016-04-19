@@ -8,7 +8,7 @@ Framework for creating ARI (Asterisk REST Interface) applications.  (https://wik
 Features
 ---
 
-* First PHP ARI client to support wss (3.0 branch)
+* First PHP ARI client to support wss
 * Full Asterisk REST Interface support (Tested with 12 and 13)
 * Event system at the client and resource level
 * Optional basic AMI event/action support
