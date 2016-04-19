@@ -79,13 +79,11 @@ class Phparia
      *
      * @param string $ariAddress
      * @param string|null $amiAddress
-     * @param array $streamOptions
-     * @param array $clientOptions
+     * @param array $streamOptions Example: ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]];
+     * @param array $clientOptions Example: ['verify' => false];
      */
     public function connect($ariAddress, $amiAddress = null, $streamOptions = [], $clientOptions = [])
     {
-        $streamOptions = ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]];
-        $clientOptions = ['verify' => false];
         $this->eventLoop = EventLoop\Factory::create();
         $this->ariClient = new AriClient($this->eventLoop, $this->logger);
         $this->ariClient->connect($ariAddress, $streamOptions, $clientOptions);
