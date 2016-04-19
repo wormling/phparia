@@ -1,9 +1,0 @@
-#
-# .coveralls.yml - configuration file for the coveralls code coverage service
-#
-# see https://coveralls.io/docs/php for more hints
-#
-service_name: travis-ci
-src_dir: src
-coverage_clover: build/logs/clover.xml
-json_path: build/logs/coveralls-upload.json
