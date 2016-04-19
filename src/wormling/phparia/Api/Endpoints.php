@@ -32,6 +32,9 @@ use phparia\Resources\Endpoint;
  */
 class Endpoints extends AriClientAware
 {
+    const AST_ENDPOINT_UNKNOWN = 'unknown';
+    const AST_ENDPOINT_OFFLINE = 'offline';
+    const AST_ENDPOINT_ONLINE = 'online';
 
     /**
      * List all endpoints.
