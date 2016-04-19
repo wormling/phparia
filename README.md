@@ -8,6 +8,7 @@ Framework for creating ARI (Asterisk REST Interface) applications.  (https://wik
 Features
 ---
 
+* First PHP ARI client to support wss (3.0 branch)
 * Full Asterisk REST Interface support (Tested with 12 and 13)
 * Event system at the client and resource level
 * Optional basic AMI event/action support
@@ -21,7 +22,7 @@ Just add the package "wormling/phparia":
 ```yaml
     {
         "require": {
-            "wormling/phparia": "dev-master"
+            "wormling/phparia": "~2"
         }
     }
 ```
