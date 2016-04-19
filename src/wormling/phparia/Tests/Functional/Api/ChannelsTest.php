@@ -171,7 +171,7 @@ namespace {
 
         /**
          * @test
-         * @expectedException phparia\Exception\NotFoundException
+         * @expectedException phparia\Exception\InvalidParameterException
          */
         public function canAddChannelThrowNotFoundExceptionFromMissingChannel()
         {
@@ -248,7 +248,7 @@ namespace {
 
         /**
          * @test
-         * @expectedException phparia\Exception\NotFoundException
+         * @expectedException phparia\Exception\InvalidParameterException
          */
         public function canRemoveChannelThrowNotFoundExceptionFromMissingChannel()
         {

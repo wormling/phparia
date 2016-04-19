@@ -18,6 +18,12 @@
 
 namespace phparia\Client;
 
+use GuzzleHttp\Exception\RequestException;
+use phparia\Exception\ConflictException;
+use phparia\Exception\InvalidParameterException;
+use phparia\Exception\NotFoundException;
+use phparia\Exception\UnprocessableEntityException;
+
 /**
  * @author Brian Smith <wormling@gmail.com>
  */
@@ -41,4 +47,26 @@ abstract class AriClientAware implements AriClientAwareInterface
         return $this->client;
     }
 
+    /**
+     * @todo This doesn't really belong here
+     * @param RequestException $e
+     * @throws ConflictException
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @throws UnprocessableEntityException
+     */
+    protected function processRequestException(RequestException $e) {
+        switch ($e->getCode()) {
+            case 400: // Missing parameter
+                throw new InvalidParameterException($e);
+            case 404: // Does not exist
+                throw new NotFoundException($e);
+            case 409:
+                throw new ConflictException($e);
+            case 422:
+                throw new UnprocessableEntityException($e);
+            default:
+                throw $e;
+        }
+    }
 }

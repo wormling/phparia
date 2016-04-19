@@ -18,10 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_Conflict;
-use Pest_InvalidRecord;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\UnprocessableEntityException;
 use phparia\Resources\LiveRecording;
@@ -54,15 +51,15 @@ abstract class MediaBase extends AriClientAware
      */
     public function startMusicOnHold($id, $mohClass)
     {
-        $uri = "/{$this->getType()}/$id/moh";
+        $uri = "{$this->getType()}/$id/moh";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'mohClass' => $mohClass,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'mohClass' => $mohClass,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -75,13 +72,11 @@ abstract class MediaBase extends AriClientAware
      */
     public function stopMusicOnHold($id)
     {
-        $uri = "/{$this->getType()}/$id/moh";
+        $uri = "{$this->getType()}/$id/moh";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -105,23 +100,23 @@ abstract class MediaBase extends AriClientAware
      */
     public function playMedia($id, $media, $lang = null, $offsetms = null, $skipms = null, $playbackId = null)
     {
-        $uri = "/{$this->getType()}/$id/play";
+        $uri = "{$this->getType()}/$id/play";
 
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'media' => $media,
-                'lang' => $lang,
-                'offsetms' => $offsetms,
-                'skipms' => $skipms,
-                'playbackId' => $playbackId,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'media' => $media,
+                    'lang' => $lang,
+                    'offsetms' => $offsetms,
+                    'skipms' => $skipms,
+                    'playbackId' => $playbackId,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Playback($this->client, $response);
+        return new Playback($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -149,21 +144,21 @@ abstract class MediaBase extends AriClientAware
         $skipms = null,
         $playbackId = null
     ) {
-        $uri = "/{$this->getType()}/$id/play/$playbackId";
+        $uri = "{$this->getType()}/$id/play/$playbackId";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'media' => $media,
-                'lang' => $lang,
-                'offsetms' => $offsetms,
-                'skipms' => $skipms,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'media' => $media,
+                    'lang' => $lang,
+                    'offsetms' => $offsetms,
+                    'skipms' => $skipms,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Playback($this->client, $response);
+        return new Playback($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -194,28 +189,23 @@ abstract class MediaBase extends AriClientAware
         $beep = null,
         $terminateOn = null
     ) {
-        $uri = "/{$this->getType()}/$id/record";
+        $uri = "{$this->getType()}/$id/record";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'name' => $name,
-                'format' => $format,
-                'maxDurationSeconds' => $maxDurationSeconds,
-                'maxSilenceSeconds' => $maxSilenceSeconds,
-                'ifExists' => $ifExists,
-                'beep' => $beep,
-                'terminateOn' => $terminateOn,
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Channel is not in a Stasis application; A recording with the same name already exists on the system and can not be overwritten because it is in progress or ifExists=fail
-            throw new ConflictException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
-            throw new UnprocessableEntityException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'name' => $name,
+                    'format' => $format,
+                    'maxDurationSeconds' => $maxDurationSeconds,
+                    'maxSilenceSeconds' => $maxSilenceSeconds,
+                    'ifExists' => $ifExists,
+                    'beep' => $beep,
+                    'terminateOn' => $terminateOn,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new LiveRecording($this->client, $response);
+        return new LiveRecording($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
-
 }

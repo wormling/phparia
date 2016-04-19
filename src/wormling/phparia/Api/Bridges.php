@@ -18,12 +18,10 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_Conflict;
-use Pest_InvalidRecord;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Resources\Bridge;
 use phparia\Exception\ConflictException;
+use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
 use phparia\Exception\UnprocessableEntityException;
 
@@ -41,11 +39,11 @@ class Bridges extends MediaBase
      */
     public function getBridges()
     {
-        $uri = '/bridges';
+        $uri = 'bridges';
         $response = $this->client->getEndpoint()->get($uri);
 
         $bridges = [];
-        foreach ((array)$response as $bridge) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $bridge) {
             $bridges[] = new Bridge($this->client, $bridge);
         }
 
@@ -62,14 +60,16 @@ class Bridges extends MediaBase
      */
     public function createBridge($bridgeId, $type, $name)
     {
-        $uri = '/bridges';
-        $response = $this->client->getEndpoint()->post($uri, array(
-            'bridgeId' => $bridgeId,
-            'type' => $type,
-            'name' => $name,
-        ));
+        $uri = 'bridges';
+        $response = $this->client->getEndpoint()->post($uri, [
+            'form_params' => [
+                'bridgeId' => $bridgeId,
+                'type' => $type,
+                'name' => $name,
+            ]
+        ]);
 
-        return new Bridge($this->client, $response);
+        return new Bridge($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -82,13 +82,15 @@ class Bridges extends MediaBase
      */
     public function updateBridge($bridgeId, $type, $name)
     {
-        $uri = "/bridges/$bridgeId";
-        $response = $this->client->getEndpoint()->post($uri, array(
-            'type' => $type,
-            'name' => $name,
-        ));
+        $uri = "bridges/$bridgeId";
+        $response = $this->client->getEndpoint()->post($uri, [
+            'form_params' => [
+                'type' => $type,
+                'name' => $name,
+            ]
+        ]);
 
-        return new Bridge($this->client, $response);
+        return new Bridge($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -100,14 +102,14 @@ class Bridges extends MediaBase
      */
     public function getBridge($bridgeId)
     {
-        $uri = "/bridges/$bridgeId";
+        $uri = "bridges/$bridgeId";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Bridge($this->client, $response);
+        return new Bridge($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -118,11 +120,11 @@ class Bridges extends MediaBase
      */
     public function deleteBridge($bridgeId)
     {
-        $uri = "/bridges/$bridgeId";
+        $uri = "bridges/$bridgeId";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -138,20 +140,16 @@ class Bridges extends MediaBase
      */
     public function addChannel($bridgeId, $channel, $role = null)
     {
-        $uri = "/bridges/$bridgeId/addChannel";
+        $uri = "bridges/$bridgeId/addChannel";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'channel' => $channel,
-                'role' => $role,
-            ));
-        } catch (Pest_BadRequest $e) { // Channel not found
-            throw new NotFoundException($e);
-        } catch (Pest_NotFound $e) { // Bridge not found
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Bridge not in Stasis application; Channel currently recording
-            throw new ConflictException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
-            throw new UnprocessableEntityException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'channel' => $channel,
+                    'role' => $role,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -160,25 +158,22 @@ class Bridges extends MediaBase
      *
      * @param string $bridgeId Bridge's id
      * @param string $channel (required) Ids of channels to remove from bridge.  Allows comma separated values.
+     * @throwe InvalidParameterException
      * @throws NotFoundException
      * @throws ConflictException
      * @throws UnprocessableEntityException
      */
     public function removeChannel($bridgeId, $channel)
     {
-        $uri = "/bridges/$bridgeId/removeChannel";
+        $uri = "bridges/$bridgeId/removeChannel";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'channel' => $channel,
-            ));
-        } catch (Pest_BadRequest $e) { // Channel not found
-            throw new NotFoundException($e);
-        } catch (Pest_NotFound $e) { // Bridge not found
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Bridge not in Stasis application
-            throw new ConflictException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
-            throw new UnprocessableEntityException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'channel' => $channel,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 

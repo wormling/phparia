@@ -35,11 +35,11 @@ class Sounds extends AriClientAware
      */
     public function getSounds()
     {
-        $uri = '/sounds';
+        $uri = 'sounds';
         $response = $this->client->getEndpoint()->get($uri);
 
         $sounds = [];
-        foreach ((array)$response as $sound) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $sound) {
             $sounds[] = new Sound($sound);
         }
 
@@ -54,9 +54,9 @@ class Sounds extends AriClientAware
      */
     public function getSound($soundId)
     {
-        $uri = "/sounds/$soundId";
+        $uri = "sounds/$soundId";
         $response = $this->client->getEndpoint()->get($uri);
 
-        return new Sound($response);
+        return new Sound(\GuzzleHttp\json_decode($response->getBody()));
     }
 }

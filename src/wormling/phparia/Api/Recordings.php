@@ -18,8 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_Conflict;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\ConflictException;
 use phparia\Exception\NotFoundException;
@@ -40,11 +39,11 @@ class Recordings extends AriClientAware
      */
     public function getRecordings()
     {
-        $uri = '/recordings/stored';
+        $uri = 'recordings/stored';
         $response = $this->client->getEndpoint()->get($uri);
 
         $recordings = [];
-        foreach ((array)$response as $recording) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $recording) {
             $recordings[] = new StoredRecording($recording);
         }
 
@@ -60,14 +59,14 @@ class Recordings extends AriClientAware
      */
     public function getRecording($recordingName)
     {
-        $uri = "/recordings/stored/$recordingName";
+        $uri = "recordings/stored/$recordingName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new StoredRecording($response);
+        return new StoredRecording(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -79,11 +78,11 @@ class Recordings extends AriClientAware
      */
     public function deleteRecording($recordingName)
     {
-        $uri = "/recordings/stored/$recordingName";
+        $uri = "recordings/stored/$recordingName";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -98,18 +97,18 @@ class Recordings extends AriClientAware
      */
     public function copyRecording($recordingName, $destinationRecordingName)
     {
-        $uri = "/recordings/stored/$recordingName/copy";
+        $uri = "recordings/stored/$recordingName/copy";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'destinationRecordingName' => $destinationRecordingName,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'destinationRecordingName' => $destinationRecordingName,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new StoredRecording($response);
+        return new StoredRecording(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -121,14 +120,14 @@ class Recordings extends AriClientAware
      */
     public function getLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName";
+        $uri = "recordings/live/$recordingName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new LiveRecording($this->client, $response);
+        return new LiveRecording($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -139,11 +138,11 @@ class Recordings extends AriClientAware
      */
     public function deleteLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName";
+        $uri = "recordings/live/$recordingName";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -155,11 +154,11 @@ class Recordings extends AriClientAware
      */
     public function stopLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName/stop";
+        $uri = "recordings/live/$recordingName/stop";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -174,13 +173,11 @@ class Recordings extends AriClientAware
      */
     public function pauseLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName/pause";
+        $uri = "recordings/live/$recordingName/pause";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -193,13 +190,11 @@ class Recordings extends AriClientAware
      */
     public function unpauseLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName/pause";
+        $uri = "recordings/live/$recordingName/pause";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -212,13 +207,11 @@ class Recordings extends AriClientAware
      */
     public function muteLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName/mute";
+        $uri = "recordings/live/$recordingName/mute";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -231,14 +224,11 @@ class Recordings extends AriClientAware
      */
     public function unmuteLiveRecording($recordingName)
     {
-        $uri = "/recordings/live/$recordingName/mute";
+        $uri = "recordings/live/$recordingName/mute";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
-
 }

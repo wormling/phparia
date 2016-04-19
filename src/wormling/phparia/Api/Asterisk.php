@@ -18,7 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Resources\AsteriskInfo;
 use phparia\Resources\Variable;
@@ -45,13 +45,13 @@ class Asterisk extends AriClientAware
     public function getInfo($only = null)
     {
         if (empty($only)) {
-            $uri = '/asterisk/info';
+            $uri = 'asterisk/info';
         } else {
-            $uri = "/asterisk/info?only=$only";
+            $uri = "asterisk/info?only=$only";
         }
-        $result = $this->client->getEndpoint()->get($uri);
+        $response = $this->client->getEndpoint()->get($uri);
 
-        return new AsteriskInfo($result);
+        return new AsteriskInfo(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -63,15 +63,15 @@ class Asterisk extends AriClientAware
      */
     public function getVariable($variable)
     {
-        $uri = "/asterisk/variable?variable=$variable";
+        $uri = "asterisk/variable?variable=$variable";
 
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_BadRequest $e) {
-            throw new InvalidParameterException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Variable($response);
+        return new Variable(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -83,16 +83,17 @@ class Asterisk extends AriClientAware
      */
     public function setVariable($variable, $value = null)
     {
-        $uri = '/asterisk/variable';
+        $uri = 'asterisk/variable';
 
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'variable' => $variable,
-                'value' => $value
-            ));
-        } catch (Pest_BadRequest $e) {
-            throw new InvalidParameterException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'variable' => $variable,
+                    'value' => $value
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
-
 }

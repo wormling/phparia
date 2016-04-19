@@ -18,10 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_Conflict;
-use Pest_InvalidRecord;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\ConflictException;
 use phparia\Exception\InvalidParameterException;
@@ -36,7 +33,6 @@ use phparia\Resources\Application;
  */
 class Applications extends AriClientAware
 {
-
     /**
      * List all getApplications.
      *
@@ -44,11 +40,11 @@ class Applications extends AriClientAware
      */
     public function getApplications()
     {
-        $uri = '/applications';
+        $uri = 'applications';
         $response = $this->client->getEndpoint()->get($uri);
 
         $applications = [];
-        foreach ((array)$response as $application) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $application) {
             $applications[] = new Application($this->client, $application);
         }
 
@@ -64,14 +60,14 @@ class Applications extends AriClientAware
      */
     public function getApplication($applicationName)
     {
-        $uri = "/applications/$applicationName";
+        $uri = "applications/$applicationName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Application does not exist.
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Application($this->client, $response);
+        return new Application($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -82,24 +78,22 @@ class Applications extends AriClientAware
      * @return Application
      * @throws InvalidParameterException
      * @throws NotFoundException
-     * @throws UnprocessableEntityException
+     * @throws UnprocessableEntityException Event source does not exist.
      */
     public function subscribe($applicationName, $eventSource)
     {
-        $uri = "/applications/$applicationName/subscription";
+        $uri = "applications/$applicationName/subscription";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'eventSource' => $eventSource,
-            ));
-        } catch (Pest_BadRequest $e) { // Missing parameter.
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Application does not exist.
-            throw new NotFoundException($e);
-        } catch (Pest_InvalidRecord $e) { // Event source does not exist.
-            throw new UnprocessableEntityException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'eventSource' => $eventSource,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Application($this->client, $response);
+        return new Application($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -115,20 +109,13 @@ class Applications extends AriClientAware
      */
     public function unsubscribe($applicationName, $eventSource)
     {
-        $uri = "/applications/$applicationName/subscription?eventSource=".$this->client->getEndpoint()->jsonEncode($eventSource);
+        $uri = "applications/$applicationName/subscription?eventSource=".\GuzzleHttp\json_encode($eventSource);
         try {
             $response = $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_BadRequest $e) { // Missing parameter; event source scheme not recognized.
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Application does not exist.
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Application not subscribed to event source.
-            throw new ConflictException($e);
-        } catch (Pest_InvalidRecord $e) { // Event source does not exist.
-            throw new UnprocessableEntityException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Application($this->client, $response);
+        return new Application($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
-
 }

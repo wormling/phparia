@@ -18,9 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_InvalidRecord;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Events\Event;
 use phparia\Events\EventInterface;
@@ -35,7 +33,6 @@ use phparia\Exception\UnprocessableEntityException;
  */
 class Events extends AriClientAware
 {
-
     /**
      * WebSocket connection for events.
      *
@@ -45,14 +42,16 @@ class Events extends AriClientAware
      */
     public function getEvents($app, $subscribeAll = false)
     {
-        $uri = '/events';
-        $response = $this->client->getEndpoint()->get($uri, array(
-            'app' => $app,
-            'subscribeAll' => $subscribeAll,
-        ));
+        $uri = 'events';
+        $response = $this->client->getEndpoint()->get($uri, [
+            'form_params' => [
+                'app' => $app,
+                'subscribeAll' => $subscribeAll,
+            ]
+        ]);
 
         $events = [];
-        foreach ((array)$response as $event) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $event) {
             $events[] = new Event($this->client, $event);
         }
 
@@ -72,19 +71,17 @@ class Events extends AriClientAware
      */
     public function createUserEvent($eventName, $application, $source, $variables = array())
     {
-        $uri = "/events/user/$eventName";
+        $uri = "events/user/$eventName";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'application' => $application,
-                'source' => $source,
-                'variables' => array_map('strval', $variables),
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
-        } catch (Pest_InvalidRecord $e) { // Channel not in Stasis application
-            throw new UnprocessableEntityException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'application' => $application,
+                    'source' => $source,
+                    'variables' => array_map('strval', $variables),
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 }

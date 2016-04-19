@@ -18,10 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_Conflict;
-use Pest_NotFound;
-use Pest_ServerError;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Resources\Channel;
 use phparia\Resources\Variable;
 use phparia\Exception\ConflictException;
@@ -56,11 +53,11 @@ class Channels extends MediaBase
      */
     public function getChannels()
     {
-        $uri = '/channels';
+        $uri = 'channels';
         $response = $this->client->getEndpoint()->get($uri);
 
         $channels = [];
-        foreach ((array)$response as $channel) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $channel) {
             $channels[] = new Channel($this->client, $channel);
         }
 
@@ -102,29 +99,29 @@ class Channels extends MediaBase
         $otherChannelId = null,
         $variables = array()
     ) {
-        $uri = '/channels';
+        $uri = 'channels';
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'endpoint' => $endpoint,
-                'extension' => $extension,
-                'context' => $context,
-                'priority' => $priority,
-                'label' => $label,
-                'app' => $app,
-                'appArgs' => $appArgs,
-                'callerId' => $callerId,
-                'timeout' => $timeout,
-                'channelId' => $channelId,
-                'otherChannelId' => $otherChannelId,
-                'variables' => array_map('strval', $variables),
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
-            throw new InvalidParameterException($e);
-        } catch (Pest_ServerError $e) {
-            throw new ServerException($e); // Couldn't create the channel.
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'endpoint' => $endpoint,
+                    'extension' => $extension,
+                    'context' => $context,
+                    'priority' => $priority,
+                    'label' => $label,
+                    'app' => $app,
+                    'appArgs' => $appArgs,
+                    'callerId' => $callerId,
+                    'timeout' => $timeout,
+                    'channelId' => $channelId,
+                    'otherChannelId' => $otherChannelId,
+                    'variables' => array_map('strval', $variables),
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Channel($this->client, $response);
+        return new Channel($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -136,14 +133,14 @@ class Channels extends MediaBase
      */
     public function getChannel($channelId)
     {
-        $uri = "/channels/$channelId";
+        $uri = "channels/$channelId";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Channel($this->client, $response);
+        return new Channel($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -180,26 +177,28 @@ class Channels extends MediaBase
         $otherChannelId = null,
         $variables = array()
     ) {
-        $uri = "/channels/$channelId";
+        $uri = "channels/$channelId";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'endpoint' => $endpoint,
-                'extension' => $extension,
-                'context' => $context,
-                'priority' => $priority,
-                'label' => $label,
-                'app' => $app,
-                'appArgs' => $appArgs,
-                'callerId' => $callerId,
-                'timeout' => $timeout,
-                'otherChannelId' => $otherChannelId,
-                'variables' => array_map('strval', $variables),
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
-            throw new InvalidParameterException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'endpoint' => $endpoint,
+                    'extension' => $extension,
+                    'context' => $context,
+                    'priority' => $priority,
+                    'label' => $label,
+                    'app' => $app,
+                    'appArgs' => $appArgs,
+                    'callerId' => $callerId,
+                    'timeout' => $timeout,
+                    'otherChannelId' => $otherChannelId,
+                    'variables' => array_map('strval', $variables),
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Channel($this->client, $response);
+        return new Channel($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -210,11 +209,11 @@ class Channels extends MediaBase
      */
     public function deleteChannel($channelId)
     {
-        $uri = "/channels/$channelId";
+        $uri = "channels/$channelId";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -244,17 +243,17 @@ class Channels extends MediaBase
      */
     public function continueDialplan($channelId, $context, $extension, $priority)
     {
-        $uri = "/channels/$channelId/continue";
+        $uri = "channels/$channelId/continue";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'context' => $context,
-                'extension' => $extension,
-                'priority' => $priority,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'context' => $context,
+                    'extension' => $extension,
+                    'priority' => $priority,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -267,13 +266,11 @@ class Channels extends MediaBase
      */
     public function answer($channelId)
     {
-        $uri = "/channels/$channelId/answer";
+        $uri = "channels/$channelId/answer";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -286,13 +283,11 @@ class Channels extends MediaBase
      */
     public function startRinging($channelId)
     {
-        $uri = "/channels/$channelId/ring";
+        $uri = "channels/$channelId/ring";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -305,13 +300,11 @@ class Channels extends MediaBase
      */
     public function stopRinging($channelId)
     {
-        $uri = "/channels/$channelId/ring";
+        $uri = "channels/$channelId/ring";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -330,21 +323,19 @@ class Channels extends MediaBase
      */
     public function sendDtmf($channelId, $dtmf, $before = null, $between = null, $duration = null, $after = null)
     {
-        $uri = "/channels/$channelId/dtmf";
+        $uri = "channels/$channelId/dtmf";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'dtmf' => $dtmf,
-                'before' => $before,
-                'between' => $between,
-                'duration' => $duration,
-                'after' => $after,
-            ));
-        } catch (Pest_BadRequest $e) {
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'dtmf' => $dtmf,
+                    'before' => $before,
+                    'between' => $between,
+                    'duration' => $duration,
+                    'after' => $after,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -358,15 +349,15 @@ class Channels extends MediaBase
      */
     public function mute($channelId, $direction)
     {
-        $uri = "/channels/$channelId/mute";
+        $uri = "channels/$channelId/mute";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'direction' => $direction,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'direction' => $direction,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -380,13 +371,11 @@ class Channels extends MediaBase
      */
     public function unmute($channelId, $direction)
     {
-        $uri = "/channels/$channelId/mute?direction=".$this->client->getEndpoint()->jsonEncode($direction);
+        $uri = "channels/$channelId/mute?direction=".\GuzzleHttp\json_encode($direction);
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -399,13 +388,11 @@ class Channels extends MediaBase
      */
     public function hold($channelId)
     {
-        $uri = "/channels/$channelId/hold";
+        $uri = "channels/$channelId/hold";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -418,13 +405,11 @@ class Channels extends MediaBase
      */
     public function unhold($channelId)
     {
-        $uri = "/channels/$channelId/hold";
+        $uri = "channels/$channelId/hold";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -437,13 +422,11 @@ class Channels extends MediaBase
      */
     public function startSilence($channelId)
     {
-        $uri = "/channels/$channelId/silence";
+        $uri = "channels/$channelId/silence";
         try {
-            $this->client->getEndpoint()->post($uri, array());
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -456,13 +439,11 @@ class Channels extends MediaBase
      */
     public function stopSilence($channelId)
     {
-        $uri = "/channels/$channelId/silence";
+        $uri = "channels/$channelId/silence";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -479,23 +460,18 @@ class Channels extends MediaBase
      */
     public function getVariable($channelId, $variable, $default = null)
     {
-        $uri = "/channels/$channelId/variable";
+        $uri = "channels/$channelId/variable";
         try {
-            $response = $this->client->getEndpoint()->get($uri, array(
-                'variable' => $variable,
-            ));
-        } catch (Pest_BadRequest $e) { // Missing variable parameter.
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Variable not found
-            if ($default !== null) {
-                return $default;
-            }
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Channel not in a Stasis application
-            throw new ConflictException($e);
+            $response = $this->client->getEndpoint()->get($uri, [
+                'form_params' => [
+                    'variable' => $variable,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Variable($response);
+        return new Variable(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -511,21 +487,19 @@ class Channels extends MediaBase
      */
     public function setVariable($channelId, $variable, $value)
     {
-        $uri = "/channels/$channelId/variable";
+        $uri = "channels/$channelId/variable";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'variable' => $variable,
-                'value' => $value,
-            ));
-        } catch (Pest_BadRequest $e) { // Missing variable parameter.
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) { // Channel not in a Stasis application
-            throw new ConflictException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'variable' => $variable,
+                    'value' => $value,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Variable($response);
+        return new Variable(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -543,22 +517,22 @@ class Channels extends MediaBase
      */
     public function startSnoop($channelId, $spy, $whisper, $app, $appArgs, $snoopId)
     {
-        $uri = "/channels/$channelId/snoop";
+        $uri = "channels/$channelId/snoop";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'spy' => $spy,
-                'whisper' => $whisper,
-                'app' => $app,
-                'appArgs' => $appArgs,
-                'snoopId' => $snoopId,
-            ));
-        } catch (Pest_BadRequest $e) { // Missing parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'spy' => $spy,
+                    'whisper' => $whisper,
+                    'app' => $app,
+                    'appArgs' => $appArgs,
+                    'snoopId' => $snoopId,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Channel($this->client, $response);
+        return new Channel($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -576,21 +550,21 @@ class Channels extends MediaBase
      */
     public function startSnoopWithId($channelId, $spy, $whisper, $app, $appArgs, $snoopId)
     {
-        $uri = "/channels/$channelId/snoop/$snoopId";
+        $uri = "channels/$channelId/snoop/$snoopId";
         try {
-            $response = $this->client->getEndpoint()->post($uri, array(
-                'spy' => $spy,
-                'whisper' => $whisper,
-                'app' => $app,
-                'appArgs' => $appArgs,
-            ));
-        } catch (Pest_BadRequest $e) { // Missing parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+            $response = $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'spy' => $spy,
+                    'whisper' => $whisper,
+                    'app' => $app,
+                    'appArgs' => $appArgs,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Channel($this->client, $response);
+        return new Channel($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**

@@ -28,7 +28,7 @@ class NotFoundException extends Exception
 
     public function __construct(\Exception $e)
     {
-        parent::__construct(json_decode($e->getMessage())->message, 400, $e->getPrevious());
+        parent::__construct($e->getMessage(), 400, $e->getPrevious());
     }
 
 }
