@@ -19,17 +19,6 @@ namespace phparia\Client;
 
 
 use Devristo\Phpws\Client\WebSocket;
-use phparia\Api\Applications;
-use phparia\Api\Asterisk;
-use phparia\Api\Bridges;
-use phparia\Api\Channels;
-use phparia\Api\DeviceStates;
-use phparia\Api\Endpoints;
-use phparia\Api\Events;
-use phparia\Api\Mailboxes;
-use phparia\Api\Playbacks;
-use phparia\Api\Recordings;
-use phparia\Api\Sounds;
 use phparia\Events\Event;
 use React\EventLoop;
 use Zend\Log\LoggerInterface;
@@ -52,11 +41,6 @@ class Phparia extends PhpariaApi
     protected $logger;
 
     /**
-     * @var AriClient
-     */
-    protected $ariClient;
-
-    /**
      * @var AmiClient
      */
     protected $amiClient;
@@ -72,6 +56,10 @@ class Phparia extends PhpariaApi
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->eventLoop = EventLoop\Factory::create();
+        $ariClient = new AriClient($this->eventLoop, $this->logger);
+
+        parent::__construct($ariClient);
     }
 
     /**
@@ -84,8 +72,6 @@ class Phparia extends PhpariaApi
      */
     public function connect($ariAddress, $amiAddress = null, $streamOptions = [], $clientOptions = [])
     {
-        $this->eventLoop = EventLoop\Factory::create();
-        $this->ariClient = new AriClient($this->eventLoop, $this->logger);
         $this->ariClient->connect($ariAddress, $streamOptions, $clientOptions);
         $this->wsClient = $this->ariClient->getWsClient();
         $this->stasisApplicationName = $this->ariClient->getStasisApplicationName();
@@ -156,14 +142,6 @@ class Phparia extends PhpariaApi
     public function getLogger()
     {
         return $this->logger;
-    }
-
-    /**
-     * @return AriClient
-     */
-    public function getAriClient()
-    {
-        return $this->ariClient;
     }
 
     /**
