@@ -468,7 +468,15 @@ class Channels extends MediaBase
                 ]
             ]);
         } catch (RequestException $e) {
-            $this->processRequestException($e);
+            try {
+                $this->processRequestException($e);
+            } catch (NotFoundException $notFoundException) {
+                if ($default === null) {
+                    throw $notFoundException;
+                }
+
+                return $default;
+            }
         }
 
         return new Variable(\GuzzleHttp\json_decode($response->getBody()));
