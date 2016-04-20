@@ -1,13 +1,14 @@
 phparia - PHP ARI API
 ===
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/wormling/phparia.svg)](https://packagist.org/packages/wormling/phparia) [![Build Status](http://img.shields.io/travis/wormling/phparia.svg?branch=master)](https://travis-ci.org/wormling/phparia) [![Code Coverage](https://scrutinizer-ci.com/g/wormling/phparia/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wormling/phparia/?branch=master) [![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/wormling/phparia.svg)](https://scrutinizer-ci.com/g/wormling/phparia/) [![Dependency Status](https://www.versioneye.com/user/projects/558fd8a5316338001a000515/badge.svg?style=flat)](https://www.versioneye.com/user/projects/558fd8a5316338001a000515)[![License](https://img.shields.io/github/license/wormling/phparia.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Latest Stable Version](https://img.shields.io/packagist/v/wormling/phparia.svg)](https://packagist.org/packages/wormling/phparia) [![Build Status](http://img.shields.io/travis/wormling/phparia.svg?branch=master)](https://travis-ci.org/wormling/phparia) [![Code Coverage](https://scrutinizer-ci.com/g/wormling/phparia/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wormling/phparia/?branch=master) [![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/wormling/phparia.svg)](https://scrutinizer-ci.com/g/wormling/phparia/) [![Dependency Status](https://www.versioneye.com/user/projects/558fd8a5316338001a000515/badge.svg)](https://www.versioneye.com/user/projects/558fd8a5316338001a000515) [![License](https://img.shields.io/github/license/wormling/phparia.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 Framework for creating ARI (Asterisk REST Interface) applications.  (https://wiki.asterisk.org/wiki/display/AST/Getting+Started+with+ARI)
 
 Features
 ---
 
+* First PHP ARI client to support wss
 * Full Asterisk REST Interface support (Tested with 12 and 13)
 * Event system at the client and resource level
 * Optional basic AMI event/action support
@@ -21,7 +22,7 @@ Just add the package "wormling/phparia":
 ```yaml
     {
         "require": {
-            "wormling/phparia": "dev-master"
+            "wormling/phparia": "~2"
         }
     }
 ```
