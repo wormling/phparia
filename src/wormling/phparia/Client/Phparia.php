@@ -34,7 +34,7 @@ use phparia\Events\Event;
 use React\EventLoop;
 use Zend\Log\LoggerInterface;
 
-class Phparia
+class Phparia extends PhpariaApi
 {
     /**
      * @var WebSocket
@@ -181,93 +181,4 @@ class Phparia
     {
         return $this->stasisApplicationName;
     }
-
-    /**
-     * @return Applications
-     */
-    public function applications()
-    {
-        return $this->ariClient->applications();
-    }
-
-    /**
-     * @return Asterisk
-     */
-    public function asterisk()
-    {
-        return $this->ariClient->asterisk();
-    }
-
-    /**
-     * @return Bridges
-     */
-    public function bridges()
-    {
-        return $this->ariClient->bridges();
-    }
-
-    /**
-     * @return Channels
-     */
-    public function channels()
-    {
-        return $this->ariClient->channels();
-    }
-
-    /**
-     * @return DeviceStates
-     */
-    public function deviceStates()
-    {
-        return $this->ariClient->deviceStates();
-    }
-
-    /**
-     * @return Endpoints
-     */
-    public function endPoints()
-    {
-        return $this->ariClient->endPoints();
-    }
-
-    /**
-     * @return Events
-     */
-    public function events()
-    {
-        return $this->ariClient->events();
-    }
-
-    /**
-     * @return Mailboxes
-     */
-    public function mailboxes()
-    {
-        return $this->ariClient->mailboxes();
-    }
-
-    /**
-     * @return Playbacks
-     */
-    public function playbacks()
-    {
-        return $this->ariClient->playbacks();
-    }
-
-    /**
-     * @return Recordings
-     */
-    public function recordings()
-    {
-        return $this->ariClient->recordings();
-    }
-
-    /**
-     * @return Sounds
-     */
-    public function sounds()
-    {
-        return $this->ariClient->sounds();
-    }
-
 }
