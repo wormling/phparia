@@ -46,7 +46,7 @@ class Bridge extends Resource
     /**
      * @var array Ids of channels participating in this bridge
      */
-    private $channels;
+    private $channelIds;
 
     /**
      * @var string  Entity that created the bridge
@@ -85,12 +85,11 @@ class Bridge extends Resource
     }
 
     /**
-     * @todo Should this be renamed to getChannelIds()?
      * @return array Ids of channels participating in this bridge
      */
-    public function getChannels()
+    public function getChannelIds()
     {
-        return $this->channels;
+        return $this->channelIds;
     }
 
     /**
@@ -317,7 +316,7 @@ class Bridge extends Resource
 
         $this->bridgeClass = $this->response->bridge_class;
         $this->bridgeType = $this->response->bridge_type;
-        $this->channels = $this->response->channels;
+        $this->channelIds = $this->response->channels;
         $this->creator = $this->response->creator;
         $this->id = $this->response->id;
         $this->name = $this->response->name;

@@ -205,7 +205,7 @@ namespace {
                 $this->client->bridges()->createBridge('BRIDGE_1_ID', null, 'BRIDGE_1_NAME');
                 $this->client->bridges()->addChannel('BRIDGE_1_ID', $event->getChannel()->getId());
                 $this->client->bridges()->removeChannel('BRIDGE_1_ID', $event->getChannel()->getId());
-                $channelIds = $this->client->bridges()->getBridge('BRIDGE_1_ID')->getChannels();
+                $channelIds = $this->client->bridges()->getBridge('BRIDGE_1_ID')->getChannelIds();
                 $found = false;
                 foreach ($channelIds as $channel) {
                     if ($channel === $event->getChannel()->getId()) {
