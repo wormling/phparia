@@ -19,6 +19,7 @@ namespace phparia\Client;
 
 
 use Devristo\Phpws\Client\WebSocket;
+use GuzzleHttp\Promise\FulfilledPromise;
 use phparia\Events\Event;
 use React\EventLoop;
 use Zend\Log\LoggerInterface;
@@ -51,6 +52,11 @@ class Phparia extends PhpariaApi
     protected $stasisApplicationName;
 
     /**
+     * @var callable
+     */
+    protected $onStop;
+
+    /**
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
@@ -58,6 +64,9 @@ class Phparia extends PhpariaApi
         $this->logger = $logger;
         $this->eventLoop = EventLoop\Factory::create();
         $ariClient = new AriClient($this->eventLoop, $this->logger);
+        $this->onStop = function() {
+            return new FulfilledPromise(null);
+        };
 
         parent::__construct($ariClient);
     }
@@ -98,10 +107,22 @@ class Phparia extends PhpariaApi
      */
     public function stop()
     {
-        $this->wsClient->close();
-        $this->ariClient->onClose(function() {
-            $this->eventLoop->stop();
-        });
+        $onStop = $this->onStop;
+        $onStop()
+            ->then(function () {
+                $this->wsClient->close();
+                $this->ariClient->onClose(function () {
+                    $this->eventLoop->stop();
+                });
+            });
+    }
+
+    /**
+     * @param callable|callback $callback Must return a promise
+     */
+    public function onStop($callback)
+    {
+        $this->onStop = $callback;
     }
 
     /**
