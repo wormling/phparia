@@ -110,10 +110,10 @@ class Phparia extends PhpariaApi
         $onStop = $this->onStop;
         $onStop()
             ->then(function () {
-                $this->wsClient->close();
                 $this->ariClient->onClose(function () {
                     $this->eventLoop->stop();
                 });
+                $this->wsClient->close();
             });
     }
 
