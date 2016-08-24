@@ -21,7 +21,9 @@ namespace phparia\Client;
 use Devristo\Phpws\Client\WebSocket;
 use GuzzleHttp\Promise\FulfilledPromise;
 use phparia\Events\Event;
+use phparia\Resources\DeviceState;
 use React\EventLoop;
+use React\Promise\Deferred;
 use Zend\Log\LoggerInterface;
 
 class Phparia extends PhpariaApi
@@ -104,17 +106,23 @@ class Phparia extends PhpariaApi
 
     /**
      * Disconnect and stop the event loop
+     * @return \React\Promise\Promise|\React\Promise\PromiseInterface
      */
     public function stop()
     {
+        $deferred = new Deferred();
+
         $onStop = $this->onStop;
         $onStop()
-            ->then(function () {
-                $this->ariClient->onClose(function () {
+            ->then(function () use (&$deferred) {
+                $this->ariClient->onClose(function () use (&$deferred) {
                     $this->eventLoop->stop();
+                    $deferred->resolve();
                 });
                 $this->wsClient->close();
             });
+
+        return $deferred->promise();
     }
 
     /**
