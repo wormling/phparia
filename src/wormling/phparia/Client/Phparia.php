@@ -21,7 +21,6 @@ namespace phparia\Client;
 use Devristo\Phpws\Client\WebSocket;
 use GuzzleHttp\Promise\FulfilledPromise;
 use phparia\Events\Event;
-use phparia\Resources\DeviceState;
 use React\EventLoop;
 use React\Promise\Deferred;
 use Zend\Log\LoggerInterface;
