@@ -133,10 +133,10 @@ class BridgeBlindTransfer extends Event implements IdentifiableEventInterface
         return $this->transferee;
     }
 
-	public function getEventId()
-	{
-		return "{$this->getType()}_{$this->getBridge()->getId()}";
-	}
+    public function getEventId()
+    {
+        return "{$this->getType()}_{$this->getBridge()->getId()}";
+    }
 
     /**
      * @param AriClient $client

@@ -237,10 +237,10 @@ class BridgeAttendedTransfer extends Event implements IdentifiableEventInterface
         return $this->transfererSecondLegBridge;
     }
 
-	public function getEventId()
-	{
-		return "{$this->getType()}_{$this->getTransfererFirstLegBridge()->getId()}";
-	}
+    public function getEventId()
+    {
+        return "{$this->getType()}_{$this->getTransfererFirstLegBridge()->getId()}";
+    }
 
     /**
      * @param AriClient $client
