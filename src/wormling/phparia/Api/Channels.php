@@ -380,7 +380,7 @@ class Channels extends MediaBase
      */
     public function unmute($channelId, $direction)
     {
-        $uri = "/channels/$channelId/mute?direction=".$this->client->getEndpoint()->jsonEncode($direction);
+        $uri = "/channels/$channelId/mute?direction=".$direction;
         try {
             $this->client->getEndpoint()->delete($uri);
         } catch (Pest_NotFound $e) {
