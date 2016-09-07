@@ -305,6 +305,38 @@ class Channel extends Resource
         $this->once(Event::CHANNEL_STATE_CHANGED.'_'.$this->getId(), $callback);
     }
 
+	/**
+	 * @param callable $callback
+	 */
+	public function onChannelHold(callable $callback)
+	{
+		$this->on(Event::CHANNEL_HOLD.'_'.$this->getId(), $callback);
+	}
+
+	/**
+	 * @param callable $callback
+	 */
+	public function onceChannelHold(callable $callback)
+	{
+		$this->once(Event::CHANNEL_HOLD.'_'.$this->getId(), $callback);
+	}
+
+	/**
+	 * @param callable $callback
+	 */
+	public function onChannelUnhold(callable $callback)
+	{
+		$this->on(Event::CHANNEL_UNHOLD.'_'.$this->getId(), $callback);
+	}
+
+	/**
+	 * @param callable $callback
+	 */
+	public function onceChanneUnhold(callable $callback)
+	{
+		$this->once(Event::CHANNEL_UNHOLD.'_'.$this->getId(), $callback);
+	}
+
     /**
      * @param callable $callback
      */

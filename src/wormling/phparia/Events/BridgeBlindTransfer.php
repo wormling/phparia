@@ -27,7 +27,7 @@ use phparia\Resources\Bridge;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class BridgeBlindTransfer extends BridgeTransfer
+class BridgeBlindTransfer extends Event implements IdentifiableEventInterface
 {
     /**
      * @var Bridge (optional) - The bridge being transferred
@@ -132,6 +132,11 @@ class BridgeBlindTransfer extends BridgeTransfer
     {
         return $this->transferee;
     }
+
+	public function getEventId()
+	{
+		return "{$this->getType()}_{$this->getBridge()->getId()}";
+	}
 
     /**
      * @param AriClient $client
