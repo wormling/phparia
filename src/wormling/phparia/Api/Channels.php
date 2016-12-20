@@ -165,6 +165,7 @@ class Channels extends MediaBase
      * @param array $variables The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }
      * @return Channel
      * @throws InvalidParameterException
+     * @throws ServerException
      */
     public function createChannelWithId(
         $endpoint,
@@ -197,6 +198,8 @@ class Channels extends MediaBase
             ));
         } catch (Pest_BadRequest $e) { // Invalid parameters for originating a channel.
             throw new InvalidParameterException($e);
+        } catch (Pest_ServerError $e) {
+            throw new ServerException($e); // Couldn't create the channel.
         }
 
         return new Channel($this->client, $response);
