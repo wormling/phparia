@@ -22,6 +22,7 @@ use GuzzleHttp\Exception\RequestException;
 use phparia\Exception\ConflictException;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
+use phparia\Exception\ServerException;
 use phparia\Exception\UnprocessableEntityException;
 
 /**
@@ -54,6 +55,7 @@ abstract class AriClientAware implements AriClientAwareInterface
      * @throws InvalidParameterException
      * @throws NotFoundException
      * @throws UnprocessableEntityException
+     * @throws ServerException
      */
     protected function processRequestException(RequestException $e) {
         switch ($e->getCode()) {
@@ -65,6 +67,8 @@ abstract class AriClientAware implements AriClientAwareInterface
                 throw new ConflictException($e);
             case 422:
                 throw new UnprocessableEntityException($e);
+            case 500:
+                throw new ServerException($e);
             default:
                 throw $e;
         }
