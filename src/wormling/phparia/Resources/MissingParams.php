@@ -58,7 +58,7 @@ class MissingParams extends Response
     {
         parent::__construct($response);
 
-        $this->type = $this->response->type;
-        $this->params = $this->response->params;
+        $this->type = $this->getResponseValue('type');
+        $this->params = $this->getResponseValue('params');
     }
 }

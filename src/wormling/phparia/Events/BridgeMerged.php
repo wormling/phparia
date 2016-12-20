@@ -67,8 +67,7 @@ class BridgeMerged extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->bridge = new Bridge($client, $this->response->bridge);
-        $this->bridgeFrom = new Bridge($client, $this->response->bridge_from);
+        $this->bridge = $this->getResponseValue('bridge', '\phparia\Resources\Bridge', $client);
+        $this->bridgeFrom = $this->getResponseValue('bridge_from', '\phparia\Resources\Bridge', $client);
     }
-
 }

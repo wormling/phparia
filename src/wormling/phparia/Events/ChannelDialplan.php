@@ -80,8 +80,8 @@ class ChannelDialplan extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->channel = new Channel($client, $this->response->channel);
-        $this->dialplanApp = $this->response->dialplan_app;
-        $this->dialplanAppData = $this->response->dialplan_app_data;
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->dialplanApp = $this->getResponseValue('dialplan_app');
+        $this->dialplanAppData = $this->getResponseValue('dialplan_app_data');
     }
 }

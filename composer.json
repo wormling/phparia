@@ -34,6 +34,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/Devristo/phpws"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/wormling/evenement"
     }
   ],
   "extra": {
@@ -44,6 +48,8 @@
   },
   "require": {
     "php": ">=5.4",
+    "evenement/evenement": "dev-master",
+    "educoder/pest": "1.0.0",
     "devristo/phpws": "dev-master",
     "clue/ami-react": "~0.3.0",
     "incenteev/composer-parameter-handler": ">=2.0",

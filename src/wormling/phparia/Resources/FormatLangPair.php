@@ -58,8 +58,8 @@ class FormatLangPair extends Response
     {
         parent::__construct($response);
 
-        $this->format = $this->response->format;
-        $this->language = $this->response->language;
+        $this->format = $this->getResponseValue('format');
+        $this->language = $this->getResponseValue('language');
     }
 
 }

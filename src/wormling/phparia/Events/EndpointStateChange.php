@@ -49,7 +49,6 @@ class EndpointStateChange extends Event
     {
         parent::__construct($client, $response);
 
-        $this->endpoint = new Endpoint($client, $this->response->endpoint);
+        $this->endpoint = $this->getResponseValue('endpoint', '\phparia\Resources\Endpoint', $client);
     }
-
 }

@@ -53,7 +53,7 @@ class Channels extends MediaBase
      */
     public function getChannels()
     {
-        $uri = 'channels';
+        $uri = '/channels';
         $response = $this->client->getEndpoint()->get($uri);
 
         $channels = [];
@@ -162,6 +162,7 @@ class Channels extends MediaBase
      * @param array $variables The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }
      * @return Channel
      * @throws InvalidParameterException
+     * @throws ServerException
      */
     public function createChannelWithId(
         $endpoint,

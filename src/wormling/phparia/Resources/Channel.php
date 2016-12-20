@@ -690,14 +690,14 @@ class Channel extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->accountCode = property_exists($this->response, 'account_code') ? $this->response->account_code : null;
-        $this->caller = new CallerId($this->response->caller);
-        $this->connected = new CallerId($this->response->connected);
-        $this->creationTime = new \DateTime($this->response->creationtime);
-        $this->dialplan = new DialplanCep($this->response->dialplan);
-        $this->id = $this->response->id;
-        $this->name = $this->response->name;
-        $this->state = $this->response->state;
+        $this->accountCode = $this->getResponseValue('account_code');
+        $this->caller = $this->getResponseValue('caller', '\phparia\Resources\CallerId');
+        $this->connected = $this->getResponseValue('connected', '\phparia\Resources\CallerId');
+        $this->creationTime = $this->getResponseValue('creationtime', '\DateTime');
+        $this->dialplan = $this->getResponseValue('dialplan', '\phparia\Resources\DialplanCep');
+        $this->id = $this->getResponseValue('id');
+        $this->name = $this->getResponseValue('name');
+        $this->state = $this->getResponseValue('state');
     }
 
 }

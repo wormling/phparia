@@ -133,11 +133,11 @@ class Playback extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->id = $this->response->id;
-        $this->language = property_exists($this->response, 'language') ? $this->response->language : null;
-        $this->mediaUri = $this->response->media_uri;
-        $this->state = $this->response->state;
-        $this->targetUri = $this->response->target_uri;
+        $this->id = $this->getResponseValue('id');
+        $this->language = $this->getResponseValue('language');
+        $this->mediaUri = $this->getResponseValue('media_uri');
+        $this->state = $this->getResponseValue('state');
+        $this->targetUri = $this->getResponseValue('target_uri');
     }
 
 }

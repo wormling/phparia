@@ -22,7 +22,7 @@ Just add the package "wormling/phparia":
 ```yaml
     {
         "require": {
-            "wormling/phparia": "~2"
+            "wormling/phparia": "~3"
         }
     }
 ```

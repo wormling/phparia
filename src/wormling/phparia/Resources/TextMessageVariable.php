@@ -58,8 +58,8 @@ class TextMessageVariable extends Response
     {
         parent::__construct($response);
 
-        $this->key = $this->response->key;
-        $this->value = $this->response->value;
+        $this->key = $this->getResponseValue('key');
+        $this->value = $this->getResponseValue('value');
     }
 
 }

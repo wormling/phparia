@@ -27,7 +27,7 @@ use phparia\Resources\Bridge;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class BridgeBlindTransfer extends Event
+class BridgeBlindTransfer extends BridgeTransfer
 {
     /**
      * @var Bridge (optional) - The bridge being transferred
@@ -141,17 +141,13 @@ class BridgeBlindTransfer extends Event
     {
         parent::__construct($client, $response);
 
-        $this->bridge = property_exists($this->response, 'bridge') ? new Bridge($client,
-            $this->response->bridge) : null;
-        $this->channel = new Channel($client, $this->response->channel);
-        $this->contex = $this->response->context;
-        $this->exten = $this->response->exten;
-        $this->isExternal = $this->response->is_external;
-        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client,
-            $this->response->replace_channel) : null;
-        $this->result = $this->response->result;
-        $this->transferee = property_exists($this->response, 'transferee') ? new Channel($client,
-            $this->response->transferee) : null;
+        $this->bridge = $this->getResponseValue('bridge', '\phparia\Resources\Bridge', $client);
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->contex = $this->getResponseValue('context');
+        $this->exten = $this->getResponseValue('exten');
+        $this->isExternal = $this->getResponseValue('is_external');
+        $this->replaceChannel = $this->getResponseValue('replace_channel', '\phparia\Resources\Channel', $client);
+        $this->result = $this->getResponseValue('result');
+        $this->transferee = $this->getResponseValue('transferee', '\phparia\Resources\Channel', $client);
     }
-
 }

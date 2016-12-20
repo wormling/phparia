@@ -58,8 +58,8 @@ class SetId extends Response
     {
         parent::__construct($response);
 
-        $this->user = $this->response->user;
-        $this->group = $this->response->group;
+        $this->user = $this->getResponseValue('user');
+        $this->group = $this->getResponseValue('group');
     }
 
 }

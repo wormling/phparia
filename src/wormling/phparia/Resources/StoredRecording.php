@@ -58,8 +58,8 @@ class StoredRecording extends Response
     {
         parent::__construct($response);
 
-        $this->format = $this->response->format;
-        $this->name = $this->response->name;
+        $this->format = $this->getResponseValue('format');
+        $this->name = $this->getResponseValue('name');
     }
 
 }

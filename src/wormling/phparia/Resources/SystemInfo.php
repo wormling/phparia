@@ -59,8 +59,8 @@ class SystemInfo extends Response
     {
         parent::__construct($response);
 
-        $this->entityId = $this->response->entity_id;
-        $this->version = $this->response->version;
+        $this->entityId = $this->getResponseValue('entity_id');
+        $this->version = $this->getResponseValue('version');
     }
 
 }

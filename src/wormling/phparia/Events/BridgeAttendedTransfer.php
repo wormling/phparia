@@ -27,7 +27,7 @@ use phparia\Resources\Bridge;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class BridgeAttendedTransfer extends Event
+class BridgeAttendedTransfer extends BridgeTransfer
 {
     /**
      * @var string (optional) - Application that has been transferred into
@@ -245,35 +245,28 @@ class BridgeAttendedTransfer extends Event
     {
         parent::__construct($client, $response);
 
-        $this->destinationApplication = property_exists($this->response,
-            'destination_application') ? $this->response->destination_application : null;
-        $this->destinationBridge = property_exists($this->response,
-            'destination_bridge') ? $this->response->destination_bridge : null;
-        $this->destinationLinkFirstLeg = property_exists($this->response,
-            'destination_link_first_leg') ? new Channel($client, $this->response->destination_link_first_leg) : null;
-        $this->destinationLinkSecondLeg = property_exists($this->response,
-            'destination_link_second_leg') ? new Channel($client, $this->response->destination_link_second_leg) : null;
-        $this->destinationThreewayBridge = property_exists($this->response,
-            'destination_threeway_bridge') ? new Bridge($client, $this->response->destination_threeway_bridge) : null;
-        $this->destinationThreewayChannel = property_exists($this->response,
-            'destination_threeway_channel') ? new Channel($client,
-            $this->response->destination_threeway_channel) : null;
-        $this->destinationType = property_exists($this->response,
-            'destination_type') ? $this->response->destination_type : null;
-        $this->isExternal = $this->response->is_external;
-        $this->replaceChannel = property_exists($this->response, 'replace_channel') ? new Channel($client,
-            $this->response->replace_channel) : null;
-        $this->result = $this->response->result;
-        $this->transferTarget = property_exists($this->response, 'transfer_target') ? new Channel($client,
-            $this->response->transfer_target) : null;
-        $this->transferee = property_exists($this->response, 'transferee') ? new Channel($client,
-            $this->response->transferee) : null;
-        $this->transfererFirstLeg = new Channel($client, $this->response->transferer_first_leg);
-        $this->transfererFirstLegBridge = property_exists($this->response,
-            'transferer_first_leg_bridge') ? new Bridge($client, $this->response->transferer_first_leg_bridge) : null;
-        $this->transfererSecondLeg = new Channel($client, $this->response->transferer_second_leg);
-        $this->transfererSecondLegBridge = property_exists($this->response,
-            'transferer_second_leg_bridge') ? new Bridge($client, $this->response->transferer_second_leg_bridge) : null;
+        $this->destinationApplication = $this->getResponseValue('destination_application');
+        $this->destinationBridge = $this->getResponseValue('destination_bridge');
+        $this->destinationLinkFirstLeg = $this->getResponseValue('destination_link_first_leg',
+            '\phparia\Resources\Channel', $client);
+        $this->destinationLinkSecondLeg = $this->getResponseValue('destination_link_second_leg');
+        $this->destinationThreewayBridge = $this->getResponseValue('destination_threeway_bridge',
+            '\phparia\Resources\Bridge', $client);
+        $this->destinationThreewayChannel = $this->getResponseValue('destination_threeway_channel',
+            '\phparia\Resources\Channel', $client);
+        $this->destinationType = $this->getResponseValue('destination_type');
+        $this->isExternal = $this->getResponseValue('is_external');
+        $this->replaceChannel = $this->getResponseValue('replace_channel', '\phparia\Resources\Channel', $client);
+        $this->result = $this->getResponseValue('result');
+        $this->transferTarget = $this->getResponseValue('transfer_target', '\phparia\Resources\Channel', $client);
+        $this->transferee = $this->getResponseValue('transferee', '\phparia\Resources\Channel', $client);
+        $this->transfererFirstLeg = $this->getResponseValue('transferer_first_leg', '\phparia\Resources\Channel',
+            $client);
+        $this->transfererFirstLegBridge = $this->getResponseValue('transferer_first_leg_bridge',
+            '\phparia\Resources\Bridge', $client);
+        $this->transfererSecondLeg = $this->getResponseValue('transferer_second_leg', '\phparia\Resources\Channel',
+            $client);
+        $this->transfererSecondLegBridge = $this->getResponseValue('transferer_second_leg_bridge',
+            '\phparia\Resources\Bridge', $client);
     }
-
 }

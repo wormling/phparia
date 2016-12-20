@@ -71,9 +71,9 @@ class Mailbox extends Response
     {
         parent::__construct($response);
 
-        $this->name = $this->response->name;
-        $this->newMessages = $this->response->new_messages;
-        $this->oldMessages = $this->response->old_messages;
+        $this->name = $this->getResponseValue('name');
+        $this->newMessages = $this->getResponseValue('new_messages');
+        $this->oldMessages = $this->getResponseValue('old_messages');
     }
 
 }

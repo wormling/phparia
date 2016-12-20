@@ -33,6 +33,11 @@ use phparia\Exception\UnprocessableEntityException;
  */
 class Bridge extends Resource
 {
+    const TYPE_MIXING = 'mixing';
+    const TYPE_HOLDING = 'holding';
+    const TYPE_DTMF_EVENTS = 'dtmf_events';
+    const TYPE_PROXY_MEDIA = 'proxy_media';
+    
     /**
      * @var string Bridging class
      */
@@ -314,13 +319,13 @@ class Bridge extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->bridgeClass = $this->response->bridge_class;
-        $this->bridgeType = $this->response->bridge_type;
-        $this->channelIds = $this->response->channels;
-        $this->creator = $this->response->creator;
-        $this->id = $this->response->id;
-        $this->name = $this->response->name;
-        $this->technology = $this->response->technology;
+        $this->bridgeClass = $this->getResponseValue('bridge_class');
+        $this->bridgeType = $this->getResponseValue('bridge_type');
+        $this->channels = $this->getResponseValue('channels');
+        $this->creator = $this->getResponseValue('creator');
+        $this->id = $this->getResponseValue('id');
+        $this->name = $this->getResponseValue('name');
+        $this->technology = $this->getResponseValue('technology');
     }
 
 }

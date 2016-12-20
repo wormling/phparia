@@ -117,11 +117,11 @@ class Application extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->bridgeIds = $this->response->bridge_ids;
-        $this->channelIds = $this->response->channel_ids;
-        $this->deviceNames = $this->response->device_names;
-        $this->endpointIds = $this->response->endpoint_ids;
-        $this->name = $this->response->name;
+        $this->bridgeIds = $this->getResponseValue('bridge_ids');
+        $this->channelIds = $this->getResponseValue('channel_ids');
+        $this->deviceNames = $this->getResponseValue('device_names');
+        $this->endpointIds = $this->getResponseValue('endpoint_ids');
+        $this->name = $this->getResponseValue('name');
     }
 
 }

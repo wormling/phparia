@@ -37,6 +37,8 @@ abstract class PhpariaTestCase extends PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        parent::setUp();
+
         $configFile = __DIR__.'/../../config.yml';
         $value = Yaml::parse(file_get_contents($configFile));
 
@@ -53,5 +55,15 @@ abstract class PhpariaTestCase extends PHPUnit_Framework_TestCase
 
         $this->client = new Phparia($this->logger);
         $this->client->connect($this->ariAddress, $this->amiAddress);
+    }
+
+    public function tearDown()
+    {
+        $channels = $this->client->channels()->getChannels();
+        foreach ($channels as $channel) {
+            $channel->hangup();
+        }
+
+        parent::tearDown();
     }
 }

@@ -54,7 +54,6 @@ class PlaybackFinished extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->playback = new Playback($client, $this->response->playback);
+        $this->playback = $this->getResponseValue('playback', '\phparia\Resources\Playback', $client);
     }
-
 }

@@ -110,11 +110,11 @@ class BuildInfo extends Response
     {
         parent::__construct($response);
 
-        $this->user = $this->response->user;
-        $this->options = $this->response->options;
-        $this->machine = $this->response->machine;
-        $this->os = $this->response->os;
-        $this->kernel = $this->response->kernel;
-        $this->date = $this->response->date;
+        $this->user = $this->getResponseValue('user');
+        $this->options = $this->getResponseValue('options');
+        $this->machine = $this->getResponseValue('machine');
+        $this->os = $this->getResponseValue('os');
+        $this->kernel = $this->getResponseValue('kernel');
+        $this->date = $this->getResponseValue('date');
     }
 }

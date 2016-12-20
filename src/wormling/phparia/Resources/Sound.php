@@ -71,11 +71,11 @@ class Sound extends Response
     {
         parent::__construct($response);
 
-        foreach ($this->response->formats as $key => $format) {
+        foreach ($this->response->formats as $key => $format) { // @todo Update getResponseValue() to accept arrays
             $this->formats[$key] = new FormatLangPair($format);
         }
-        $this->id = $this->response->id;
-        $this->text = property_exists($this->response, 'text') ? $this->response->text : null;
+        $this->id = $this->getResponseValue('id');
+        $this->text = $this->getResponseValue('text');
     }
 
 }

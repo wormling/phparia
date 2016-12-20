@@ -84,10 +84,10 @@ class TextMessage extends Response
     {
         parent::__construct($response);
 
-        $this->body = $this->response->body;
-        $this->from = $this->response->from;
-        $this->to = $this->response->to;
-        $this->variables = property_exists($this->response, 'variables') ? $this->response->variables : null;
+        $this->body = $this->getResponseValue('body');
+        $this->from = $this->getResponseValue('from');
+        $this->to = $this->getResponseValue('to');
+        $this->variables = $this->getResponseValue('variables');
     }
 
 }

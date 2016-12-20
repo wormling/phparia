@@ -54,7 +54,6 @@ class RecordingStarted extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->recording = new LiveRecording($client, $this->response->recording);
+        $this->recording = $this->getResponseValue('recording', '\phparia\Resources\LiveRecording', $client);
     }
-
 }

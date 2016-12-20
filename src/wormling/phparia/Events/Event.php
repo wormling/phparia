@@ -102,9 +102,7 @@ class Event extends Message implements EventInterface
 
         parent::__construct($response);
 
-        $this->application = $this->response->application;
-        $this->timestamp = property_exists($this->response,
-            'timestamp') ? new \DateTime($this->response->timestamp) : null;
+        $this->application = $this->getResponseValue('application');
+        $this->timestamp = $this->getResponseValue('timestamp', '\DateTime');
     }
-
 }

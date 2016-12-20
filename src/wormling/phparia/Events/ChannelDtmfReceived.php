@@ -81,9 +81,9 @@ class ChannelDtmfReceived extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->channel = new Channel($client, $this->response->channel);
-        $this->digit = $this->response->digit;
-        $this->durationMs = $this->response->duration_ms;
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
+        $this->digit = $this->getResponseValue('digit');
+        $this->durationMs = $this->getResponseValue('duration_ms');
     }
 
 }

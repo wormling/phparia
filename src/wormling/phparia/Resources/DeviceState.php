@@ -78,8 +78,8 @@ class DeviceState extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->name = $this->response->name;
-        $this->state = $this->response->state;
+        $this->name = $this->getResponseValue('name');
+        $this->state = $this->getResponseValue('state');
     }
 
 }

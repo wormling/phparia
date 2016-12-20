@@ -126,9 +126,9 @@ class ChannelDestroyed extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->cause = $this->response->cause;
-        $this->causeTxt = $this->response->cause_txt;
-        $this->channel = new Channel($client, $this->response->channel);
+        $this->cause = $this->getResponseValue('cause');
+        $this->causeTxt = $this->getResponseValue('cause_txt');
+        $this->channel = $this->getResponseValue('channel', '\phparia\Resources\Channel', $client);
     }
 
 }

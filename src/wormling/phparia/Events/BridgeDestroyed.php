@@ -54,7 +54,6 @@ class BridgeDestroyed extends Event implements IdentifiableEventInterface
     {
         parent::__construct($client, $response);
 
-        $this->bridge = new Bridge($client, $this->response->bridge);
+        $this->bridge = $this->getResponseValue('bridge', '\phparia\Resources\Bridge', $client);
     }
-
 }

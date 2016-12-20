@@ -188,16 +188,14 @@ class LiveRecording extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->cause = property_exists($this->response, 'cause') ? $this->response->cause : null;
-        $this->duration = property_exists($this->response, 'duration') ? $this->response->duration : null;
-        $this->format = $this->response->format;
-        $this->name = $this->response->name;
-        $this->silenceDuration = property_exists($this->response,
-            'silence_duration') ? $this->response->silence_duration : null;
-        $this->state = $this->response->state;
-        $this->talkingDuration = property_exists($this->response,
-            'talking_duration') ? $this->response->talking_duration : null;
-        $this->targetUri = $this->response->target_uri;
+        $this->cause = $this->getResponseValue('cause');
+        $this->duration = $this->getResponseValue('duration');
+        $this->format = $this->getResponseValue('format');
+        $this->name = $this->getResponseValue('name');
+        $this->silenceDuration = $this->getResponseValue('silence_duration');
+        $this->state = $this->getResponseValue('state');
+        $this->talkingDuration = $this->getResponseValue('talking_duration');
+        $this->targetUri = $this->getResponseValue('target_uri');
     }
 
 }
