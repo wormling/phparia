@@ -19,12 +19,8 @@ Available via Composer
 ---
 Just add the package "wormling/phparia":
 
-```yaml
-    {
-        "require": {
-            "wormling/phparia": "~3"
-        }
-    }
+```bash
+composer require wormling/phparia
 ```
 
 Creating a stasis application
