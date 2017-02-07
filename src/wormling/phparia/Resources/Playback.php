@@ -112,6 +112,22 @@ class Playback extends Resource
     /**
      * @param callable $callback
      */
+    public function onPlaybackContinuing(callable $callback)
+    {
+        $this->on(Event::PLAYBACK_CONTINUING.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function oncePlaybackContinuing(callable $callback)
+    {
+        $this->once(Event::PLAYBACK_CONTINUING.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
     public function onPlaybackFinished(callable $callback)
     {
         $this->on(Event::PLAYBACK_FINISHED.'_'.$this->getId(), $callback);

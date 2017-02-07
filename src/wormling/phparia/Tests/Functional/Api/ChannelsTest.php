@@ -4,8 +4,6 @@ namespace {
 
     use phparia\Events\StasisStart;
     use phparia\Exception\NotFoundException;
-
-    ;
     use phparia\Resources\Bridge;
     use phparia\Tests\Functional\PhpariaTestCase;
 

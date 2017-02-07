@@ -177,6 +177,46 @@ class Bridges extends MediaBase
         }
     }
 
+    /**
+     * Set a channel as the video source in a multi-party mixing bridge. This operation has no effect on bridges with
+     * two or fewer participants.
+     *
+     * @param string $id Bridge's id
+     * @param string $channelId Channel's id
+     * @throws NotFoundException
+     * @throws ConflictException
+     * @throws UnprocessableEntityException
+     */
+    public function setVideoSource($id, $channelId)
+    {
+        $uri = "bridges/$id/videoSource/$channelId";
+        try {
+            $this->client->getEndpoint()->post($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
+        }
+    }
+
+    /**
+     * Removes any explicit video source in a multi-party mixing bridge. This operation has no effect on bridges with
+     * two or fewer participants. When no explicit video source is set, talk detection will be used to determine the
+     * active video stream.
+     *
+     * @param string $id Bridge's id
+     * @throws NotFoundException
+     * @throws ConflictException
+     * @throws UnprocessableEntityException
+     */
+    public function clearVideoSource($id)
+    {
+        $uri = "bridges/$id/videoSource";
+        try {
+            $this->client->getEndpoint()->delete($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
+        }
+    }
+
     public function getType()
     {
         return 'bridges';

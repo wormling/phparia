@@ -20,8 +20,10 @@ namespace phparia\Client;
 
 use GuzzleHttp\Exception\RequestException;
 use phparia\Exception\ConflictException;
+use phparia\Exception\ForbiddenException;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
+use phparia\Exception\PreconditionFailedException;
 use phparia\Exception\ServerException;
 use phparia\Exception\UnprocessableEntityException;
 
@@ -52,7 +54,9 @@ abstract class AriClientAware implements AriClientAwareInterface
      * @todo This doesn't really belong here
      * @param RequestException $e
      * @throws ConflictException
+     * @throws PreconditionFailedException
      * @throws InvalidParameterException
+     * @throws ForbiddenException
      * @throws NotFoundException
      * @throws UnprocessableEntityException
      * @throws ServerException
@@ -61,10 +65,14 @@ abstract class AriClientAware implements AriClientAwareInterface
         switch ($e->getCode()) {
             case 400: // Missing parameter
                 throw new InvalidParameterException($e);
+            case 403: // Forbidden
+                throw new ForbiddenException($e);
             case 404: // Does not exist
                 throw new NotFoundException($e);
             case 409:
                 throw new ConflictException($e);
+            case 412:
+                throw new PreconditionFailedException($e);
             case 422:
                 throw new UnprocessableEntityException($e);
             case 500:
