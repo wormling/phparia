@@ -147,6 +147,22 @@ class Recordings extends AriClientAware
     }
 
     /**
+     * Stop a live recording and discard it.
+     *
+     * @param string $recordingName The name of the recording
+     * @throws NotFoundException
+     */
+    public function cancelLiveRecording($recordingName)
+    {
+        $uri = "recordings/live/$recordingName";
+        try {
+            $this->client->getEndpoint()->delete($uri);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
+        }
+    }
+
+    /**
      * Stop a live recording and store it.
      *
      * @param string $recordingName The name of the recording

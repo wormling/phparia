@@ -19,6 +19,9 @@
 namespace phparia\Api;
 
 use GuzzleHttp\Exception\RequestException;
+use phparia\Exception\MissingParameterException;
+use phparia\Exception\PreconditionFailedException;
+use phparia\Exception\UnprocessableEntityException;
 use phparia\Resources\Channel;
 use phparia\Resources\Variable;
 use phparia\Exception\ConflictException;
@@ -259,6 +262,31 @@ class Channels extends MediaBase
     }
 
     /**
+     * Redirect the channel to a different location.
+     *
+     * @param string $channelId Channel's id
+     * @param string $endpoint (required) The endpoint to redirect the channel to
+     * @throws MissingParameterException
+     * @throws NotFoundException
+     * @throws ConflictException
+     * @throws UnprocessableEntityException
+     * @throws PreconditionFailedException
+     */
+    public function redirect($channelId, $endpoint)
+    {
+        $uri = "channels/$channelId/redirect";
+        try {
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'endpoint' => $endpoint
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
+        }
+    }
+
+    /**
      * Answer a channel.
      *
      * @param string $channelId Channel's id
@@ -459,7 +487,7 @@ class Channels extends MediaBase
      * @throws InvalidParameterException
      * @throws NotFoundException
      */
-    public function getVariable($channelId, $variable, $default = null)
+    public function getChannelVar($channelId, $variable, $default = null)
     {
         $uri = "channels/$channelId/variable";
         try {
@@ -484,6 +512,23 @@ class Channels extends MediaBase
     }
 
     /**
+     * Get the value of a channel variable or function.
+     *
+     * @param string $channelId
+     * @param string $variable
+     * @param null|string $default The value to return if the variable does not exist
+     * @return string|Variable
+     * @throws ConflictException
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @deprecated
+     */
+    public function getVariable($channelId, $variable, $default = null)
+    {
+        return $this->getChannelVar($channelId, $variable, $default);
+    }
+
+    /**
      * Set the value of a channel variable or function.
      *
      * @param string $channelId
@@ -494,7 +539,7 @@ class Channels extends MediaBase
      * @throws NotFoundException
      * @throws ConflictException
      */
-    public function setVariable($channelId, $variable, $value)
+    public function setChannelVar($channelId, $variable, $value)
     {
         $uri = "channels/$channelId/variable";
         try {
@@ -509,6 +554,23 @@ class Channels extends MediaBase
         }
 
         return new Variable(\GuzzleHttp\json_decode($response->getBody()));
+    }
+
+    /**
+     * Set the value of a channel variable or function.
+     *
+     * @param string $channelId
+     * @param string $variable
+     * @param string $value
+     * @return Variable
+     * @throws InvalidParameterException
+     * @throws NotFoundException
+     * @throws ConflictException
+     * @deprecated
+     */
+    public function setVariable($channelId, $variable, $value)
+    {
+        return $this->setChannelVar($channelId, $variable, $value);
     }
 
     /**
