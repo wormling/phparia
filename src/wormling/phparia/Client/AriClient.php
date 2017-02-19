@@ -20,6 +20,7 @@ namespace phparia\Client;
 
 use Devristo\Phpws\Client\WebSocket;
 use Devristo\Phpws\Messaging\WebSocketMessage;
+use GuzzleHttp\Client;
 use phparia\Api\Applications;
 use phparia\Api\Asterisk;
 use phparia\Api\Bridges;
@@ -35,7 +36,6 @@ use phparia\Events\IdentifiableEventInterface;
 use phparia\Events\Message;
 use React\EventLoop\LoopInterface;
 use Zend\Log\LoggerInterface;
-use PestJSON;
 
 /**
  * @author Brian Smith <wormling@gmail.com>
@@ -64,7 +64,7 @@ class AriClient
     protected $stasisApplicationName;
 
     /**
-     * @var \PestJSON
+     * @var Client
      */
     protected $endpoint;
 
@@ -133,10 +133,13 @@ class AriClient
      * Connect to ARI.
      *
      * @param string $address Example ws://localhost:8088/ari/events?api_key=username:password&app=stasis_app_name
+     * @param array $streamOptions Such as ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]];
+     * @param array $httpOptions Such as ['verify' => false];
      */
-    public function connect($address)
+    public function connect($address, array $streamOptions = [], $httpOptions = [])
     {
         $components = parse_url($address);
+        $scheme = $components['scheme'];
         $host = $components['host'];
         $port = $components['port'];
         $path = $components['path'];
@@ -148,10 +151,16 @@ class AriClient
         $apiKey = $queryParts['api_key'];
         list($username, $password) = explode(':', $apiKey);
 
-        $this->endpoint = new PestJSON('http://'.$host.':'.$port.dirname($path));
-        $this->endpoint->setupAuth($username, $password, 'basic');
+        $config = [
+            'base_uri' => ($scheme === 'wss' ? 'https://' : 'http://').$host.':'.$port.dirname($path).'/',
+            'auth' => [$username, $password],
+            'verify' => false
+        ];
+        $config = array_merge($config, $httpOptions);
+        
+        $this->endpoint = new Client($config);
 
-        $this->wsClient = new WebSocket($address, $this->eventLoop, $this->logger);
+        $this->wsClient = new WebSocket($address, $this->eventLoop, $this->logger, $streamOptions);
 
         $this->wsClient->on("message", function (WebSocketMessage $rawMessage) {
             $message = new Message($rawMessage->getData());
@@ -248,7 +257,7 @@ class AriClient
     }
 
     /**
-     * @return PestJSON
+     * @return Client
      */
     public function getEndpoint()
     {

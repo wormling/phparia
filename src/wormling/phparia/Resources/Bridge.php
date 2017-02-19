@@ -51,7 +51,7 @@ class Bridge extends Resource
     /**
      * @var array Ids of channels participating in this bridge
      */
-    private $channels;
+    private $channelIds;
 
     /**
      * @var string  Entity that created the bridge
@@ -90,12 +90,11 @@ class Bridge extends Resource
     }
 
     /**
-     * @todo Should this be renamed to getChannelIds()?
      * @return array Ids of channels participating in this bridge
      */
-    public function getChannels()
+    public function getChannelIds()
     {
-        return $this->channels;
+        return $this->channelIds;
     }
 
     /**
@@ -165,17 +164,33 @@ class Bridge extends Resource
     /**
      * @param callable $callback
      */
-    public function onBridgeMerged(callable $callback)
+    public function onBridgeVideoSourceChanged(callable $callback)
     {
-        $this->on(Event::BRIDGE_MERGED.'_'.$this->getId(), $callback);
+        $this->on(Event::BRIDGE_VIDEO_SOURCE_CHANGED.'_'.$this->getId(), $callback);
     }
 
     /**
      * @param callable $callback
      */
-    public function onceBridgeMerged(callable $callback)
+    public function onceBridgeVideoSourceChanged(callable $callback)
     {
-        $this->once(Event::BRIDGE_MERGED.'_'.$this->getId(), $callback);
+        $this->once(Event::BRIDGE_VIDEO_SOURCE_CHANGED.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onPeerStatusChange(callable $callback)
+    {
+        $this->on(Event::PEER_STATUS_CHANGE.'_'/* @todo Something unique to the peer */, $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function oncePeerStatusChange(callable $callback)
+    {
+        $this->once(Event::PEER_STATUS_CHANGE.'_'/* @todo Something unique to the peer */, $callback);
     }
 
     /**

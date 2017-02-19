@@ -18,7 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\NotFoundException;
 use phparia\Resources\Mailbox;
@@ -30,7 +30,6 @@ use phparia\Resources\Mailbox;
  */
 class Mailboxes extends AriClientAware
 {
-
     /**
      * List all mailboxes.
      *
@@ -38,11 +37,11 @@ class Mailboxes extends AriClientAware
      */
     public function getMailboxes()
     {
-        $uri = '/mailboxes';
+        $uri = 'mailboxes';
         $response = $this->client->getEndpoint()->get($uri);
 
         $mailboxes = [];
-        foreach ((array)$response as $mailbox) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $mailbox) {
             $mailboxes[] = new Mailbox($mailbox);
         }
 
@@ -58,14 +57,14 @@ class Mailboxes extends AriClientAware
      */
     public function getMailbox($mailboxName)
     {
-        $uri = "/mailboxes/$mailboxName";
+        $uri = "mailboxes/$mailboxName";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Mailbox not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Mailbox($response);
+        return new Mailbox(\GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -78,14 +77,16 @@ class Mailboxes extends AriClientAware
      */
     public function updateMailbox($mailboxName, $oldMessages, $newMessages)
     {
-        $uri = "/mailboxes/$mailboxName";
+        $uri = "mailboxes/$mailboxName";
         try {
-            $this->client->getEndpoint()->put($uri, array(
-                'newMessages' => $newMessages,
-                'oldMessages' => $oldMessages,
-            ));
-        } catch (Pest_NotFound $e) { // Mailbox not found
-            throw new NotFoundException($e);
+            $this->client->getEndpoint()->put($uri, [
+                'form_params' => [
+                    'newMessages' => $newMessages,
+                    'oldMessages' => $oldMessages,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -97,12 +98,11 @@ class Mailboxes extends AriClientAware
      */
     public function deleteMailbox($mailboxName)
     {
-        $uri = "/mailboxes/$mailboxName";
+        $uri = "mailboxes/$mailboxName";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) { // Mailbox not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
-
 }

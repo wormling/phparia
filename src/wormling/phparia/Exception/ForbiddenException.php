@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Copyright 2014 Brian Smith <wormling@gmail.com>.
+ * Copyright 2017 Brian Smith <wormling@gmail.com>.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,12 +23,12 @@ use Exception;
 /**
  * @author Brian Smith <wormling@gmail.com>
  */
-class UnprocessableEntityException extends Exception
+class ForbiddenException extends Exception
 {
 
     public function __construct(\Exception $e)
     {
-        parent::__construct($e->getMessage(), 422, $e->getPrevious());
+        parent::__construct($e->getMessage(), 403, $e->getPrevious());
     }
 
 }

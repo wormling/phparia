@@ -35,6 +35,7 @@ class Event extends Message implements EventInterface
     const BRIDGE_CREATED = 'BridgeCreated';
     const BRIDGE_DESTROYED = 'BridgeDestroyed';
     const BRIDGE_MERGED = 'BridgeMerged';
+    const BRIDGE_VIDEO_SOURCE_CHANGED = 'BridgeVideoSourceChanged';
     const CHANNEL_CALLER_ID = 'ChannelCallerId';
     const CHANNEL_CREATED = 'ChannelCreated';
     const CHANNEL_CONNECTED_LINE = 'ChannelConnectedLine';
@@ -54,6 +55,8 @@ class Event extends Message implements EventInterface
     const DIAL = 'Dial';
     const DIALED = 'Dialed';
     const ENDPOINT_STATE_CHANGE = 'EndpointStateChange';
+    const PEER_STATUS_CHANGE = 'PeerStatusChange';
+    const PLAYBACK_CONTINUING = 'PlaybackContinuing';
     const PLAYBACK_FINISHED = 'PlaybackFinished';
     const PLAYBACK_STARTED = 'PlaybackStarted';
     const RECORDING_FAILED = 'RecordingFailed';

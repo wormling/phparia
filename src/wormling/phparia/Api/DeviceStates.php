@@ -18,8 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_Conflict;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\ConflictException;
 use phparia\Exception\NotFoundException;
@@ -49,11 +48,11 @@ class DeviceStates extends AriClientAware
      */
     public function getDeviceStates()
     {
-        $uri = '/deviceStates';
+        $uri = 'deviceStates';
         $response = $this->client->getEndpoint()->get($uri);
 
         $deviceStates = [];
-        foreach ((array)$response as $deviceState) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $deviceState) {
             $deviceStates[] = new DeviceState($this->client, $deviceState);
         }
 
@@ -68,10 +67,10 @@ class DeviceStates extends AriClientAware
      */
     public function getDeviceState($deviceName)
     {
-        $uri = "/deviceStates/$deviceName";
+        $uri = "deviceStates/$deviceName";
         $response = $this->client->getEndpoint()->get($uri);
 
-        return new DeviceState($this->client, $response);
+        return new DeviceState($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -84,15 +83,15 @@ class DeviceStates extends AriClientAware
      */
     public function updateDeviceState($deviceName, $deviceState)
     {
-        $uri = "/deviceStates/$deviceName";
+        $uri = "deviceStates/$deviceName";
         try {
-            $this->client->getEndpoint()->put($uri, array(
-                'deviceState' => $deviceState,
-            ));
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->put($uri, [
+                'form_params' => [
+                    'deviceState' => $deviceState,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -105,14 +104,11 @@ class DeviceStates extends AriClientAware
      */
     public function deleteDeviceState($deviceName)
     {
-        $uri = "/deviceStates/$deviceName";
+        $uri = "deviceStates/$deviceName";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
-
 }

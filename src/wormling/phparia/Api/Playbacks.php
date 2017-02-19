@@ -18,9 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_Conflict;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\ConflictException;
 use phparia\Exception\InvalidParameterException;
@@ -49,14 +47,14 @@ class Playbacks extends AriClientAware
      */
     public function getPlayback($playbackId)
     {
-        $uri = "/playbacks/$playbackId";
+        $uri = "playbacks/$playbackId";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Playback($this->client, $response);
+        return new Playback($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -67,11 +65,11 @@ class Playbacks extends AriClientAware
      */
     public function stopPlayback($playbackId)
     {
-        $uri = "/playbacks/$playbackId";
+        $uri = "playbacks/$playbackId";
         try {
             $this->client->getEndpoint()->delete($uri);
-        } catch (Pest_NotFound $e) { // Playback not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -86,18 +84,15 @@ class Playbacks extends AriClientAware
      */
     public function controlPlayback($playbackId, $operation)
     {
-        $uri = "/playbacks/$playbackId/control";
+        $uri = "playbacks/$playbackId/control";
         try {
-            $this->client->getEndpoint()->post($uri, array(
-                'operation' => $operation,
-            ));
-        } catch (Pest_BadRequest $e) {
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) {
-            throw new NotFoundException($e);
-        } catch (Pest_Conflict $e) {
-            throw new ConflictException($e);
+            $this->client->getEndpoint()->post($uri, [
+                'form_params' => [
+                    'operation' => $operation,
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
-
 }

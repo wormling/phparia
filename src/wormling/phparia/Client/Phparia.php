@@ -19,22 +19,13 @@ namespace phparia\Client;
 
 
 use Devristo\Phpws\Client\WebSocket;
-use phparia\Api\Applications;
-use phparia\Api\Asterisk;
-use phparia\Api\Bridges;
-use phparia\Api\Channels;
-use phparia\Api\DeviceStates;
-use phparia\Api\Endpoints;
-use phparia\Api\Events;
-use phparia\Api\Mailboxes;
-use phparia\Api\Playbacks;
-use phparia\Api\Recordings;
-use phparia\Api\Sounds;
+use GuzzleHttp\Promise\FulfilledPromise;
 use phparia\Events\Event;
 use React\EventLoop;
+use React\Promise\Deferred;
 use Zend\Log\LoggerInterface;
 
-class Phparia
+class Phparia extends PhpariaApi
 {
     /**
      * @var WebSocket
@@ -52,11 +43,6 @@ class Phparia
     protected $logger;
 
     /**
-     * @var AriClient
-     */
-    protected $ariClient;
-
-    /**
      * @var AmiClient
      */
     protected $amiClient;
@@ -67,11 +53,23 @@ class Phparia
     protected $stasisApplicationName;
 
     /**
+     * @var callable
+     */
+    protected $onStop;
+
+    /**
      * @param LoggerInterface $logger
      */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
+        $this->eventLoop = EventLoop\Factory::create();
+        $ariClient = new AriClient($this->eventLoop, $this->logger);
+        $this->onStop = function() {
+            return new FulfilledPromise(null);
+        };
+
+        parent::__construct($ariClient);
     }
 
     /**
@@ -79,12 +77,12 @@ class Phparia
      *
      * @param string $ariAddress
      * @param string|null $amiAddress
+     * @param array $streamOptions Example: ['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]];
+     * @param array $clientOptions Example: ['verify' => false];
      */
-    public function connect($ariAddress, $amiAddress = null)
+    public function connect($ariAddress, $amiAddress = null, $streamOptions = [], $clientOptions = [])
     {
-        $this->eventLoop = EventLoop\Factory::create();
-        $this->ariClient = new AriClient($this->eventLoop, $this->logger);
-        $this->ariClient->connect($ariAddress);
+        $this->ariClient->connect($ariAddress, $streamOptions, $clientOptions);
         $this->wsClient = $this->ariClient->getWsClient();
         $this->stasisApplicationName = $this->ariClient->getStasisApplicationName();
 
@@ -107,13 +105,31 @@ class Phparia
 
     /**
      * Disconnect and stop the event loop
+     * @return \React\Promise\Promise|\React\Promise\PromiseInterface
      */
     public function stop()
     {
-        $this->wsClient->close();
-        $this->ariClient->onClose(function() {
-            $this->eventLoop->stop();
-        });
+        $deferred = new Deferred();
+
+        $onStop = $this->onStop;
+        $onStop()
+            ->then(function () use (&$deferred) {
+                $this->ariClient->onClose(function () use (&$deferred) {
+                    $this->eventLoop->stop();
+                    $deferred->resolve();
+                });
+                $this->wsClient->close();
+            });
+
+        return $deferred->promise();
+    }
+
+    /**
+     * @param callable|callback $callback Must return a promise
+     */
+    public function onStop($callback)
+    {
+        $this->onStop = $callback;
     }
 
     /**
@@ -157,14 +173,6 @@ class Phparia
     }
 
     /**
-     * @return AriClient
-     */
-    public function getAriClient()
-    {
-        return $this->ariClient;
-    }
-
-    /**
      * @return AmiClient
      */
     public function getAmiClient()
@@ -179,93 +187,4 @@ class Phparia
     {
         return $this->stasisApplicationName;
     }
-
-    /**
-     * @return Applications
-     */
-    public function applications()
-    {
-        return $this->ariClient->applications();
-    }
-
-    /**
-     * @return Asterisk
-     */
-    public function asterisk()
-    {
-        return $this->ariClient->asterisk();
-    }
-
-    /**
-     * @return Bridges
-     */
-    public function bridges()
-    {
-        return $this->ariClient->bridges();
-    }
-
-    /**
-     * @return Channels
-     */
-    public function channels()
-    {
-        return $this->ariClient->channels();
-    }
-
-    /**
-     * @return DeviceStates
-     */
-    public function deviceStates()
-    {
-        return $this->ariClient->deviceStates();
-    }
-
-    /**
-     * @return Endpoints
-     */
-    public function endPoints()
-    {
-        return $this->ariClient->endPoints();
-    }
-
-    /**
-     * @return Events
-     */
-    public function events()
-    {
-        return $this->ariClient->events();
-    }
-
-    /**
-     * @return Mailboxes
-     */
-    public function mailboxes()
-    {
-        return $this->ariClient->mailboxes();
-    }
-
-    /**
-     * @return Playbacks
-     */
-    public function playbacks()
-    {
-        return $this->ariClient->playbacks();
-    }
-
-    /**
-     * @return Recordings
-     */
-    public function recordings()
-    {
-        return $this->ariClient->recordings();
-    }
-
-    /**
-     * @return Sounds
-     */
-    public function sounds()
-    {
-        return $this->ariClient->sounds();
-    }
-
 }

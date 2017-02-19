@@ -18,8 +18,7 @@
 
 namespace phparia\Api;
 
-use Pest_BadRequest;
-use Pest_NotFound;
+use GuzzleHttp\Exception\RequestException;
 use phparia\Client\AriClientAware;
 use phparia\Exception\InvalidParameterException;
 use phparia\Exception\NotFoundException;
@@ -32,6 +31,9 @@ use phparia\Resources\Endpoint;
  */
 class Endpoints extends AriClientAware
 {
+    const AST_ENDPOINT_UNKNOWN = 'unknown';
+    const AST_ENDPOINT_OFFLINE = 'offline';
+    const AST_ENDPOINT_ONLINE = 'online';
 
     /**
      * List all endpoints.
@@ -40,11 +42,11 @@ class Endpoints extends AriClientAware
      */
     public function getEndpoints()
     {
-        $uri = '/endpoints';
+        $uri = 'endpoints';
         $response = $this->client->getEndpoint()->get($uri);
 
         $endpoints = [];
-        foreach ((array)$response as $endpoint) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $endpoint) {
             $endpoints[] = new Endpoint($this->client, $endpoint);
         }
 
@@ -62,16 +64,18 @@ class Endpoints extends AriClientAware
      */
     public function sendMessage($to, $from, $body, $variables = array())
     {
-        $uri = '/endpoints/sendMessage';
+        $uri = 'endpoints/sendMessage';
         try {
-            $this->client->getEndpoint()->put($uri, array(
-                'to' => $to,
-                'from' => $from,
-                'body' => $body,
-                'variables' => array_map('strval', $variables),
-            ));
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+            $this->client->getEndpoint()->put($uri, [
+                'form_params' => [
+                    'to' => $to,
+                    'from' => $from,
+                    'body' => $body,
+                    'variables' => array_map('strval', $variables),
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
 
@@ -84,15 +88,15 @@ class Endpoints extends AriClientAware
      */
     public function getEndpointsByTech($tech)
     {
-        $uri = "/endpoints/$tech";
+        $uri = "endpoints/$tech";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
         $endpoints = [];
-        foreach ((array)$response as $endpoint) {
+        foreach (\GuzzleHttp\json_decode($response->getBody()) as $endpoint) {
             $endpoints[] = new Endpoint($this->client, $endpoint);
         }
 
@@ -110,16 +114,14 @@ class Endpoints extends AriClientAware
      */
     public function getEndpointByTechAndResource($tech, $resource)
     {
-        $uri = "/endpoints/$tech/$resource";
+        $uri = "endpoints/$tech/$resource";
         try {
             $response = $this->client->getEndpoint()->get($uri);
-        } catch (Pest_BadRequest $e) { // Invalid parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
 
-        return new Endpoint($this->client, $response);
+        return new Endpoint($this->client, \GuzzleHttp\json_decode($response->getBody()));
     }
 
     /**
@@ -136,18 +138,17 @@ class Endpoints extends AriClientAware
      */
     public function sendMessageToEndpointAndTechAndResource($tech, $resource, $from, $body, $variables = array())
     {
-        $uri = "/endpoints/$tech/$resource/sendMessage";
+        $uri = "endpoints/$tech/$resource/sendMessage";
         try {
-            $this->client->getEndpoint()->put($uri, array(
-                'from' => $from,
-                'body' => $body,
-                'variables' => array_map('strval', $variables),
-            ));
-        } catch (Pest_BadRequest $e) { // Invalid parameters
-            throw new InvalidParameterException($e);
-        } catch (Pest_NotFound $e) { // Channel not found
-            throw new NotFoundException($e);
+            $this->client->getEndpoint()->put($uri, [
+                'form_params' => [
+                    'from' => $from,
+                    'body' => $body,
+                    'variables' => array_map('strval', $variables),
+                ]
+            ]);
+        } catch (RequestException $e) {
+            $this->processRequestException($e);
         }
     }
-
 }

@@ -23,14 +23,14 @@ use Exception;
 /**
  * @author Brian Smith <wormling@gmail.com>
  *
- * The error code is actially 500-599
+ * The error code is actually 500-599
  */
 class ServerException extends Exception
 {
 
     public function __construct(\Exception $e)
     {
-        parent::__construct(json_decode($e->getMessage())->error, 500, $e->getPrevious());
+        parent::__construct($e->getMessage(), 500, $e->getPrevious());
     }
 
 }
