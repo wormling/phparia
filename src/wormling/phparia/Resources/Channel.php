@@ -690,7 +690,7 @@ class Channel extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->accountCode = $this->getResponseValue('account_code');
+        $this->accountCode = $this->getResponseValue('accountcode');
         $this->caller = $this->getResponseValue('caller', '\phparia\Resources\CallerId');
         $this->connected = $this->getResponseValue('connected', '\phparia\Resources\CallerId');
         $this->creationTime = $this->getResponseValue('creationtime', '\DateTime');
