@@ -194,6 +194,38 @@ class Bridge extends Resource
     }
 
     /**
+     * @param callable $callback
+     */
+    public function onBridgeBlindTransfer(callable $callback)
+    {
+        $this->on(Event::BRIDGE_BLIND_TRANSFER.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onceBridgeBlindTransfer(callable $callback)
+    {
+        $this->once(Event::BRIDGE_BLIND_TRANSFER.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onBridgeAttendedTransfer(callable $callback)
+    {
+        $this->on(Event::BRIDGE_ATTENDED_TRANSFER.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onceBridgeAttendedTransfer(callable $callback)
+    {
+        $this->once(Event::BRIDGE_ATTENDED_TRANSFER.'_'.$this->getId(), $callback);
+    }
+
+    /**
      * Shut down a bridge. If any channels are in this bridge, they will be removed and resume whatever they were doing beforehand.
      *
      * @throws NotFoundException

@@ -27,7 +27,7 @@ use phparia\Resources\Bridge;
  *
  * @author Brian Smith <wormling@gmail.com>
  */
-class BridgeAttendedTransfer extends BridgeTransfer
+class BridgeAttendedTransfer extends Event implements IdentifiableEventInterface
 {
     /**
      * @var string (optional) - Application that has been transferred into
@@ -235,6 +235,11 @@ class BridgeAttendedTransfer extends BridgeTransfer
     public function getTransfererSecondLegBridge()
     {
         return $this->transfererSecondLegBridge;
+    }
+
+    public function getEventId()
+    {
+        return "{$this->getType()}_{$this->getTransfererFirstLegBridge()->getId()}";
     }
 
     /**
