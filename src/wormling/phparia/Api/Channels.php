@@ -83,6 +83,7 @@ class Channels extends MediaBase
      * @param int $timeout (default 30) Timeout (in seconds) before giving up dialing, or -1 for no timeout.
      * @param string $channelId The unique id to assign the channel on creation.
      * @param string $otherChannelId The unique id to assign the second channel when using local channels.
+	 * @param string $formats The format name capability list to use if originator is not specified. Ex. "ulaw,slin16". Format names can be found with "core show codecs".
      * @param array $variables The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }
      * @return Channel
      * @throws InvalidParameterException
@@ -100,6 +101,7 @@ class Channels extends MediaBase
         $timeout = null,
         $channelId = null,
         $otherChannelId = null,
+		$formats = null,
         $variables = array()
     ) {
         $uri = 'channels';
@@ -117,6 +119,7 @@ class Channels extends MediaBase
                     'timeout' => $timeout,
                     'channelId' => $channelId,
                     'otherChannelId' => $otherChannelId,
+					'formats' => $formats,
                     'variables' => array_map('strval', $variables),
                 ]
             ]);
@@ -162,6 +165,7 @@ class Channels extends MediaBase
      * @param int $timeout (default 30) Timeout (in seconds) before giving up dialing, or -1 for no timeout.
      * @param string $channelId The unique id to assign the channel on creation.
      * @param string $otherChannelId The unique id to assign the second channel when using local channels.
+	 * @param string $formats The format name capability list to use if originator is not specified. Ex. "ulaw,slin16". Format names can be found with "core show codecs".
      * @param array $variables The "variables" key in the body object holds variable key/value pairs to set on the channel on creation. Other keys in the body object are interpreted as query parameters. Ex. { "endpoint": "SIP/Alice", "variables": { "CALLERID(name)": "Alice" } }
      * @return Channel
      * @throws InvalidParameterException
@@ -179,6 +183,7 @@ class Channels extends MediaBase
         $timeout = null,
         $channelId = null,
         $otherChannelId = null,
+        $formats = null,
         $variables = array()
     ) {
         $uri = "channels/$channelId";
@@ -195,6 +200,7 @@ class Channels extends MediaBase
                     'callerId' => $callerId,
                     'timeout' => $timeout,
                     'otherChannelId' => $otherChannelId,
+					'formats' => $formats,
                     'variables' => array_map('strval', $variables),
                 ]
             ]);
