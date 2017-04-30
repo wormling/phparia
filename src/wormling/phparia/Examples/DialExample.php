@@ -70,7 +70,7 @@ class DialExample
         $this->client->getAriClient()->onConnect(function () use ($dialString) {
             try {
                 $this->client->channels()->createChannel($dialString, null, null, null, null,
-                    $this->client->getStasisApplicationName(), 'dialed', '8185551212', 30, null, null,
+                    $this->client->getStasisApplicationName(), 'dialed', '8185551212', 30, null, null, null,
                     array('MYVARIABLE' => 'value'));
             } catch (ServerException $e) {
                 $this->log($e->getMessage());

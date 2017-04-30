@@ -308,6 +308,38 @@ class Channel extends Resource
     /**
      * @param callable $callback
      */
+    public function onChannelHold(callable $callback)
+    {
+        $this->on(Event::CHANNEL_HOLD.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onceChannelHold(callable $callback)
+    {
+        $this->once(Event::CHANNEL_HOLD.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onChannelUnhold(callable $callback)
+    {
+        $this->on(Event::CHANNEL_UNHOLD.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onceChanneUnhold(callable $callback)
+    {
+        $this->once(Event::CHANNEL_UNHOLD.'_'.$this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
     public function onChannelTalkingFinished(callable $callback)
     {
         $this->on(Event::CHANNEL_TALKING_FINISHED.'_'.$this->getId(), $callback);
@@ -690,7 +722,7 @@ class Channel extends Resource
     {
         parent::__construct($client, $response);
 
-        $this->accountCode = $this->getResponseValue('account_code');
+        $this->accountCode = $this->getResponseValue('accountcode');
         $this->caller = $this->getResponseValue('caller', '\phparia\Resources\CallerId');
         $this->connected = $this->getResponseValue('connected', '\phparia\Resources\CallerId');
         $this->creationTime = $this->getResponseValue('creationtime', '\DateTime');
