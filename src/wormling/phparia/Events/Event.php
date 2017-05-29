@@ -44,7 +44,7 @@ class Event extends Message implements EventInterface
     const CHANNEL_ENTERED_BRIDGE = 'ChannelEnteredBridge';
     const CHANNEL_HANGUP_REQUEST = 'ChannelHangupRequest';
     const CHANNEL_LEFT_BRIDGE = 'ChannelLeftBridge';
-    const CHANNEL_STATE_CHANGED = 'ChannelStateChanged';
+    const CHANNEL_STATE_CHANGE = 'ChannelStateChange';
     const CHANNEL_HOLD = 'ChannelHold';
     const CHANNEL_UNHOLD = 'ChannelUnhold';
     const CHANNEL_TALKING_FINISHED = 'ChannelTalkingFinished';

@@ -294,7 +294,7 @@ class Channel extends Resource
      */
     public function onChannelStateChange(callable $callback)
     {
-        $this->on(Event::CHANNEL_STATE_CHANGED.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_STATE_CHANGE.'_'.$this->getId(), $callback);
     }
 
     /**
@@ -302,7 +302,7 @@ class Channel extends Resource
      */
     public function onceChannelStateChange(callable $callback)
     {
-        $this->once(Event::CHANNEL_STATE_CHANGED.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_STATE_CHANGE.'_'.$this->getId(), $callback);
     }
 
     /**
