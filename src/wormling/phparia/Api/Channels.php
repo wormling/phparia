@@ -56,7 +56,7 @@ class Channels extends MediaBase
      */
     public function getChannels()
     {
-        $uri = '/channels';
+        $uri = 'channels';
         $response = $this->client->getEndpoint()->get($uri);
 
         $channels = [];
