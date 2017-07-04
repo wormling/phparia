@@ -40,6 +40,7 @@ class Event extends Message implements EventInterface
     const CHANNEL_CREATED = 'ChannelCreated';
     const CHANNEL_CONNECTED_LINE = 'ChannelConnectedLine';
     const CHANNEL_DESTROYED = 'ChannelDestroyed';
+    const CHANNEL_DIALPLAN = 'ChannelDialplan';
     const CHANNEL_DTMF_RECEIVED = 'ChannelDtmfReceived';
     const CHANNEL_ENTERED_BRIDGE = 'ChannelEnteredBridge';
     const CHANNEL_HANGUP_REQUEST = 'ChannelHangupRequest';
