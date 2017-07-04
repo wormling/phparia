@@ -40,6 +40,7 @@ class Event extends Message implements EventInterface
     const CHANNEL_CREATED = 'ChannelCreated';
     const CHANNEL_CONNECTED_LINE = 'ChannelConnectedLine';
     const CHANNEL_DESTROYED = 'ChannelDestroyed';
+    const CHANNEL_DIALPLAN = 'ChannelDialplan';
     const CHANNEL_DTMF_RECEIVED = 'ChannelDtmfReceived';
     const CHANNEL_ENTERED_BRIDGE = 'ChannelEnteredBridge';
     const CHANNEL_HANGUP_REQUEST = 'ChannelHangupRequest';
@@ -51,7 +52,7 @@ class Event extends Message implements EventInterface
     const CHANNEL_TALKING_STARTED = 'ChannelTalkingStarted';
     const CHANNEL_USEREVENT = 'ChannelUserevent';
     const CHANNEL_VARSET = 'ChannelVarset';
-    const DEVICE_STATE_CHANGE = 'DeviceStateChange';
+    const DEVICE_STATE_CHANGED = 'DeviceStateChanged';
     const DIAL = 'Dial';
     const DIALED = 'Dialed';
     const ENDPOINT_STATE_CHANGE = 'EndpointStateChange';
