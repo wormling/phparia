@@ -51,7 +51,7 @@ class Event extends Message implements EventInterface
     const CHANNEL_TALKING_STARTED = 'ChannelTalkingStarted';
     const CHANNEL_USEREVENT = 'ChannelUserevent';
     const CHANNEL_VARSET = 'ChannelVarset';
-    const DEVICE_STATE_CHANGE = 'DeviceStateChange';
+    const DEVICE_STATE_CHANGED = 'DeviceStateChanged';
     const DIAL = 'Dial';
     const DIALED = 'Dialed';
     const ENDPOINT_STATE_CHANGE = 'EndpointStateChange';
