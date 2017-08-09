@@ -48,7 +48,7 @@
   },
   "require": {
     "php": ">=5.4",
-    "evenement/evenement": "dev-master",
+    "evenement/evenement": "^2.0",
     "educoder/pest": "1.0.0",
     "devristo/phpws": "dev-master",
     "clue/ami-react": "~0.3.0",
