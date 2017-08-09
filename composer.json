@@ -47,7 +47,7 @@
     }
   },
   "require": {
-    "php": ">=5.4",
+    "php": ">=7.0",
     "evenement/evenement": "dev-master",
     "educoder/pest": "1.0.0",
     "devristo/phpws": "dev-master",
