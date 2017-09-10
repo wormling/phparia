@@ -142,7 +142,7 @@ class Channel extends Resource
      */
     public function onStasisEnd(callable $callback)
     {
-        $this->on(Event::STASIS_END.'_'.$this->getId(), $callback);
+        $this->on(Event::STASIS_END . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -150,7 +150,7 @@ class Channel extends Resource
      */
     public function onceStasisEnd(callable $callback)
     {
-        $this->once(Event::STASIS_END.'_'.$this->getId(), $callback);
+        $this->once(Event::STASIS_END . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -158,7 +158,7 @@ class Channel extends Resource
      */
     public function onStasisStart(callable $callback)
     {
-        $this->on(Event::STASIS_START.'_'.$this->getId(), $callback);
+        $this->on(Event::STASIS_START . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -166,7 +166,7 @@ class Channel extends Resource
      */
     public function onceStasisStart(callable $callback)
     {
-        $this->once(Event::STASIS_START.'_'.$this->getId(), $callback);
+        $this->once(Event::STASIS_START . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -174,7 +174,7 @@ class Channel extends Resource
      */
     public function onChannelCallerId(callable $callback)
     {
-        $this->on(Event::CHANNEL_CALLER_ID.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_CALLER_ID . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -182,7 +182,7 @@ class Channel extends Resource
      */
     public function onceChannelCallerId(callable $callback)
     {
-        $this->once(Event::CHANNEL_CALLER_ID.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_CALLER_ID . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -190,7 +190,7 @@ class Channel extends Resource
      */
     public function onChannelCreated(callable $callback)
     {
-        $this->on(Event::CHANNEL_CREATED.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_CREATED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -198,7 +198,7 @@ class Channel extends Resource
      */
     public function onceChannelCreated(callable $callback)
     {
-        $this->once(Event::CHANNEL_CREATED.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_CREATED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -206,7 +206,7 @@ class Channel extends Resource
      */
     public function onChannelDestroyed(callable $callback)
     {
-        $this->on(Event::CHANNEL_DESTROYED.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -214,7 +214,7 @@ class Channel extends Resource
      */
     public function onceChannelDestroyed(callable $callback)
     {
-        $this->once(Event::CHANNEL_DESTROYED.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -222,7 +222,23 @@ class Channel extends Resource
      */
     public function removeChannelDestroyedListener(callable $callback)
     {
-        $this->removeListener(Event::CHANNEL_DESTROYED.'_'.$this->getId(), $callback);
+        $this->removeListener(Event::CHANNEL_DESTROYED . '_' . $this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onChannelDialplan(callable $callback)
+    {
+        $this->on(Event::CHANNEL_DIALPLAN . '_' . $this->getId(), $callback);
+    }
+
+    /**
+     * @param callable $callback
+     */
+    public function onceChannelDialplan(callable $callback)
+    {
+        $this->once(Event::CHANNEL_DIALPLAN . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -230,7 +246,7 @@ class Channel extends Resource
      */
     public function onChannelDtmfReceived(callable $callback)
     {
-        $this->on(Event::CHANNEL_DTMF_RECEIVED.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_DTMF_RECEIVED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -238,7 +254,7 @@ class Channel extends Resource
      */
     public function onceChannelDtmfReceived(callable $callback)
     {
-        $this->once(Event::CHANNEL_DTMF_RECEIVED.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_DTMF_RECEIVED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -246,7 +262,7 @@ class Channel extends Resource
      */
     public function onChannelEnteredBridge(callable $callback)
     {
-        $this->on(Event::CHANNEL_ENTERED_BRIDGE.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_ENTERED_BRIDGE . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -254,7 +270,7 @@ class Channel extends Resource
      */
     public function onceChannelEnteredBridge(callable $callback)
     {
-        $this->once(Event::CHANNEL_ENTERED_BRIDGE.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_ENTERED_BRIDGE . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -262,7 +278,7 @@ class Channel extends Resource
      */
     public function onChannelHangupRequest(callable $callback)
     {
-        $this->on(Event::CHANNEL_HANGUP_REQUEST.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_HANGUP_REQUEST . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -270,7 +286,7 @@ class Channel extends Resource
      */
     public function onceChannelHangupRequest(callable $callback)
     {
-        $this->once(Event::CHANNEL_HANGUP_REQUEST.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_HANGUP_REQUEST . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -278,7 +294,7 @@ class Channel extends Resource
      */
     public function onChannelLeftBridge(callable $callback)
     {
-        $this->on(Event::CHANNEL_LEFT_BRIDGE.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_LEFT_BRIDGE . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -286,7 +302,7 @@ class Channel extends Resource
      */
     public function onceChannelLeftBridge(callable $callback)
     {
-        $this->once(Event::CHANNEL_LEFT_BRIDGE.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_LEFT_BRIDGE . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -294,7 +310,7 @@ class Channel extends Resource
      */
     public function onChannelStateChange(callable $callback)
     {
-        $this->on(Event::CHANNEL_STATE_CHANGE.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_STATE_CHANGE . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -302,7 +318,7 @@ class Channel extends Resource
      */
     public function onceChannelStateChange(callable $callback)
     {
-        $this->once(Event::CHANNEL_STATE_CHANGE.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_STATE_CHANGE . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -310,7 +326,7 @@ class Channel extends Resource
      */
     public function onChannelHold(callable $callback)
     {
-        $this->on(Event::CHANNEL_HOLD.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_HOLD . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -318,7 +334,7 @@ class Channel extends Resource
      */
     public function onceChannelHold(callable $callback)
     {
-        $this->once(Event::CHANNEL_HOLD.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_HOLD . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -326,7 +342,7 @@ class Channel extends Resource
      */
     public function onChannelUnhold(callable $callback)
     {
-        $this->on(Event::CHANNEL_UNHOLD.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_UNHOLD . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -334,7 +350,7 @@ class Channel extends Resource
      */
     public function onceChanneUnhold(callable $callback)
     {
-        $this->once(Event::CHANNEL_UNHOLD.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_UNHOLD . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -342,7 +358,7 @@ class Channel extends Resource
      */
     public function onChannelTalkingFinished(callable $callback)
     {
-        $this->on(Event::CHANNEL_TALKING_FINISHED.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_TALKING_FINISHED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -350,7 +366,7 @@ class Channel extends Resource
      */
     public function onceChannelTalkingFinished(callable $callback)
     {
-        $this->once(Event::CHANNEL_TALKING_FINISHED.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_TALKING_FINISHED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -358,7 +374,7 @@ class Channel extends Resource
      */
     public function onChannelTalkingStarted(callable $callback)
     {
-        $this->on(Event::CHANNEL_TALKING_STARTED.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_TALKING_STARTED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -366,7 +382,7 @@ class Channel extends Resource
      */
     public function onceChannelTalkingStarted(callable $callback)
     {
-        $this->once(Event::CHANNEL_TALKING_STARTED.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_TALKING_STARTED . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -374,7 +390,7 @@ class Channel extends Resource
      */
     public function onChannelUserevent(callable $callback)
     {
-        $this->on(Event::CHANNEL_USEREVENT.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_USEREVENT . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -382,7 +398,7 @@ class Channel extends Resource
      */
     public function onceChannelUserevent(callable $callback)
     {
-        $this->once(Event::CHANNEL_USEREVENT.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_USEREVENT . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -390,7 +406,7 @@ class Channel extends Resource
      */
     public function onChannelVarset(callable $callback)
     {
-        $this->on(Event::CHANNEL_VARSET.'_'.$this->getId(), $callback);
+        $this->on(Event::CHANNEL_VARSET . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -398,7 +414,7 @@ class Channel extends Resource
      */
     public function onceChannelVarset(callable $callback)
     {
-        $this->once(Event::CHANNEL_VARSET.'_'.$this->getId(), $callback);
+        $this->once(Event::CHANNEL_VARSET . '_' . $this->getId(), $callback);
     }
 
     /**
@@ -645,7 +661,8 @@ class Channel extends Resource
         $ifExists = null,
         $beep = null,
         $terminateOn = null
-    ) {
+    )
+    {
         return $this->client->channels()->record($this->id, $name, $format, $maxDurationSeconds, $maxSilenceSeconds,
             $ifExists, $beep, $terminateOn);
     }
