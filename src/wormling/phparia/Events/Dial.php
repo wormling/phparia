@@ -132,6 +132,6 @@ class Dial extends Event
         $this->dialstring = $this->getResponseValue('dialstring');
         $this->forward = $this->getResponseValue('forward');
         $this->forwarded = $this->getResponseValue('forwarded', '\phparia\Resources\Channel', $client);
-        $this->peer = $this->getResponseValue('peer');
+        $this->peer = $this->getResponseValue('peer', '\phparia\Resources\Channel', $client);
     }
 }
