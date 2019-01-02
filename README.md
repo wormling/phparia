@@ -1,7 +1,8 @@
 phparia - PHP ARI API
 ===
 
-[![Latest Stable Version](https://img.shields.io/packagist/v/wormling/phparia.svg)](https://packagist.org/packages/wormling/phparia) [![Build Status](http://img.shields.io/travis/wormling/phparia.svg?branch=master)](https://travis-ci.org/wormling/phparia) [![Code Coverage](https://scrutinizer-ci.com/g/wormling/phparia/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wormling/phparia/?branch=master) [![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/wormling/phparia.svg)](https://scrutinizer-ci.com/g/wormling/phparia/) [![Dependency Status](https://www.versioneye.com/user/projects/558fd8a5316338001a000515/badge.svg)](https://www.versioneye.com/user/projects/558fd8a5316338001a000515) [![License](https://img.shields.io/github/license/wormling/phparia.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+[![Latest Stable Version](https://img.shields.io/packagist/v/wormling/phparia.svg)](https://packagist.org/packages/wormling/phparia) [![Build Status](http://img.shields.io/travis/wormling/phparia.svg?branch=master)](https://travis-ci.org/wormling/phparia) [![Code Coverage](https://scrutinizer-ci.com/g/wormling/phparia/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/wormling/phparia/?branch=master) [![Scrutinizer Quality Score](http://img.shields.io/scrutinizer/g/wormling/phparia.svg)](https://scrutinizer-ci.com/g/wormling/phparia/)
+[![License](https://img.shields.io/github/license/wormling/phparia.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 
 **Functional tests will fail until the new server is ready**
 
