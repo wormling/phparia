@@ -107,7 +107,7 @@ class Channels extends MediaBase
         $uri = 'channels';
         try {
             $response = $this->client->getEndpoint()->post($uri, [
-                'form_params' => [
+                'json' => [
                     'endpoint' => $endpoint,
                     'extension' => $extension,
                     'context' => $context,
