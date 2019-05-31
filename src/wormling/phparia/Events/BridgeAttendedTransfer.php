@@ -254,7 +254,8 @@ class BridgeAttendedTransfer extends Event implements IdentifiableEventInterface
         $this->destinationBridge = $this->getResponseValue('destination_bridge');
         $this->destinationLinkFirstLeg = $this->getResponseValue('destination_link_first_leg',
             '\phparia\Resources\Channel', $client);
-        $this->destinationLinkSecondLeg = $this->getResponseValue('destination_link_second_leg');
+        $this->destinationLinkSecondLeg = $this->getResponseValue('destination_link_second_leg'
+            '\phparia\Resources\Channel', $client);
         $this->destinationThreewayBridge = $this->getResponseValue('destination_threeway_bridge',
             '\phparia\Resources\Bridge', $client);
         $this->destinationThreewayChannel = $this->getResponseValue('destination_threeway_channel',
